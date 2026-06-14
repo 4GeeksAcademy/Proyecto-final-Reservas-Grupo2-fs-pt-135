@@ -22,7 +22,7 @@ export const Home = () => {
 							imageUrl={foto1} />
 					</div>
 					<div className="col-md-4 mb-4">
-						<FacilityCard title="Piscina AquaSplash"
+						<FacilityCard title="Piscina llena"
 							description="Piscina olímpica cubierta con clases de natación y horarios flexibles. Abierta de 7:00 a 22:00."
 							imageUrl={foto2} />
 					</div>
