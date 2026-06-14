@@ -1,0 +1,78 @@
+/* index.css */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
+/* Gradiente oscuro elegante */
+body {
+  background: linear-gradient(135deg, #1a1e23 0%, #2c343a 100%);
+  color: #ffffff;
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  min-height: 100vh;
+}
+
+.sport-click-title {
+  font-weight: 300;
+  font-size: 3.5rem;
+  color: #e0ac81; /* El tono dorado */
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+.sport-click-subtitle {
+  text-align: center;
+  color: #ffffff;
+  margin-bottom: 40px;
+}
+
+.hero-container {
+  padding: 72px 0 48px;
+  background:
+    radial-gradient(
+      circle at 10% 20%,
+      rgba(224, 172, 129, 0.22),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 90% 80%,
+      rgba(255, 255, 255, 0.08),
+      transparent 30%
+    );
+}
+
+.hero-container .lead {
+  color: #d8dee5;
+  max-width: 760px;
+  margin: 0 auto 1.5rem;
+}
+
+.search-input {
+  max-width: 440px;
+  border-radius: 24px 0 0 24px;
+  border: 1px solid #e0ac81;
+  padding: 0.75rem 1rem;
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+.search-input:focus {
+  box-shadow: 0 0 0 0.2rem rgba(224, 172, 129, 0.3);
+  border-color: #e0ac81;
+}
+
+.search-button {
+  border-radius: 0 24px 24px 0;
+  border: 1px solid #e0ac81;
+  background-color: #e0ac81;
+  color: #1f252b;
+  font-weight: 600;
+  padding: 0.75rem 1.2rem;
+}
+
+.search-button:hover,
+.search-button:focus,
+.search-button:active {
+  background-color: #efbd95;
+  border-color: #efbd95;
+  color: #1f252b;
+}

@@ -1,52 +1,53 @@
-import React, { useEffect } from "react"
-import rigoImageUrl from "../assets/img/rigo-baby.jpg";
-import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
-
+import React from "react";
+import { Hero } from "../components/Hero";
+import { Features } from "../components/Feature";
+import { FacilityCard } from "../components/FacilityCard";
+import "../components/FacilityCard.css";
+import foto1 from "../assets/img/Gimnasio.jpg"
+import foto2 from "../assets/img/piscina.jpg"
+import foto3 from "../assets/img/pista de tenis.jpg"
+import foto4 from "../assets/img/campo de futbol.jpg"
+import foto5 from "../assets/img/padel.jpg"
+import foto6 from "../assets/img/baloncesto.webp"
 export const Home = () => {
-
-	const { store, dispatch } = useGlobalReducer()
-
-	const loadMessage = async () => {
-		try {
-			const backendUrl = import.meta.env.VITE_BACKEND_URL
-
-			if (!backendUrl) throw new Error("VITE_BACKEND_URL is not defined in .env file")
-
-			const response = await fetch(backendUrl + "/api/hello")
-			const data = await response.json()
-
-			if (response.ok) dispatch({ type: "set_hello", payload: data.message })
-
-			return data
-
-		} catch (error) {
-			if (error.message) throw new Error(
-				`Could not fetch the message from the backend.
-				Please check if the backend is running and the backend port is public.`
-			);
-		}
-
-	}
-
-	useEffect(() => {
-		loadMessage()
-	}, [])
-
 	return (
-		<div className="text-center mt-5">
-			<h1 className="display-4">Hello Rigo!!</h1>
-			<p className="lead">
-				<img src={rigoImageUrl} className="img-fluid rounded-circle mb-3" alt="Rigo Baby" />
-			</p>
-			<div className="alert alert-info">
-				{store.message ? (
-					<span>{store.message}</span>
-				) : (
-					<span className="text-danger">
-						Loading message from the backend (make sure your python 🐍 backend is running)...
-					</span>
-				)}
+		<>
+			<Hero />
+			<div className="container my-5">
+				<Features />
+				<div className="row mt-5">
+					<div className="col-md-4 mb-4">
+						<FacilityCard title="Gimnasio PowerFit"
+							description="Equipado con máquinas de última generación y entrenadores certificados. Abierto de 6:00 a 23:00."
+							imageUrl={foto1} />
+					</div>
+					<div className="col-md-4 mb-4">
+						<FacilityCard title="Piscina AquaSplash"
+							description="Piscina olímpica cubierta con clases de natación y horarios flexibles. Abierta de 7:00 a 22:00."
+							imageUrl={foto2} />
+					</div>
+					<div className="col-md-4 mb-4">
+						<FacilityCard title="Pista de Tenis GreenCourt"
+							description="Pista de tenis al aire libre con iluminación nocturna. Disponible para reservas de 8:00 a 20:00."
+							imageUrl={foto3} />
+					</div>
+					<div className="col-md-4 mb-4">
+						<FacilityCard title="Campo de Fútbol ArenaSport"
+							description="Campo de fútbol de césped natural con vestuarios y iluminación nocturna. Disponible para reservas de 9:00 a 21:00."
+							imageUrl={foto4} />
+					</div>
+					<div className="col-md-4 mb-4">
+						<FacilityCard title="Pista de Pádel Central"
+							description="Instalación de césped artificial con iluminación LED de alta calidad. Disponible de 8:00 a 22:00."
+							imageUrl={foto5} />
+					</div>
+					<div className="col-md-4 mb-4">
+						<FacilityCard title="Cancha de Baloncesto HoopZone"
+							description="Cancha de baloncesto al aire libre con tableros profesionales y horarios flexibles. Abierta de 7:00 a 21:00."
+							imageUrl={foto6} />
+					</div>
+				</div>
 			</div>
-		</div>
+		</>
 	);
-}; 
+};
