@@ -12,14 +12,8 @@ export const RegisterClient = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        if (!API_URL) {
-            alert("Falta configurar VITE_BACKEND_URL");
-            return;
-        }
-
         try {
-            const response = await fetch(`${API_URL}/api/auth/register`, {
+            const response = await fetch(`${API_URL}/api/auth/register/client`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -40,13 +34,9 @@ export const RegisterClient = () => {
             }
 
             alert("Usuario registrado correctamente");
-
-            console.log(data);
-
             navigate("/login");
 
         } catch (error) {
-            console.log(error);
             alert("Error al conectar con el servidor");
         }
     };

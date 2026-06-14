@@ -3,7 +3,6 @@ import { RegisterRoleModal } from "../components/RegisterRoleModal";
 
 export const Login = () => {
 
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -34,55 +33,41 @@ export const Login = () => {
 
       sessionStorage.setItem("token", data.token);
 
-      alert("Login exitoso");
+      const roleName = data.user.role === "client" ? "Cliente" : "Empresa";
 
-      console.log(data);
+      alert(`Login exitoso como ${roleName}`);
 
     } catch (error) {
-      console.log(error);
       alert("Error al conectar con el servidor");
     }
   };
 
   return (
     <div className="container d-flex justify-content-center align-items-center min-vh-100">
-      <div
-        className="card shadow p-4"
-        style={{ maxWidth: "420px", width: "100%" }}
-      >
+      <div className="card shadow p-4" style={{ maxWidth: "420px", width: "100%" }}>
+
         <h2 className="text-center mb-4">Iniciar sesión</h2>
 
         <form onSubmit={handleSubmit}>
+
           <div className="mb-3">
             <label className="form-label">Correo electrónico</label>
-            <input
-              type="email"
-              className="form-control"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              placeholder="ejemplo@email.com"
-            />
+            <input type="email" className="form-control" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="ejemplo@email.com" />
           </div>
 
           <div className="mb-3">
             <label className="form-label">Contraseña</label>
-            <input
-              type="password"
-              className="form-control"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              placeholder="Tu contraseña"
-            />
+            <input type="password" className="form-control" value={password} onChange={(event) => setPassword(event.target.value)} placeholder="Tu contraseña" />
           </div>
 
-          <button type="submit" className="btn btn-primary w-100">
-            Entrar
-          </button>
+          <button type="submit" className="btn btn-primary w-100">Entrar</button>
+
         </form>
 
         <p className="text-center mt-3 mb-0">
-          ¿No tienes cuenta? <button type="button" className="btn btn-link p-0" onClick={() => setShowModal(true)}> Regístrate </button>
+          ¿No tienes cuenta? <button type="button" className="btn btn-link p-0" onClick={() => setShowModal(true)}>Regístrate</button>
         </p>
+
       </div>
 
       <RegisterRoleModal showModal={showModal} setShowModal={setShowModal} />
