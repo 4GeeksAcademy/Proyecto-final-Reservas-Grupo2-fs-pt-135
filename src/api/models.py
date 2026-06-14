@@ -1,25 +1,83 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import String, Boolean
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import String, Boolean, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 db = SQLAlchemy()
+
 
 class User(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     email: Mapped[str] = mapped_column(String(120), unique=True, nullable=False)
-    name: Mapped[str] = mapped_column(String(120), nullable=False)
-    phone: Mapped[str] = mapped_column(String(20), nullable=False)
     password: Mapped[str] = mapped_column(nullable=False)
-
+    role: Mapped[str] = mapped_column(String(20), nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean(), nullable=False)
 
+    client_profile: Mapped["ClientProfile"] = relationship(
+        "ClientProfile",
+        back_populates="user",
+        uselist=False
+    )
+
+    business_profile: Mapped["BusinessProfile"] = relationship(
+        "BusinessProfile",
+        back_populates="user",
+        uselist=False
+    )
 
     def serialize(self):
         return {
             "id": self.id,
             "email": self.email,
+            "role": self.role,
+            "is_active": self.is_active
+        }
+
+
+class ClientProfile(db.Model):
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), unique=True, nullable=False)
+    name: Mapped[str] = mapped_column(String(120), nullable=False)
+    phone: Mapped[str] = mapped_column(String(20), nullable=False)
+
+    user: Mapped["User"] = relationship(
+        "User", back_populates="client_profile")
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
             "name": self.name,
+            "phone": self.phone
+        }
+
+
+class BusinessProfile(db.Model):
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), unique=True, nullable=False)
+
+    business_name: Mapped[str] = mapped_column(String(120), nullable=False)
+    phone: Mapped[str] = mapped_column(String(20), nullable=False)
+    category: Mapped[str] = mapped_column(String(80), nullable=False)
+
+    country: Mapped[str] = mapped_column(String(80), nullable=False)
+    province: Mapped[str] = mapped_column(String(80), nullable=False)
+    city: Mapped[str] = mapped_column(String(80), nullable=False)
+    postal_code: Mapped[str] = mapped_column(String(20), nullable=False)
+    address: Mapped[str] = mapped_column(String(180), nullable=False)
+
+    user: Mapped["User"] = relationship(
+        "User", back_populates="business_profile")
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "business_name": self.business_name,
             "phone": self.phone,
-            "is_active": self.is_active,
-            # do not serialize the password, its a security breach
+            "category": self.category,
+            "country": self.country,
+            "province": self.province,
+            "city": self.city,
+            "postal_code": self.postal_code,
+            "address": self.address
         }
