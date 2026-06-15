@@ -11,8 +11,13 @@ from api.models import db
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
+#<<<<<<< feature/api/business/register
+
+
+=======
 from api.extensions import bcrypt, jwt
 from api.auth.routes import auth
+#>>>>>>> develop
 # from models import Person
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
