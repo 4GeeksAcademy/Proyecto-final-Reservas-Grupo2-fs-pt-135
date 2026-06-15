@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import String, Boolean, ForeignKey
+from sqlalchemy import String, Boolean, ForeignKey, Numeric
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 db = SQLAlchemy()
@@ -67,6 +67,11 @@ class BusinessProfile(db.Model):
 
     user: Mapped["User"] = relationship(
         "User", back_populates="business_profile")
+    
+    services: Mapped[list["Service"]] = relationship(
+    "Service",
+    back_populates="business"
+    )
 
     def serialize(self):
         return {
@@ -80,4 +85,34 @@ class BusinessProfile(db.Model):
             "city": self.city,
             "postal_code": self.postal_code,
             "address": self.address
+        }
+    
+class Service(db.Model):
+    id: Mapped[int] = mapped_column(primary_key=True)
+
+    business_id: Mapped[int] = mapped_column(
+        ForeignKey("business_profile.id"),
+        nullable=False
+    )
+
+    name: Mapped[str] = mapped_column(String(120), nullable=False)
+    description: Mapped[str] = mapped_column(String(255), nullable=True)
+    price: Mapped[float] = mapped_column(Numeric(10, 2), nullable=False)
+    duration_minutes: Mapped[int] = mapped_column(nullable=False)
+    status: Mapped[bool] = mapped_column(Boolean(), nullable=False, default=True)
+
+    business: Mapped["BusinessProfile"] = relationship(
+        "BusinessProfile",
+        back_populates="services"
+    )
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "business_id": self.business_id,
+            "name": self.name,
+            "description": self.description,
+            "price": self.price,
+            "duration_minutes": self.duration_minutes,
+            "status": self.status,
         }

@@ -11,14 +11,10 @@ from api.models import db
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
-#<<<<<<< feature/api/business/register
 
-
-=======
 from api.extensions import bcrypt, jwt
 from api.auth.routes import auth
-#>>>>>>> develop
-# from models import Person
+from api.services import services
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(
@@ -54,8 +50,9 @@ app.register_blueprint(api, url_prefix='/api')
 
 app.register_blueprint(auth, url_prefix='/api/auth')
 
-# Handle/serialize errors like a JSON object
+app.register_blueprint(services, url_prefix='/api/services')
 
+# Handle/serialize errors like a JSON object
 
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
