@@ -116,3 +116,34 @@ class Service(db.Model):
             "duration_minutes": self.duration_minutes,
             "status": self.status,
         }
+
+class Reservas(db.Model):
+    __tablename__ = 'reservas'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    client_id: Mapped[int] = mapped_column(ForeignKey("client_profile.id"), nullable=False)
+    service_id: Mapped[int] = mapped_column(ForeignKey("service.id"), nullable=False)
+
+    # Campos propios de una reserva
+    status: Mapped[str] = mapped_column(String(30), nullable=False, default="pendiente")
+    notes: Mapped[str] = mapped_column(String(255), nullable=True)
+
+
+    client: Mapped["ClientProfile"] = relationship("ClientProfile")
+    service: Mapped["Service"] = relationship("Service")
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "client_id": self.client_id,
+            "service_id": self.service_id,
+            # Convierte la fecha a string legible para el frontend
+            "booking_date": self.booking_date.isoformat(),
+            "status": self.status,
+            "notes": self.notes,
+            "service_detail": {
+            "name": self.service.name,
+            "price": str(self.service.price),
+            "business_id": self.service.business_id
+            } if self.service else None,
+            "client_name": self.client.name if self.client else None
+        }
