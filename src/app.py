@@ -6,6 +6,7 @@ from flask import Flask, request, jsonify, url_for, send_from_directory
 from flask_migrate import Migrate
 from flask_cors import CORS
 from flask_swagger import swagger
+import cloudinary
 from api.utils import APIException, generate_sitemap
 from api.models import db
 from api.routes import api
@@ -23,6 +24,17 @@ app = Flask(__name__)
 CORS(app)
 app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
 app.url_map.strict_slashes = False
+
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET"),
+    secure=True
+)
+
+#print("CLOUD_NAME:", os.getenv("CLOUDINARY_CLOUD_NAME"))
+#print("API_KEY:", os.getenv("CLOUDINARY_API_KEY"))
+#print("API_SECRET:", os.getenv("CLOUDINARY_API_SECRET"))
 
 # database condiguration
 db_url = os.getenv("DATABASE_URL")

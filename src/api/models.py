@@ -65,13 +65,15 @@ class BusinessProfile(db.Model):
     postal_code: Mapped[str] = mapped_column(String(20), nullable=False)
     address: Mapped[str] = mapped_column(String(180), nullable=False)
 
-    user: Mapped["User"] = relationship(
-        "User", back_populates="business_profile")
+    user: Mapped["User"] = relationship("User", back_populates="business_profile")
     
-    services: Mapped[list["Service"]] = relationship(
-    "Service",
-    back_populates="business"
-    )
+    services: Mapped[list["Service"]] = relationship("Service", back_populates="business")
+
+    portfolio: Mapped["BusinessPortfolio"] = relationship("BusinessPortfolio", back_populates="business_profile", uselist=False)
+
+    gallery_images: Mapped[list["BusinessGallery"]] = relationship("BusinessGallery", back_populates="business_profile")
+
+
 
     def serialize(self):
         return {
@@ -86,6 +88,39 @@ class BusinessProfile(db.Model):
             "postal_code": self.postal_code,
             "address": self.address
         }
+    
+
+class BusinessPortfolio(db.Model):
+    id: Mapped[int] = mapped_column(primary_key=True)
+    business_profile_id: Mapped[int] = mapped_column(ForeignKey("business_profile.id"), unique=True, nullable=False)
+    logo_url: Mapped[str] = mapped_column(String(255), nullable=True)
+    description: Mapped[str] = mapped_column(String(1000), nullable=True)
+    business_profile: Mapped["BusinessProfile"] = relationship("BusinessProfile", back_populates="portfolio")
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "business_profile_id": self.business_profile_id,
+            "logo_url": self.logo_url,
+            "description": self.description
+        }
+    
+    
+    
+class BusinessGallery(db.Model):
+    id: Mapped[int] = mapped_column(primary_key=True)
+    business_profile_id: Mapped[int] = mapped_column(ForeignKey("business_profile.id"), nullable=False)
+    image_url: Mapped[str] = mapped_column(String(255), nullable=False)
+    business_profile: Mapped["BusinessProfile"] = relationship("BusinessProfile", back_populates="gallery_images")
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "business_profile_id": self.business_profile_id,
+            "image_url": self.image_url
+        }
+
+
     
 class Service(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -116,3 +151,5 @@ class Service(db.Model):
             "duration_minutes": self.duration_minutes,
             "status": self.status,
         }
+
+        
