@@ -1,31 +1,38 @@
 {
   "parser": "@babel/eslint-parser",
-  "plugins": [
-    "react"
-  ],
+  "plugins": ["react"],
+  "parserOptions": {
+    "requireConfigFile": false,
+    "babelOptions": {
+      "parserOpts": {
+        "allowImportExportEverywhere": false,
+      },
+    },
+  },
   "env": {
     "browser": true,
-    "es6": true
+    "es6": true,
   },
-  "extends": [ "plugin:react/recommended"],
+  "settings": {
+    "react": {
+      "version": "detect",
+    },
+  },
+  "extends": ["plugin:react/recommended"],
   "rules": {
-    "strict":0,
+    "strict": 0,
     "no-unused-vars": 0,
-    "no-console": 1,
+    "no-console": 0,
     "no-mixed-spaces-and-tabs": 0,
-    "no-debugger": 0, 
-    "semi": ["error", "always"],
-    "allowImportExportEverywhere": false,
+    "no-debugger": 0,
+    "semi": "off",
     "indent": "off",
+    "react/react-in-jsx-scope": "off",
     "react/jsx-indent": "off",
     "react/jsx-indent-props": "off",
-    "comma-dangle": [1, { //when to use the last comma
-        "arrays": "never",
-        "objects": "never",
-        "imports": "never",
-        "exports": "never",
-        "functions": "ignore",
-    }],
-    "react/prop-types": [2]
-  }
+    "react/prop-types": 0,
+    "react/no-unescaped-entities": 0,
+    "react/jsx-no-target-blank": 0,
+    "comma-dangle": 0,
+  },
 }
