@@ -21,6 +21,7 @@ from api.client_profile.routes import client_profile
 from api.business_profile.routes import business_profile
 from api.business_portfolio.routes import business_portfolio
 from api.business_gallery.routes import business_gallery
+from api.reservas import reservas
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(
@@ -76,6 +77,8 @@ app.register_blueprint(business_profile, url_prefix='/api/business-profile')
 app.register_blueprint(business_portfolio, url_prefix='/api/business-portfolio')
 
 app.register_blueprint(business_gallery, url_prefix='/api/business-gallery')
+
+app.register_blueprint(reservas, url_prefix='/api/reservas')
 
 # Handle/serialize errors like a JSON object
 
