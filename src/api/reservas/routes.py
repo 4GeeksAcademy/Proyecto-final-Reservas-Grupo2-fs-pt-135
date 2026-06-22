@@ -3,9 +3,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from api.models import db, Service, Reservas, ClientProfile
 
 
-reservas = Blueprint("reservas", __name__)
-
-
+reservas = Blueprint("reservas_api", __name__)
 
 # --- RUTA PARA OBTENER TODAS LAS RESERVAS ---
 @reservas.route('/reservas', methods=['GET'])

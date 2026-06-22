@@ -78,6 +78,8 @@ app.register_blueprint(business_portfolio, url_prefix='/api/business-portfolio')
 
 app.register_blueprint(business_gallery, url_prefix='/api/business-gallery')
 
+app.register_blueprint(reservas, url_prefix='/api/reservas')
+
 # Handle/serialize errors like a JSON object
 
 @app.errorhandler(APIException)
