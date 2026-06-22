@@ -152,7 +152,7 @@ class Service(db.Model):
             "status": self.status,
         }
 
-        
+
 class Reservas(db.Model):
     __tablename__ = 'reservas'
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -163,7 +163,7 @@ class Reservas(db.Model):
     status: Mapped[str] = mapped_column(String(30), nullable=False, default="pendiente")
     notes: Mapped[str] = mapped_column(String(255), nullable=True)
 
-
+    # Relaciones
     client: Mapped["ClientProfile"] = relationship("ClientProfile")
     service: Mapped["Service"] = relationship("Service")
 
@@ -172,13 +172,12 @@ class Reservas(db.Model):
             "id": self.id,
             "client_id": self.client_id,
             "service_id": self.service_id,
-            # Convierte la fecha a string legible para el frontend
             "status": self.status,
             "notes": self.notes,
             "service_detail": {
-            "name": self.service.name,
-            "price": str(self.service.price),
-            "business_id": self.service.business_id
+                "name": self.service.name,
+                "price": str(self.service.price),
+                "business_id": self.service.business_id
             } if self.service else None,
             "client_name": self.client.name if self.client else None
         }
