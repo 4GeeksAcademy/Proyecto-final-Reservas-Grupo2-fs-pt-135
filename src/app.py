@@ -17,6 +17,11 @@ from api.extensions import bcrypt, jwt
 from api.auth.routes import auth
 from api.services import services
 
+from api.client_profile.routes import client_profile
+from api.business_profile.routes import business_profile
+from api.business_portfolio.routes import business_portfolio
+from api.business_gallery.routes import business_gallery
+
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../dist/')
@@ -63,6 +68,14 @@ app.register_blueprint(api, url_prefix='/api')
 app.register_blueprint(auth, url_prefix='/api/auth')
 
 app.register_blueprint(services, url_prefix='/api/services')
+
+app.register_blueprint(client_profile, url_prefix='/api/client-profile')
+
+app.register_blueprint(business_profile, url_prefix='/api/business-profile')
+
+app.register_blueprint(business_portfolio, url_prefix='/api/business-portfolio')
+
+app.register_blueprint(business_gallery, url_prefix='/api/business-gallery')
 
 # Handle/serialize errors like a JSON object
 
