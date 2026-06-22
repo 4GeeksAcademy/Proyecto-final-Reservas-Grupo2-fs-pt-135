@@ -7,21 +7,25 @@ reservas = Blueprint("reservas", __name__)
 
 
 
-@reservas.route('/reserva', methods=['GET'])
-@reservas.route('/<int:reserva_id>', methods=['GET'])
-def get_reservas(reserva_id=None):
-    if reserva_id:
-        reserva = db.session.get(Reservas, reserva_id)
-        if not reserva:
-            return jsonify({"error": "Reserva no encontrada"}), 404
-        return jsonify(reserva.serialize()), 200
-
-    # Obtener todas las reservas
+# --- RUTA PARA OBTENER TODAS LAS RESERVAS ---
+@reservas.route('/reservas', methods=['GET'])
+def get_all_reservas():
     lista_reservas = db.session.scalars(db.select(Reservas)).all()
+    # Si la base de datos está vacía, verás un [] en Postman. Es normal y está bien.
     return jsonify([r.serialize() for r in lista_reservas]), 200
 
 
-@reservas.route('/reserva', methods=['POST'])
+# --- RUTA PARA OBTENER UNA SOLA RESERVA ---
+@reservas.route('reservas/1<int:reserva_id>', methods=['GET'])
+def get_one_reserva(reserva_id):
+    reserva = db.session.get(Reservas, reserva_id)
+    if not reserva:
+        return jsonify({"error": "Reserva no encontrada"}), 404
+    return jsonify(reserva.serialize()), 200
+
+
+# --- RUTA PARA CREAR UNA RESERVA ---
+@reservas.route('/reservas', methods=['POST'])
 def create_reserva():
     data = request.get_json()
     if not data:
@@ -33,7 +37,6 @@ def create_reserva():
     if not client_id or not service_id:
         return jsonify({"error": "Faltan campos obligatorios: client_id y service_id"}), 400
 
-    # Validaciones de existencia en la DB
     client_exists = db.session.get(ClientProfile, client_id)
     service_exists = db.session.get(Service, service_id)
 
@@ -58,7 +61,8 @@ def create_reserva():
         return jsonify({"error": "Error al procesar la solicitud", "details": str(e)}), 500
 
 
-@reservas.route('/<int:reserva_id>', methods=['PUT'])
+# --- RUTA PARA ACTUALIZAR UNA RESERVA ---
+@reservas.route('/reservas/1<int:reserva_id>', methods=['PUT'])
 def update_reserva(reserva_id):
     reserva = db.session.get(Reservas, reserva_id)
     if not reserva:
@@ -91,23 +95,17 @@ def update_reserva(reserva_id):
         return jsonify({"error": "Error al actualizar", "details": str(e)}), 500
 
 
-@reservas.route('/<int:reserva_id>', methods=['DELETE'])
+# --- RUTA PARA CANCELAR UNA RESERVA ---
+@reservas.route('/reservas/1<int:reserva_id>', methods=['DELETE'])
 def delete_reserva(reserva_id):
     reserva = db.session.get(Reservas, reserva_id)
     if not reserva:
         return jsonify({"error": "Reserva no encontrada"}), 404
 
     try:
-        # Por defecto aplicamos el borrado lógico (actualizar estatus)
         reserva.status = "cancelada"
         db.session.commit()
         return jsonify({"message": "Reserva cancelada con éxito", "reserva": reserva.serialize()}), 200
-
-        # Si en el futuro quieres borrado físico, sustituye las 4 líneas de arriba por:
-        # db.session.delete(reserva)
-        # db.session.commit()
-        # return jsonify({"message": "Reserva eliminada permanentemente"}), 200
-
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": "Error al procesar la cancelación", "details": str(e)}), 500
