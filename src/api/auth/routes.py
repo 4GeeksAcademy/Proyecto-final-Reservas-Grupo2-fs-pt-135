@@ -176,10 +176,18 @@ def login():
         return jsonify({"msg": "Invalid email or password"}), 401
 
     token = create_access_token(identity=str(user.id))
+
+    business_profile_id = None
+
+    if user.role == "business":
+        business_profile = BusinessProfile.query.filter_by(user_id=user.id).first()
+        business_profile_id = business_profile.id if business_profile else None
+
     return jsonify({
         "msg": "Login successful",
         "token": token,
-        "user": user.serialize()
+        "user": user.serialize(),
+        "business_profile_id": business_profile_id
     }), 200
 
 # ----------------------------------------------------------------------------------
