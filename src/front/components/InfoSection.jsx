@@ -1,0 +1,86 @@
+import React from "react";
+
+const InfoSection = () => {
+    return (
+        <section className="info-section">
+
+            <div className="info-row">
+
+                <div className="info-text">
+                    <h2>Reservar nunca fue tan fácil</h2>
+
+                    <p>
+                        Encuentra profesionales de confianza en tu zona en cuestión
+                        de segundos. Barberías, salones, spa y servicios premium
+                        disponibles cuando los necesites.
+                    </p>
+
+                    <p>
+                        Reserva online las 24 horas del día sin llamadas ni esperas.
+                        Gestiona tus citas desde cualquier lugar.
+                    </p>
+                </div>
+
+                <div className="info-image">
+                    <img
+                        src="src/front/assets/img/img/Reserva.png"
+                        alt="Reserva"
+                    />
+                </div>
+
+            </div>
+
+            <div className="info-row reverse">
+
+                <div className="info-image">
+                    <img
+                        src="src/front/assets/img/img/Campana.png"
+                        alt="Recordatorios"
+                    />
+                </div>
+
+                <div className="info-text">
+                    <h2>Nosotros nos encargamos</h2>
+
+                    <p>
+                        Recibe recordatorios automáticos para no olvidar ninguna cita.
+                    </p>
+
+                    <p>
+                        Modifica o cancela reservas fácilmente desde tu perfil
+                        sin necesidad de llamar.
+                    </p>
+                </div>
+
+            </div>
+
+            <div className="info-row">
+
+                <div className="info-text">
+                    <h2>Los mejores profesionales</h2>
+
+                    <p>
+                        Descubre negocios verificados y consulta opiniones reales
+                        de otros clientes.
+                    </p>
+
+                    <p>
+                        Compara servicios, valoraciones y disponibilidad antes
+                        de reservar.
+                    </p>
+                </div>
+
+                <div className="info-image">
+                    <img
+                        src="src/front/assets/img/img/Profesional.png"
+                        alt="Profesionales"
+                    />
+                </div>
+
+            </div>
+
+        </section>
+    );
+};
+
+export default InfoSection;
