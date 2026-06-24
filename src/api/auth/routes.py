@@ -1,11 +1,9 @@
 import re
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
-from api.models import db, User, ClientProfile, BusinessProfile, BusinessPortfolio, BusinessGallery
+from api.models import db, User, ClientProfile, BusinessProfile, BusinessPortfolio, BusinessGallery, Category
 from api.extensions import bcrypt
-
-auth = Blueprint("auth", __name__)
-
+from . import auth
 
 @auth.route("/register/client", methods=["POST"])
 def register_client():
@@ -83,15 +81,18 @@ def register_business():
     password = data.get("password", "").strip()
     business_name = data.get("business_name", "").strip()
     phone = data.get("phone", "").strip()
-    category = data.get("category", "").strip()
+    category_ids = data.get("category_ids", [])
     country = data.get("country", "").strip()
     province = data.get("province", "").strip()
     city = data.get("city", "").strip()
     postal_code = data.get("postal_code", "").strip()
     address = data.get("address", "").strip()
 
-    if not email or not password or not business_name or not phone or not category or not country or not province or not city or not postal_code or not address:
+    if not email or not password or not business_name or not phone or not category_ids or not country or not province or not city or not postal_code or not address:
         return jsonify({"msg": "All fields are required"}), 400
+
+    if not isinstance(category_ids, list):
+        return jsonify({"msg": "category_ids must be a list"}), 400
 
     email_regex = r"^[\w\.-]+@[\w\.-]+\.\w+$"
     if not re.match(email_regex, email):
@@ -109,6 +110,11 @@ def register_business():
     if user:
         return jsonify({"msg": "Email already exists"}), 400
 
+    categories = Category.query.filter(Category.id.in_(category_ids)).all()
+
+    if len(categories) != len(category_ids):
+        return jsonify({"msg": "One or more categories do not exist"}), 400
+
     try:
         new_user = User(
             email=email,
@@ -124,13 +130,14 @@ def register_business():
             user_id=new_user.id,
             business_name=business_name,
             phone=phone,
-            category=category,
             country=country,
             province=province,
             city=city,
             postal_code=postal_code,
             address=address
         )
+
+        new_business_profile.categories = categories
 
         db.session.add(new_business_profile)
         db.session.commit()
@@ -147,7 +154,7 @@ def register_business():
             "msg": "Internal server error",
             "error": str(e)
         }), 500
-
+    
 
 @auth.route("/login", methods=["POST"])
 def login():

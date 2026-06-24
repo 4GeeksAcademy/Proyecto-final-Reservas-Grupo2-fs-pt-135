@@ -1,9 +1,7 @@
 from flask import Blueprint, request, jsonify
 from api.models import db, BusinessProfile, BusinessGallery
 import cloudinary.uploader
-
-business_gallery = Blueprint("business_gallery", __name__)
-
+from . import business_gallery
 
 def upload_image(file, folder):
     result = cloudinary.uploader.upload(file, folder=folder)
