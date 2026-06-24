@@ -5,63 +5,47 @@ from api.models import db, Service, Reservas, ClientProfile
 
 reservas = Blueprint("reservas_api", __name__)
 
-# --- RUTA PARA OBTENER TODAS LAS RESERVAS ---
-@reservas.route('/reservas', methods=['GET'])
-def get_all_reservas():
-    lista_reservas = db.session.scalars(db.select(Reservas)).all()
-    # Si la base de datos está vacía, verás un [] en Postman. Es normal y está bien.
-    return jsonify([r.serialize() for r in lista_reservas]), 200
+# --- RUTA PARA OBTENER TODAS LAS RESERVAS --- [rehacer] traer ID de la empresa + usuario (condicional si no existe)
 
 
-# --- RUTA PARA OBTENER UNA SOLA RESERVA ---
-@reservas.route('/reservas/<int:reserva_id>', methods=['GET'])
-def get_one_reserva(reserva_id):
-    reserva = db.session.get(Reservas, reserva_id)
-    if not reserva:
-        return jsonify({"error": "Reserva no encontrada"}), 404
+@reservas.route('/<int:id>', methods=['GET'])
+def get_reserva(id):
+
+    reserva = db.session.get(Reservas, id)
+
+    if reserva is None:
+        return jsonify({"msg": "Reserva no encontrada"}), 404
+
     return jsonify(reserva.serialize()), 200
 
 
 # --- RUTA PARA CREAR UNA RESERVA ---
-@reservas.route('/reservas', methods=['POST'])
+@reservas.route('', methods=['POST'])
 def create_reserva():
 
     data = request.get_json()
 
     if not data:
         return jsonify({
-            "error": "No se proporcionaron datos"
+            "error": "No se enviaron datos"
         }), 400
 
-    required_fields = [
-        "client_id",
-        "service_id"
-    ]
+    client_id = data.get("client_id")
+    service_id = data.get("service_id")
 
-    missing_fields = [
-        field for field in required_fields
-        if field not in data
-    ]
-
-    if missing_fields:
+    if not client_id or not service_id:
         return jsonify({
-            "error": f"Faltan campos obligatorios: {', '.join(missing_fields)}"
+            "error": "client_id y service_id son obligatorios"
         }), 400
 
-    client_id = data["client_id"]
-    service_id = data["service_id"]
-
-    client_exists = db.session.get(ClientProfile, client_id)
-    service_exists = db.session.get(Service, service_id)
-
-    if not client_exists:
+    if not db.session.get(ClientProfile, client_id):
         return jsonify({
-            "error": f"El cliente con id {client_id} no existe"
+            "error": "Cliente no encontrado"
         }), 404
 
-    if not service_exists:
+    if not db.session.get(Service, service_id):
         return jsonify({
-            "error": f"El servicio con id {service_id} no existe"
+            "error": "Servicio no encontrado"
         }), 404
 
     nueva_reserva = Reservas(
@@ -71,68 +55,26 @@ def create_reserva():
         notes=data.get("notes", "")
     )
 
-    try:
-        db.session.add(nueva_reserva)
-        db.session.commit()
+    db.session.add(nueva_reserva)
+    db.session.commit()
 
-        return jsonify({
-            "message": "Reserva creada con éxito",
-            "reserva": nueva_reserva.serialize()
-        }), 201
-
-    except Exception as e:
-        db.session.rollback()
-
-        return jsonify({
-            "error": "Error al crear la reserva",
-            "details": str(e)
-        }), 500
-
-# --- RUTA PARA ACTUALIZAR UNA RESERVA ---
-@reservas.route('/reservas/<int:reserva_id>', methods=['PUT'])
-def update_reserva(reserva_id):
-    reserva = db.session.get(Reservas, reserva_id)
-    if not reserva:
-        return jsonify({"error": "Reserva no encontrada"}), 404
-
-    data = request.get_json()
-    if not data:
-        return jsonify({"error": "No se proporcionaron datos para actualizar"}), 400
-
-    if 'status' in data:
-        reserva.status = data['status']
-    if 'notes' in data:
-        reserva.notes = data['notes']
-        
-    if 'service_id' in data:
-        if not db.session.get(Service, data['service_id']):
-            return jsonify({"error": "El nuevo servicio no existe"}), 404
-        reserva.service_id = data['service_id']
-        
-    if 'client_id' in data:
-        if not db.session.get(ClientProfile, data['client_id']):
-            return jsonify({"error": "El nuevo cliente no existe"}), 404
-        reserva.client_id = data['client_id']
-
-    try:
-        db.session.commit()
-        return jsonify({"message": "Reserva actualizada con éxito", "reserva": reserva.serialize()}), 200
-    except Exception as e:
-        db.session.rollback()
-        return jsonify({"error": "Error al actualizar", "details": str(e)}), 500
+    return jsonify(nueva_reserva.serialize()), 201
 
 
 # --- RUTA PARA CANCELAR UNA RESERVA ---
-@reservas.route('/reservas/<int:reserva_id>', methods=['DELETE'])
+@reservas.route('/<int:reserva_id>', methods=['DELETE'])
 def delete_reserva(reserva_id):
-    reserva = db.session.get(Reservas, reserva_id)
-    if not reserva:
-        return jsonify({"error": "Reserva no encontrada"}), 404
 
-    try:
-        reserva.status = "cancelada"
-        db.session.commit()
-        return jsonify({"message": "Reserva cancelada con éxito", "reserva": reserva.serialize()}), 200
-    except Exception as e:
-        db.session.rollback()
-        return jsonify({"error": "Error al procesar la cancelación", "details": str(e)}), 500
+    reserva = db.session.get(Reservas, reserva_id)
+
+    if not reserva:
+        return jsonify({
+            "error": "Reserva no encontrada"
+        }), 404
+
+    reserva.status = "cancelada"
+    db.session.commit()
+
+    return jsonify({
+        "message": "Reserva cancelada"
+    }), 200
