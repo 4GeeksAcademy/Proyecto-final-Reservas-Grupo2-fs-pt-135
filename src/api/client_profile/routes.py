@@ -1,8 +1,7 @@
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from api.models import db, ClientProfile
-
-client_profile = Blueprint("client_profile", __name__)
+from . import client_profile
 
 @client_profile.route("/me", methods=["GET"])
 @jwt_required()
