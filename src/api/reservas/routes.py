@@ -14,7 +14,7 @@ def get_all_reservas():
 
 
 # --- RUTA PARA OBTENER UNA SOLA RESERVA ---
-@reservas.route('reservas/1<int:reserva_id>', methods=['GET'])
+@reservas.route('/reservas/<int:reserva_id>', methods=['GET'])
 def get_one_reserva(reserva_id):
     reserva = db.session.get(Reservas, reserva_id)
     if not reserva:
@@ -25,42 +25,71 @@ def get_one_reserva(reserva_id):
 # --- RUTA PARA CREAR UNA RESERVA ---
 @reservas.route('/reservas', methods=['POST'])
 def create_reserva():
+
     data = request.get_json()
+
     if not data:
-        return jsonify({"error": "No se proporcionaron datos"}), 400
+        return jsonify({
+            "error": "No se proporcionaron datos"
+        }), 400
 
-    client_id = data.get('client_id')
-    service_id = data.get('service_id')
+    required_fields = [
+        "client_id",
+        "service_id"
+    ]
 
-    if not client_id or not service_id:
-        return jsonify({"error": "Faltan campos obligatorios: client_id y service_id"}), 400
+    missing_fields = [
+        field for field in required_fields
+        if field not in data
+    ]
+
+    if missing_fields:
+        return jsonify({
+            "error": f"Faltan campos obligatorios: {', '.join(missing_fields)}"
+        }), 400
+
+    client_id = data["client_id"]
+    service_id = data["service_id"]
 
     client_exists = db.session.get(ClientProfile, client_id)
     service_exists = db.session.get(Service, service_id)
 
     if not client_exists:
-        return jsonify({"error": f"El cliente con id {client_id} no existe"}), 404
+        return jsonify({
+            "error": f"El cliente con id {client_id} no existe"
+        }), 404
+
     if not service_exists:
-        return jsonify({"error": f"El servicio con id {service_id} no existe"}), 404
+        return jsonify({
+            "error": f"El servicio con id {service_id} no existe"
+        }), 404
 
     nueva_reserva = Reservas(
         client_id=client_id,
         service_id=service_id,
-        status=data.get('status', 'pendiente'),
-        notes=data.get('notes')
+        status=data.get("status", "pendiente"),
+        notes=data.get("notes", "")
     )
 
     try:
         db.session.add(nueva_reserva)
         db.session.commit()
-        return jsonify({"message": "Reserva creada con éxito", "reserva": nueva_reserva.serialize()}), 201
+
+        return jsonify({
+            "message": "Reserva creada con éxito",
+            "reserva": nueva_reserva.serialize()
+        }), 201
+
     except Exception as e:
         db.session.rollback()
-        return jsonify({"error": "Error al procesar la solicitud", "details": str(e)}), 500
 
+        return jsonify({
+            "error": "Error al crear la reserva",
+            "details": str(e)
+        }), 500
 
 # --- RUTA PARA ACTUALIZAR UNA RESERVA ---
-@reservas.route('/reservas/1<int:reserva_id>', methods=['PUT'])
+@reservas.route('/reservas/<int:reserva_id>', methods=['PUT'])
 def update_reserva(reserva_id):
     reserva = db.session.get(Reservas, reserva_id)
     if not reserva:
@@ -94,7 +123,7 @@ def update_reserva(reserva_id):
 
 
 # --- RUTA PARA CANCELAR UNA RESERVA ---
-@reservas.route('/reservas/1<int:reserva_id>', methods=['DELETE'])
+@reservas.route('/reservas/<int:reserva_id>', methods=['DELETE'])
 def delete_reserva(reserva_id):
     reserva = db.session.get(Reservas, reserva_id)
     if not reserva:
