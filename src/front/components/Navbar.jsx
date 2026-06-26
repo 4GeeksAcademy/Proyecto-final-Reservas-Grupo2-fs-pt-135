@@ -1,11 +1,12 @@
 import React from "react";
+import logo from "../assets/img/img/bookify-logo.png";
 
 const Navbar = () => {
     return (
         <nav className="navbar">
 
             <div className="logo">
-                ONYX
+                <img src={logo} alt="Bookify" className="logo-img" />
             </div>
 
             <ul className="nav-links">

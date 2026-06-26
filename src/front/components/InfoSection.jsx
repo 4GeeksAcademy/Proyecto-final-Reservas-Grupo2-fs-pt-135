@@ -23,7 +23,7 @@ const InfoSection = () => {
 
                 <div className="info-image">
                     <img
-                        src="src/front/assets/img/img/Reserva.png"
+                        src="src/front/assets/img/img/Reserva2.png"
                         alt="Reserva"
                     />
                 </div>
@@ -34,7 +34,7 @@ const InfoSection = () => {
 
                 <div className="info-image">
                     <img
-                        src="src/front/assets/img/img/Campana.png"
+                        src="src/front/assets/img/img/Campana2.png"
                         alt="Recordatorios"
                     />
                 </div>
@@ -72,7 +72,7 @@ const InfoSection = () => {
 
                 <div className="info-image">
                     <img
-                        src="src/front/assets/img/img/Profesional.png"
+                        src="src/front/assets/img/img/Profesional2.png"
                         alt="Profesionales"
                     />
                 </div>
