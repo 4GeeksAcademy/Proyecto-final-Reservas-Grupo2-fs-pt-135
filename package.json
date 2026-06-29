@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "vite",
-    "start": "vite",
+    "start": "./scripts/start-safe.sh",
     "start:safe": "./scripts/start-safe.sh",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",

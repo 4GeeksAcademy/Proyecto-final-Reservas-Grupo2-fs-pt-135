@@ -12,4 +12,4 @@ if [[ -n "$PIDS" ]]; then
 fi
 
 echo "Iniciando frontend en puerto $PORT..."
-exec npm run start -- --host 0.0.0.0 --port "$PORT"
+exec npm run dev -- --host 0.0.0.0 --port "$PORT"
