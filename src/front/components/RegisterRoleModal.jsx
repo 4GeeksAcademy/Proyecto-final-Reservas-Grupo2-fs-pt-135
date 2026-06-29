@@ -36,7 +36,7 @@ export const RegisterRoleModal = ({ showModal, setShowModal }) => {
                 </div>
 
                 <p className="text-center text-muted mb-5">
-                    Selecciona la mejor opcion
+                    Selecciona la mejor opción
                 </p>
 
                 <div className="row">
