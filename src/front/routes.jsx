@@ -12,6 +12,7 @@ import { Login } from "./pages/Login";
 import { RegisterClient } from "./pages/RegisterClient";
 import { RegisterBusiness } from "./pages/RegisterBusiness";
 import { CreateService } from "./pages/CreateService";
+import { BusinessPortfolio } from "./pages/BusinessPortfolio";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,6 +20,7 @@ export const router = createBrowserRouter(
       <Route path="/" element={<Layout />} errorElement={<h1>Not found!</h1>}>
         <Route path="/" element={<Home />} />
         <Route path="/demo" element={<Demo />} />
+        
       </Route>
 
       <Route path="/login" element={<Login />} />
@@ -26,6 +28,9 @@ export const router = createBrowserRouter(
       <Route path="/register/business" element={<RegisterBusiness />} />
 
       <Route path="/services/create" element={<CreateService />} />
+      <Route path="/business/portfolio" element={<BusinessPortfolio />} />
+
+      
     </>
   )
 );

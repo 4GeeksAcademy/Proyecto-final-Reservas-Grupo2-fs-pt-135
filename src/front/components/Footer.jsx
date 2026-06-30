@@ -1,17 +1,18 @@
 import React from "react";
+import logo from "../assets/img/img/bookify-logo.png";
 
 const Footer = () => {
   return (
     <footer className="footer">
 
-      <h3>ONYX</h3>
+      <img src={logo} alt="Bookify" className="footer-logo"/>
 
-      <p>
-        La experiencia premium para reservar servicios.
+      <p className="footer-description">
+        Reserva servicios de confianza de forma rápida, sencilla y segura.
       </p>
 
-      <p>
-        © 2026 ONYX. Todos los derechos reservados.
+      <p className="footer-copy">
+        © 2026 Bookify. Todos los derechos reservados.
       </p>
 
     </footer>

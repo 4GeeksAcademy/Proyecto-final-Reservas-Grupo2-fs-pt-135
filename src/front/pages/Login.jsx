@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { RegisterRoleModal } from "../components/RegisterRoleModal";
 
 export const Login = () => {
@@ -6,6 +7,8 @@ export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showModal, setShowModal] = useState(false);
+
+  const navigate = useNavigate();
 
   const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -32,10 +35,21 @@ export const Login = () => {
       }
 
       sessionStorage.setItem("token", data.token);
+      sessionStorage.setItem("role", data.user.role);
+
+      if (data.business_profile_id) {
+        sessionStorage.setItem("business_profile_id", data.business_profile_id);
+      }
 
       const roleName = data.user.role === "client" ? "Cliente" : "Empresa";
 
       alert(`Login exitoso como ${roleName}`);
+
+      if (data.user.role === "business") {
+        navigate("/business/portfolio");
+      } else {
+        navigate("/");
+      }
 
     } catch (error) {
       alert("Error al conectar con el servidor");
@@ -43,34 +57,68 @@ export const Login = () => {
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center min-vh-100">
-      <div className="card shadow p-4" style={{ maxWidth: "420px", width: "100%" }}>
+    <div className="login-bg min-vh-100 d-flex justify-content-center align-items-center">
 
-        <h2 className="text-center mb-4">Iniciar sesión</h2>
+      <div className="login-card">
+
+        <div className="login-icon">
+          📅
+        </div>
+
+        <h2 className="login-title">Iniciar sesión</h2>
+
+        <p className="login-subtitle">
+          Accede a tu cuenta para continuar
+        </p>
 
         <form onSubmit={handleSubmit}>
 
-          <div className="mb-3">
-            <label className="form-label">Correo electrónico</label>
-            <input type="email" className="form-control" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="ejemplo@email.com" />
+          <div className="login-input-group">
+            <input
+              type="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              placeholder="Correo electrónico"
+              required
+            />
           </div>
 
-          <div className="mb-3">
-            <label className="form-label">Contraseña</label>
-            <input type="password" className="form-control" value={password} onChange={(event) => setPassword(event.target.value)} placeholder="Tu contraseña" />
+          <div className="login-input-group">
+            <input
+              type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              placeholder="Contraseña"
+              required
+            />
           </div>
 
-          <button type="submit" className="btn btn-primary w-100">Entrar</button>
+          <button
+            type="submit"
+            className="login-button"
+          >
+            Entrar
+          </button>
 
         </form>
 
-        <p className="text-center mt-3 mb-0">
-          ¿No tienes cuenta? <button type="button" className="btn btn-link p-0" onClick={() => setShowModal(true)}>Regístrate</button>
+        <p className="register-text">
+          ¿No tienes cuenta?{" "}
+          <button
+            type="button"
+            onClick={() => setShowModal(true)}
+          >
+            Regístrate
+          </button>
         </p>
 
       </div>
 
-      <RegisterRoleModal showModal={showModal} setShowModal={setShowModal} />
+      <RegisterRoleModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+      />
+
     </div>
   );
 };

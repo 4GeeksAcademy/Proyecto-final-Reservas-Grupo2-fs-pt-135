@@ -1,6 +1,6 @@
 
 import click
-from api.models import db, User
+from api.models import db, User, Category
 
 """
 In this file, you can add as many commands as you want using the @app.cli.command decorator
@@ -32,3 +32,33 @@ def setup_commands(app):
     @app.cli.command("insert-test-data")
     def insert_test_data():
         pass
+
+    @app.cli.command("seed-categories")
+    def seed_categories():
+
+        categories = [
+            "Peluquería",
+            "Spa",
+            "Salud y bienestar",
+            "Naturaleza",
+            "Eventos",
+            "Legal",
+        ]
+
+        created = 0
+
+        for name in categories:
+            exists = Category.query.filter_by(name=name).first()
+
+            if not exists:
+                db.session.add(
+                    Category(
+                        name=name,
+                        is_active=True
+                    )
+                )
+                created += 1
+
+        db.session.commit()
+
+        print(f"{created} categories created successfully.")

@@ -1,8 +1,7 @@
-from flask import Blueprint, jsonify, request
+from flask import jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from api.models import db, BusinessProfile
-
-business_profile = Blueprint("business_profile", __name__)
+from api.models import db, BusinessProfile, Category
+from . import business_profile
 
 
 @business_profile.route("/me", methods=["GET"])
@@ -10,18 +9,12 @@ business_profile = Blueprint("business_profile", __name__)
 def get_business_profile():
     user_id = get_jwt_identity()
 
-    profile = BusinessProfile.query.filter_by(
-        user_id=user_id
-    ).first()
+    profile = BusinessProfile.query.filter_by(user_id=user_id).first()
 
     if not profile:
-        return jsonify({
-            "msg": "Business profile not found"
-        }), 404
+        return jsonify({"msg": "Business profile not found"}), 404
 
-    return jsonify({
-        "business_profile": profile.serialize()
-    }), 200
+    return jsonify({"business_profile": profile.serialize()}), 200
 
 
 @business_profile.route("/me", methods=["PUT"])
@@ -29,21 +22,15 @@ def get_business_profile():
 def update_business_profile():
     user_id = get_jwt_identity()
 
-    profile = BusinessProfile.query.filter_by(
-        user_id=user_id
-    ).first()
+    profile = BusinessProfile.query.filter_by(user_id=user_id).first()
 
     if not profile:
-        return jsonify({
-            "msg": "Business profile not found"
-        }), 404
+        return jsonify({"msg": "Business profile not found"}), 404
 
     data = request.get_json(silent=True)
 
     if not data:
-        return jsonify({
-            "msg": "Request body must be JSON"
-        }), 400
+        return jsonify({"msg": "Request body must be JSON"}), 400
 
     if "business_name" in data:
         profile.business_name = data["business_name"].strip()
@@ -51,8 +38,18 @@ def update_business_profile():
     if "phone" in data:
         profile.phone = data["phone"].strip()
 
-    if "category" in data:
-        profile.category = data["category"].strip()
+    if "category_ids" in data:
+        category_ids = data.get("category_ids", [])
+
+        if not isinstance(category_ids, list):
+            return jsonify({"msg": "category_ids must be a list"}), 400
+
+        categories = Category.query.filter(Category.id.in_(category_ids)).all()
+
+        if len(categories) != len(category_ids):
+            return jsonify({"msg": "One or more categories do not exist"}), 400
+
+        profile.categories = categories
 
     if "country" in data:
         profile.country = data["country"].strip()
@@ -75,3 +72,32 @@ def update_business_profile():
         "msg": "Business profile updated successfully",
         "business_profile": profile.serialize()
     }), 200
+
+
+@business_profile.route("/search", methods=["GET"])
+def search_business_profiles():
+    city = request.args.get("city", "").strip()
+    province = request.args.get("province", "").strip()
+    category_id = request.args.get("category_id", "").strip()
+
+    query = BusinessProfile.query
+
+    if city:
+        query = query.filter(BusinessProfile.city.ilike(f"%{city}%"))
+
+    if province:
+        query = query.filter(BusinessProfile.province.ilike(f"%{province}%"))
+
+    if category_id:
+        if not category_id.isdigit():
+            return jsonify({"msg": "category_id must be a number"}), 400
+
+        query = query.join(BusinessProfile.categories).filter(
+            Category.id == int(category_id)
+        )
+
+    businesses = query.all()
+
+    return jsonify(
+        [business.serialize_search() for business in businesses]
+    ), 200

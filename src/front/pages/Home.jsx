@@ -6,7 +6,6 @@ import InfoSection from "../components/InfoSection";
 
 const Home = () => {
   return (
-    <h1 className="display-4">Hello Proyecto</h1>
     <div>
 
       <Hero />
