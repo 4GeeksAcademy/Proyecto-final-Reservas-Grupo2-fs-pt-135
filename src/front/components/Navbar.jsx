@@ -1,11 +1,13 @@
 import React from "react";
+import logo from "../assets/img/img/bookify-logo.png";
 
 const Navbar = ({ setShowModal }) => {
     return (
         <nav className="navbar">
 
-            <div className="logo cobre-metalizado">
-                ONYX
+            <div className="logo">
+                <img src={logo} alt="Bookify" className="logo-img" />
+            
             </div>
 
             <ul className="nav-links">
