@@ -55,3 +55,9 @@
 .reservation-detail-item span:first-child {
   color: #9aa4a8;
 }
+
+.confirm-modal-message {
+    color: #d7d7d7;
+    font-size: 1rem;
+    margin: 0;
+}

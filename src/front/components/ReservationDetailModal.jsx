@@ -5,7 +5,8 @@ import "../styles/ReservationDetailModal.css";
 export const ReservationDetailModal = ({
     show,
     onClose,
-    reservation
+    reservation,
+    onCancel
 }) => {
 
     if (!reservation) return null;
@@ -119,7 +120,10 @@ export const ReservationDetailModal = ({
 
                     <Button
                         variant="danger"
+                        onClick={() => onCancel(reservation.id)}
                     >
+
+                        <i className="fa-solid fa-ban me-2"></i>
 
                         Cancelar reserva
 
