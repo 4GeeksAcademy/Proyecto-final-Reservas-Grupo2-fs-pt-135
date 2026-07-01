@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import String, Boolean, ForeignKey, Numeric
+from sqlalchemy import String, Boolean, ForeignKey, Numeric,  DateTime
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from datetime import datetime
 
 db = SQLAlchemy()
 
@@ -185,7 +186,7 @@ class Service(db.Model):
             "business_id": self.business_id,
             "name": self.name,
             "description": self.description,
-            "price": self.price,
+            "price": str(self.price),
             "duration_minutes": self.duration_minutes,
             "status": self.status,
         }
@@ -198,6 +199,7 @@ class Reservas(db.Model):
     service_id: Mapped[int] = mapped_column(ForeignKey("service.id"), nullable=False)
 
     # Campos propios de una reserva
+    appointment_datetime: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     status: Mapped[str] = mapped_column(String(30), nullable=False, default="pendiente")
     notes: Mapped[str] = mapped_column(String(255), nullable=True)
 
@@ -210,13 +212,14 @@ class Reservas(db.Model):
             "id": self.id,
             "client_id": self.client_id,
             "service_id": self.service_id,
-            # Convierte la fecha a string legible para el frontend
+            "appointment_datetime": self.appointment_datetime.isoformat(),
             "status": self.status,
             "notes": self.notes,
             "service_detail": {
             "name": self.service.name,
             "price": str(self.service.price),
-            "business_id": self.service.business_id
+            "business_id": self.service.business_id,
+            "business_name": self.service.business.business_name
             } if self.service else None,
             "client_name": self.client.name if self.client else None
         }

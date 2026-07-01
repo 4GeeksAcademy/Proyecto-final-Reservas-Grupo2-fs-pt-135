@@ -1,0 +1,289 @@
+.client-reservations-page {
+    min-height: 100vh;
+    background: #0b0d0e;
+    color: #ffffff;
+    padding: 40px 0 60px;
+}
+
+/* ===========================
+   HEADER
+=========================== */
+
+.reservations-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.reservations-subtitle {
+    color: #9fa5ab;
+    font-size: 1.1rem;
+    margin-bottom: 0;
+}
+
+/* ===========================
+   RESUMEN
+=========================== */
+
+.summary-card {
+    background: #17191c;
+    border: 1px solid rgba(1, 183, 161, .15);
+    border-radius: 18px;
+    padding: 28px;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    cursor: pointer;
+    transition: all .3s ease;
+}
+
+.summary-card:hover {
+    transform: translateY(-5px);
+    border-color: #34c5b4;
+    box-shadow: 0 0 25px rgba(1,183,161,.18);
+}
+
+.summary-icon {
+    width: 75px;
+    height: 75px;
+    border-radius: 18px;
+    background: rgba(1,183,161,.12);
+    color: #01b7a1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+}
+
+.summary-card h2 {
+    color: #01b7a1;
+    font-size: 2.4rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.summary-card h5 {
+    color: #fff;
+    margin: 4px 0;
+}
+
+.summary-card p {
+    margin: 0;
+    color: #9fa5ab;
+}
+
+/* ===========================
+   TITULOS
+=========================== */
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 45px 0 30px;
+}
+
+.section-title i {
+    color: #01b7a1;
+    font-size: 1.3rem;
+}
+
+.section-title h3 {
+    margin: 0;
+    font-size: 1.7rem;
+    font-weight: 600;
+}
+
+/* ===========================
+   CONTENEDOR
+=========================== */
+
+.reservations-container {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+/* ===========================
+   RESERVATION CARD
+=========================== */
+
+.reservation-card {
+    background: #17191c;
+    border: 1px solid rgba(1,183,161,.15);
+    border-radius: 18px;
+    padding: 24px;
+    transition: all .3s ease;
+    cursor: pointer;
+}
+
+.reservation-card:hover {
+    transform: translateY(-5px);
+    border-color: #34c5b4;
+    box-shadow: 0 0 28px rgba(1,183,161,.18);
+}
+
+.reservation-image {
+    width: 130px;
+    height: 130px;
+    border-radius: 16px;
+    object-fit: cover;
+}
+
+.reservation-business {
+    color: white;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.reservation-service {
+    color: #9fa5ab;
+    margin-bottom: 18px;
+}
+
+.reservation-info {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.reservation-info span {
+    color: #c5cbcf;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.reservation-info i {
+    color: #01b7a1;
+}
+
+.reservation-actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 18px;
+    height: 100%;
+}
+
+
+/* ===========================
+   ESTADOS
+=========================== */
+
+.reservation-status {
+    padding: 7px 15px;
+    border-radius: 50px;
+    font-size: .85rem;
+    font-weight: 600;
+}
+
+.reservation-status.activa {
+    background: rgba(1,183,161,.15);
+    color: #01b7a1;
+}
+
+.reservation-status.completada {
+    background: #2b2d31;
+    color: #d7d7d7;
+}
+
+.reservation-status.cancelada {
+    background: rgba(220,53,69,.15);
+    color: #ff6b6b;
+}
+
+/* ===========================
+   BOTÓN
+=========================== */
+
+.bookify-btn {
+    background: transparent;
+    color: #01b7a1;
+    border: 1px solid #01b7a1;
+    border-radius: 10px;
+    padding: 8px 18px;
+    font-weight: 600;
+    transition: all .3s ease;
+}
+
+.bookify-btn:hover {
+    background: #01b7a1;
+    color: white;
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media (max-width:992px){
+
+    .reservations-title{
+        font-size:2.4rem;
+    }
+
+    .summary-card{
+        padding:22px;
+    }
+
+}
+
+@media (max-width:768px){
+
+    .client-reservations-page{
+        padding-top:25px;
+    }
+
+    .reservations-title{
+        font-size:2rem;
+    }
+
+    .summary-card{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .summary-icon{
+        margin-bottom:10px;
+    }
+
+    .section-title{
+        justify-content:center;
+        margin-top:35px;
+    }
+
+    .reservation-image{
+        width:100%;
+        height:230px;
+        margin-bottom:20px;
+    }
+
+    .reservation-actions{
+        align-items:flex-start;
+        margin-top:25px;
+    }
+
+}
+
+@media (max-width:576px){
+
+    .summary-card h2{
+        font-size:2rem;
+    }
+
+    .summary-card h5{
+        font-size:1.1rem;
+    }
+
+    .reservation-business{
+        font-size:1.5rem;
+    }
+
+    .reservation-info{
+        flex-direction:column;
+        gap:12px;
+    }
+
+}
