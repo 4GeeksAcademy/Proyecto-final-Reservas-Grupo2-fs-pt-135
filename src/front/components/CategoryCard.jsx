@@ -15,7 +15,7 @@ export const CategorySection = () => {
 
   const categorias = [
     {
-      nombre: "Salones",
+      nombre: "Eventos",
       icono: <FaStore />
     },
     {
@@ -23,7 +23,7 @@ export const CategorySection = () => {
       icono: <FaSpa />
     },
     {
-      nombre: "Salud",
+      nombre: "Salud y Bienestar",
       icono: <FaHeartbeat />
     },
     {
@@ -35,11 +35,11 @@ export const CategorySection = () => {
       icono: <FaMoneyBillWave />
     },
     {
-      nombre: "Bienestar",
+      nombre: "Naturaleza",
       icono: <FaLeaf />
     },
     {
-      nombre: "Corte",
+      nombre: "Peluquerías",
       icono: <FaCut />
     },
     {

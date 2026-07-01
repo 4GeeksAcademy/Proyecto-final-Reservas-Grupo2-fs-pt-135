@@ -8,13 +8,13 @@ const professionals = [
         image: "src/front/assets/img/img/barberia.jpeg"
     },
     {
-        name: "Finanzas Style",
+        name: "Flux Capital",
         specialty: "Finanzas de Elite",
         rating: "5.0",
         image: "src/front/assets/img/img/financiera.webp"
     },
     {
-        name: "Laura Spa",
+        name: "Bionatura Spa",
         specialty: "Spa & Wellness",
         rating: "4.8",
         image: "src/front/assets/img/img/Spa.jpg"

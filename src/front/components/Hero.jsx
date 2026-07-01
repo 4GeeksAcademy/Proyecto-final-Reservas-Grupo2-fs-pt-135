@@ -12,23 +12,11 @@ const Hero = () => {
 
         <div className="search-box">
 
-          <input
-            type="text"
-            placeholder="Buscar servicios..."
-          />
+          <input type="text" placeholder="Buscar servicios..." />
+          <input type="date" />
+          <input type="text" placeholder="Ubicación..." />
 
-          <input
-            type="date"
-          />
-
-          <input
-            type="text"
-            placeholder="Ubicación..."
-          />
-
-          <button>
-            BUSCAR
-          </button>
+          <button>BUSCAR</button>
 
         </div>
 

@@ -66,6 +66,8 @@ class ClientProfile(db.Model):
 
     user: Mapped["User"] = relationship(
         "User", back_populates="client_profile")
+    
+    favorite_businesses: Mapped[list["FavoriteBusiness"]] = relationship("FavoriteBusiness", back_populates="client", cascade="all, delete-orphan")
 
     def serialize(self):
         return {
@@ -222,4 +224,27 @@ class Reservas(db.Model):
             "business_name": self.service.business.business_name
             } if self.service else None,
             "client_name": self.client.name if self.client else None
+        }
+
+
+class FavoriteBusiness(db.Model):
+    __tablename__ = "favorite_business"
+
+    id = db.Column(db.Integer, primary_key=True)
+    client_id = db.Column(db.Integer, db.ForeignKey("client_profile.id"), nullable=False)
+    business_id = db.Column(db.Integer, db.ForeignKey("business_profile.id"), nullable=False)
+
+    client = db.relationship("ClientProfile", back_populates="favorite_businesses")
+    business = db.relationship("BusinessProfile")
+
+    __table_args__ = (
+        db.UniqueConstraint("client_id", "business_id", name="unique_client_business_favorite"),
+    )
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "client_id": self.client_id,
+            "business_id": self.business_id,
+            "business": self.business.serialize_search() if self.business else None
         }

@@ -1,97 +1,142 @@
 from flask import Blueprint, request, jsonify
 from datetime import datetime
 from api.models import db, Service, Reservas, ClientProfile
+from flask import request, jsonify
+from flask_jwt_extended import jwt_required, get_jwt_identity
+
+from api.models import db, BusinessProfile, Service
+from . import services
 
 
-reservas = Blueprint("reservas_api", __name__)
+def get_current_business():
+    current_user_id = get_jwt_identity()
+
+    business = BusinessProfile.query.filter_by(
+        user_id=current_user_id
+    ).first()
+
+    return business
 
 
-# --- RUTA PARA OBTENER UNA RESERVA POR ID ---
-@reservas.route('/<int:id>', methods=['GET'])
-def get_reserva(id):
+@services.route("/", methods=["GET"])
+@jwt_required()
+def get_services():
+    business = get_current_business()
 
-    reserva = db.session.get(Reservas, id)
+    if not business:
+        return jsonify({"error": "Business profile not found"}), 404
 
-    if reserva is None:
-        return jsonify({"msg": "Reserva no encontrada"}), 404
+    services_list = Service.query.filter_by(
+        business_id=business.id).all()
 
-    return jsonify(reserva.serialize()), 200
-
-
-# --- RUTA PARA OBTENER RESERVAS DE UN CLIENTE ---
-@reservas.route('/client/<int:client_id>', methods=['GET'])
-def get_reservas_by_client(client_id):
-
-    client = db.session.get(ClientProfile, client_id)
-
-    if client is None:
-        return jsonify({"error": "Cliente no encontrado"}), 404
-
-    reservas_cliente = Reservas.query.filter_by(client_id=client_id).all()
-
-    return jsonify([
-        reserva.serialize() for reserva in reservas_cliente
-    ]), 200
+    return jsonify({"services": [service.serialize() for service in services_list]}), 200
 
 
-# --- RUTA PARA CREAR UNA RESERVA ---
-@reservas.route('', methods=['POST'])
-def create_reserva():
+@services.route("/", methods=["POST"])
+@jwt_required()
+def create_service():
+    business = get_current_business()
 
-    data = request.get_json()
+    if not business:
+        return jsonify({"error": "Business profile not found"}), 404
 
-    if not data:
-        return jsonify({"error": "No se enviaron datos"}), 400
+    data = request.get_json() or {}
 
-    client_id = data.get("client_id")
-    service_id = data.get("service_id")
-    appointment_datetime = data.get("appointment_datetime")
+    name = data.get("name", "").strip()
+    description = data.get("description", "").strip()
+    price = data.get("price")
+    duration_minutes = data.get("duration_minutes")
 
-    if not client_id or not service_id or not appointment_datetime:
+    if not name or price is None or duration_minutes is None:
         return jsonify({
-            "error": "client_id, service_id y appointment_datetime son obligatorios"
+            "error": "name, price and duration_minutes are required"
         }), 400
-
-    if not db.session.get(ClientProfile, client_id):
-        return jsonify({"error": "Cliente no encontrado"}), 404
-
-    if not db.session.get(Service, service_id):
-        return jsonify({"error": "Servicio no encontrado"}), 404
 
     try:
-        parsed_datetime = datetime.fromisoformat(appointment_datetime)
-    except ValueError:
+        price = float(price)
+    except (TypeError, ValueError):
         return jsonify({
-            "error": "appointment_datetime debe tener formato ISO. Ejemplo: 2026-07-01T17:00:00"
+            "error": "price must be a number"
         }), 400
 
-    nueva_reserva = Reservas(
-        client_id=client_id,
-        service_id=service_id,
-        appointment_datetime=parsed_datetime,
-        status=data.get("status", "Activa"),
-        notes=data.get("notes", "")
+    if price <= 0:
+        return jsonify({
+            "error": "price must be greater than 0"
+        }), 400
+
+    try:
+        duration_minutes = int(duration_minutes)
+    except (TypeError, ValueError):
+        return jsonify({
+            "error": "duration_minutes must be a number"
+        }), 400
+
+    if duration_minutes <= 0:
+        return jsonify({
+            "error": "duration_minutes must be greater than 0"
+        }), 400
+
+    if duration_minutes > 480:
+        return jsonify({
+            "error": "duration_minutes cannot be greater than 480"
+        }), 400
+
+    new_service = Service(
+        business_id=business.id,
+        name=name,
+        description=description,
+        price=price,
+        duration_minutes=duration_minutes,
+        status=True
     )
 
-    db.session.add(nueva_reserva)
-    db.session.commit()
-
-    return jsonify(nueva_reserva.serialize()), 201
-
-
-# --- RUTA PARA CANCELAR UNA RESERVA ---
-@reservas.route('/<int:reserva_id>', methods=['DELETE'])
-def delete_reserva(reserva_id):
-
-    reserva = db.session.get(Reservas, reserva_id)
-
-    if not reserva:
-        return jsonify({"error": "Reserva no encontrada"}), 404
-
-    reserva.status = "Cancelada"
+    db.session.add(new_service)
     db.session.commit()
 
     return jsonify({
-        "message": "Reserva cancelada",
-        "reserva": reserva.serialize()
+        "message": "Service created successfully",
+        "service": new_service.serialize()
+    }), 201
+
+
+@services.route("/<int:service_id>", methods=["PUT"])
+@jwt_required()
+def update_service(service_id):
+    business = get_current_business()
+
+    if not business:
+        return jsonify({"error": "Business profile not found"}), 404
+
+    service = Service.query.filter_by(
+        id=service_id,
+        business_id=business.id
+    ).first()
+
+    if not service:
+        return jsonify({"error": "Service not found"}), 404
+
+    data = request.get_json() or {}
+
+    if "name" in data:
+        service.name = data.get("name", "").strip()
+
+    if "description" in data:
+        service.description = data.get("description", "").strip()
+
+    if "price" in data:
+        service.price = data.get("price")
+
+    if "duration_minutes" in data:
+        service.duration_minutes = data.get("duration_minutes")
+
+    if "status" in data:
+        service.status = data.get("status")
+
+    db.session.commit()
+
+    return jsonify({
+        "message": "Service updated successfully",
+        "service": service.serialize()
     }), 200
+
+
