@@ -12,6 +12,7 @@ import { RegisterClient } from "./pages/RegisterClient";
 import { RegisterBusiness } from "./pages/RegisterBusiness";
 import { CreateService } from "./pages/CreateService";
 import { BusinessPortfolio } from "./pages/BusinessPortfolio";
+import { ClientReservations } from "./pages/ClientReservations";
 import Empresas from "./components/Empresas";
 import { EmpresaDetalles } from "./pages/EmpresaDetalles";
 import { ServiciosEmpresa } from "./pages/ServiciosEmpresa.jsx";
@@ -38,6 +39,9 @@ export const router = createBrowserRouter(
       <Route path="/register/business" element={<RegisterBusiness />} />
       <Route path="/services/create" element={<CreateService />} />
       <Route path="/business/portfolio" element={<BusinessPortfolio />} />
+      <Route path="/client/reservations" element={<ClientReservations />} />
+
+
     </>
   )
 );

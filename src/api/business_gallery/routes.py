@@ -57,7 +57,7 @@ def create_gallery_image():
     }), 201
 
 
-@business_gallery.route("/<int:business_profile_id>", methods=["GET"])
+@business_gallery.route("/business/<int:business_profile_id>", methods=["GET"])
 def get_gallery_images(business_profile_id):
 
     images = BusinessGallery.query.filter_by(
@@ -70,7 +70,7 @@ def get_gallery_images(business_profile_id):
     }), 200
 
 
-@business_gallery.route("/<int:image_id>", methods=["DELETE"])
+@business_gallery.route("/image/<int:image_id>", methods=["DELETE"])
 def delete_gallery_image(image_id):
 
     image = BusinessGallery.query.get(image_id)
