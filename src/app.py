@@ -23,6 +23,7 @@ from api.business_portfolio import business_portfolio
 from api.business_gallery import business_gallery
 from api.categories import categories
 from api.favorites import favorites
+from api.reservations import reservations
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(
@@ -83,6 +84,8 @@ app.register_blueprint(categories, url_prefix="/api/categories")
 # Handle/serialize errors like a JSON object
 
 app.register_blueprint(favorites, url_prefix="/api/favorites")
+
+app.register_blueprint(reservations, url_prefix="/api/reservations")
 
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
