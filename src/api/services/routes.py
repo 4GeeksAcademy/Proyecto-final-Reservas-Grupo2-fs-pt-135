@@ -139,4 +139,21 @@ def update_service(service_id):
         "service": service.serialize()
     }), 200
 
+@services.route("/business/<int:business_id>", methods=["GET"])
+def get_business_services(business_id):
+
+    business = BusinessProfile.query.get(business_id)
+
+    if not business:
+        return jsonify({"msg": "Business not found"}), 404
+
+    services = Service.query.filter_by(
+        business_id=business_id,
+        status=True
+    ).all()
+
+    return jsonify({
+        "services": [service.serialize() for service in services]
+    }), 200
+
 
