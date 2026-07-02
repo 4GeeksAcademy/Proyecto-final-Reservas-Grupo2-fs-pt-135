@@ -24,6 +24,7 @@ from api.business_gallery import business_gallery
 from api.categories import categories
 from api.favorites import favorites
 from api.reservations import reservations
+from api.scheduler import start_scheduler
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(
@@ -111,8 +112,12 @@ def serve_any_other_file(path):
     response.cache_control.max_age = 0  # avoid cache memory
     return response
 
+#ejecutar reloj para actualizar estado 
+start_scheduler(app)
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3001))
     app.run(host='0.0.0.0', port=PORT, debug=True)
+
+

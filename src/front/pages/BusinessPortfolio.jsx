@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "../styles/BusinessPortfolio.css";
 
 export const BusinessPortfolio = () => {
     const [logo, setLogo] = useState(null);
@@ -23,11 +24,12 @@ export const BusinessPortfolio = () => {
             if (!businessProfileId) return;
 
             try {
-                const portfolioResponse = await fetch(`${backendUrl}/api/auth/business/portfolio/${businessProfileId}`, {
+                const portfolioResponse = await fetch(`${backendUrl}/api/business-portfolio/${businessProfileId}`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 });
+
 
                 if (portfolioResponse.status === 200) {
                     const portfolioData = await portfolioResponse.json();
@@ -41,7 +43,7 @@ export const BusinessPortfolio = () => {
                     setPortfolioExists(false);
                 }
 
-                const galleryResponse = await fetch(`${backendUrl}/api/auth/business/gallery/${businessProfileId}`, {
+                const galleryResponse = await fetch(`${backendUrl}/api/business-gallery/business/${businessProfileId}`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -97,7 +99,7 @@ export const BusinessPortfolio = () => {
         const token = sessionStorage.getItem("token");
 
         try {
-            const response = await fetch(`${backendUrl}/api/auth/business/gallery/${imageId}`, {
+            const response = await fetch(`${backendUrl}/api/business-gallery/image/${imageId}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -153,8 +155,8 @@ export const BusinessPortfolio = () => {
             }
 
             const portfolioUrl = portfolioExists
-                ? `${backendUrl}/api/auth/business/portfolio/${businessProfileId}`
-                : `${backendUrl}/api/auth/business/portfolio`;
+                ? `${backendUrl}/api/business-portfolio/${businessProfileId}`
+                : `${backendUrl}/api/business-portfolio/`;
 
             const portfolioMethod = portfolioExists ? "PATCH" : "POST";
 
@@ -178,7 +180,7 @@ export const BusinessPortfolio = () => {
                 galleryFormData.append("business_profile_id", businessProfileId);
                 galleryFormData.append("image", image);
 
-                const galleryResponse = await fetch(`${backendUrl}/api/auth/business/gallery`, {
+                const galleryResponse = await fetch(`${backendUrl}/api/business-gallery/`, {
                     method: "POST",
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -212,107 +214,122 @@ export const BusinessPortfolio = () => {
     };
 
     return (
-        <div className="min-vh-100 py-5" style={{ background: "linear-gradient(135deg, #f7f4ff 0%, #f8fbff 100%)" }}>
-            <div className="container">
-                <div className="row justify-content-center">
-                    <div className="col-12 col-lg-8">
-                        <div className="card shadow-lg border-0 rounded-4">
-                            <div className="card-body p-4 p-md-5">
-                                <div className="text-center mb-4">
-                                    <h2 className="fw-bold mb-2">Portafolio de tu negocio</h2>
-                                    <p className="text-muted mb-0">Muestra lo mejor de tu negocio y conecta con más clientes.</p>
+        <main className="business-portfolio-page">
+            <div className="container py-5">
+                <div className="portfolio-header mb-5">
+                    <span className="portfolio-eyebrow">Panel empresa</span>
+                    <h1>Portafolio de tu negocio</h1>
+                    <p>Muestra lo mejor de tu negocio y conecta con más clientes.</p>
+                </div>
+
+                <div className="portfolio-card">
+                    <form onSubmit={handleSubmit}>
+                        <section className="portfolio-logo-section">
+                            <div className="portfolio-logo-upload">
+                                <label className="portfolio-logo-label">
+                                    {logoPreview ? (
+                                        <img src={logoPreview} alt="Logo" />
+                                    ) : (
+                                        <span>Subir<br />logo</span>
+                                    )}
+                                    <input type="file" accept="image/*" onChange={handleLogoChange} hidden />
+                                </label>
+
+                                <div className="portfolio-camera-button">📷</div>
+                            </div>
+
+                            <div>
+                                <h3>Logo del negocio</h3>
+                                <p>Haz clic en el círculo para subir tu logo.</p>
+                                <small>JPG, PNG.</small>
+                            </div>
+                        </section>
+
+                        <section className="portfolio-section">
+                            <div className="portfolio-section-header">
+                                <div>
+                                    <h4>Imágenes del negocio</h4>
+                                    <p>Muestra tu espacio, productos o servicios.</p>
                                 </div>
 
-                                <form onSubmit={handleSubmit}>
-                                    <div className="d-flex flex-column flex-md-row align-items-center gap-4 mb-5">
-                                        <div className="position-relative rounded-circle d-flex align-items-center justify-content-center" style={{ width: "180px", height: "180px", border: "2px dashed #b9a7ff" }}>
-                                            <label className="rounded-circle bg-light d-flex align-items-center justify-content-center overflow-hidden" style={{ width: "140px", height: "140px", cursor: "pointer" }}>
-                                                {logoPreview ? <img src={logoPreview} alt="Logo" className="w-100 h-100 object-fit-cover" /> : <span className="text-muted text-center">Subir<br />logo</span>}
-                                                <input type="file" accept="image/*" onChange={handleLogoChange} hidden />
-                                            </label>
+                                <span className="portfolio-counter">
+                                    {savedGallery.length + images.length}/6
+                                </span>
+                            </div>
 
-                                            <div className="position-absolute bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: "38px", height: "38px", bottom: "10px", right: "10px" }}>
-                                                📷
-                                            </div>
-                                        </div>
+                            <input
+                                type="file"
+                                className="portfolio-file-input"
+                                accept="image/*"
+                                multiple
+                                onChange={handleImagesChange}
+                            />
 
-                                        <div className="text-center text-md-start">
-                                            <h5 className="fw-bold mb-1">Logo del negocio</h5>
-                                            <p className="text-muted mb-0">Haz clic en el círculo para subir tu logo.</p>
-                                            <small className="text-muted">JPG, PNG.</small>
-                                        </div>
+                            <small className="portfolio-help-text">Puedes subir máximo 6 imágenes.</small>
+                        </section>
+
+                        {savedGallery.length > 0 && (
+                            <div className="portfolio-gallery-grid">
+                                {savedGallery.map((image) => (
+                                    <div className="portfolio-image-card" key={image.id}>
+                                        <img src={image.image_url} alt="Imagen guardada" />
+                                        <button type="button" onClick={() => deleteSavedImage(image.id)}>×</button>
                                     </div>
+                                ))}
+                            </div>
+                        )}
 
-                                    <div className="mb-4">
-                                        <div className="d-flex justify-content-between align-items-center mb-2">
-                                            <div>
-                                                <label className="form-label fw-bold mb-0">Imágenes del negocio</label>
-                                                <p className="text-muted small mb-0">Muestra tu espacio, productos o servicios.</p>
-                                            </div>
-                                            <span className="badge rounded-pill text-bg-light border">{savedGallery.length + images.length}/6</span>
-                                        </div>
-
-                                        <input type="file" className="form-control form-control-lg" accept="image/*" multiple onChange={handleImagesChange} />
-                                        <small className="text-muted">Puedes subir máximo 6 imágenes.</small>
+                        {imagesPreview.length > 0 && (
+                            <div className="portfolio-gallery-grid">
+                                {imagesPreview.map((image, index) => (
+                                    <div className="portfolio-image-card" key={index}>
+                                        <img src={image} alt={`Imagen ${index + 1}`} />
+                                        <button type="button" onClick={() => removeImage(index)}>×</button>
                                     </div>
-                                    {savedGallery.length > 0 && (
-                                        <div className="row g-3 mb-4">
-                                            {savedGallery.map((image) => (
-                                                <div className="col-6 col-md-4" key={image.id}>
-                                                    <div className="position-relative">
-                                                        <img src={image.image_url} alt="Imagen guardada" className="img-fluid rounded-3 shadow-sm w-100" style={{ height: "170px", objectFit: "cover" }} />
-                                                        <button type="button" className="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 rounded-circle" style={{ width: "28px", height: "28px", padding: 0 }} onClick={() => deleteSavedImage(image.id)}>×</button>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                    {imagesPreview.length > 0 && (
-                                        <div className="row g-3 mb-4">
-                                            {imagesPreview.map((image, index) => (
-                                                <div className="col-6 col-md-4" key={index}>
-                                                    <div className="position-relative">
-                                                        <img src={image} alt={`Imagen ${index + 1}`} className="img-fluid rounded-3 shadow-sm w-100" style={{ height: "170px", objectFit: "cover" }} />
-                                                        <button type="button" className="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 rounded-circle" style={{ width: "28px", height: "28px", padding: 0 }} onClick={() => removeImage(index)}>×</button>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
+                                ))}
+                            </div>
+                        )}
 
-                                    <div className="mb-4">
-                                        <div className="d-flex justify-content-between align-items-center mb-2">
-                                            <div>
-                                                <label className="form-label fw-bold mb-0">Descripción del negocio</label>
-                                                <p className="text-muted small mb-0">Cuéntales a tus clientes qué haces y qué te hace especial.</p>
-                                            </div>
-                                            <span className="text-muted small">{description.length}/1000</span>
-                                        </div>
+                        <section className="portfolio-section">
+                            <div className="portfolio-section-header">
+                                <div>
+                                    <h4>Descripción del negocio</h4>
+                                    <p>Cuéntales a tus clientes qué haces y qué te hace especial.</p>
+                                </div>
 
-                                        <textarea className="form-control" rows="5" maxLength="1000" placeholder="Describe tu negocio..." value={description} onChange={(e) => setDescription(e.target.value)} />
-                                    </div>
+                                <span className="portfolio-description-count">{description.length}/1000</span>
+                            </div>
 
-                                    <div className="p-3 rounded-3 mb-4" style={{ backgroundColor: "#f6f1ff" }}>
-                                        <h6 className="fw-bold mb-2">Tips para una buena descripción</h6>
-                                        <div className="row small text-muted">
-                                            <div className="col-md-6">✓ Explica claramente qué haces.</div>
-                                            <div className="col-md-6">✓ Cuenta qué te hace diferente.</div>
-                                            <div className="col-md-6">✓ Menciona a quién ayudas.</div>
-                                            <div className="col-md-6">✓ Habla de tus servicios principales.</div>
-                                        </div>
-                                    </div>
+                            <textarea
+                                className="portfolio-textarea"
+                                rows="5"
+                                maxLength="1000"
+                                placeholder="Describe tu negocio..."
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                            />
+                        </section>
 
-                                    <button type="submit" className="btn btn-primary btn-lg w-100 rounded-3" disabled={loading}>
-                                        {loading ? "Guardando..." : "Guardar cambios"}
-                                    </button>
-
-                                    <p className="text-center text-muted small mt-3 mb-0">Tu información está segura y solo tú puedes editarla.</p>
-                                </form>
+                        <div className="portfolio-tips">
+                            <h5>Tips para una buena descripción</h5>
+                            <div>
+                                <span>✓ Explica claramente qué haces.</span>
+                                <span>✓ Cuenta qué te hace diferente.</span>
+                                <span>✓ Menciona a quién ayudas.</span>
+                                <span>✓ Habla de tus servicios principales.</span>
                             </div>
                         </div>
-                    </div>
+
+                        <button type="submit" className="portfolio-submit-button" disabled={loading}>
+                            {loading ? "Guardando..." : "Guardar cambios"}
+                        </button>
+
+                        <p className="portfolio-secure-text">
+                            Tu información está segura y solo tú puedes editarla.
+                        </p>
+                    </form>
                 </div>
             </div>
-        </div>
+        </main>
     );
 }
