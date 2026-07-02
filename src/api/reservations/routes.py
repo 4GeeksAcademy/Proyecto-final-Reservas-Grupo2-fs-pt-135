@@ -3,6 +3,8 @@ from flask import request, jsonify
 from api.models import db, Service, Reservas, ClientProfile
 from . import reservations
 
+from flask_jwt_extended import jwt_required, get_jwt_identity
+
 
 # --- RUTA PARA OBTENER UNA RESERVA ---
 @reservations.route('/<int:id>', methods=['GET'])
@@ -12,7 +14,7 @@ def get_reserva(id):
 
     if reserva is None:
         return jsonify({"msg": "Reserva no encontrada"}), 404
-
+    
     return jsonify(reserva.serialize()), 200
 
 
@@ -74,4 +76,24 @@ def delete_reserva(reserva_id):
 
     return jsonify({
         "message": "Reserva cancelada"
+    }), 200
+
+# --- RUTA PARA OBTENER MIS RESERVAS ACTIVAS ---
+@reservations.route('/me', methods=['GET'])
+@jwt_required()
+def get_my_reservations():
+    user_id = get_jwt_identity()
+
+    client = ClientProfile.query.filter_by(user_id=user_id).first()
+
+    if not client:
+        return jsonify({"msg": "Client profile not found"}), 404
+
+    reservas = Reservas.query.filter(
+        Reservas.client_id == client.id,
+        Reservas.status != "cancelada"
+    ).limit(3).all()
+
+    return jsonify({
+        "reservations": [reserva.serialize() for reserva in reservas]
     }), 200
