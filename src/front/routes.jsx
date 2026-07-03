@@ -18,6 +18,7 @@ import { EmpresaDetalles } from "./pages/EmpresaDetalles";
 import { ServiciosEmpresa } from "./pages/ServiciosEmpresa.jsx";
 import HomeClient from "./pages/HomeClient";
 import Favorites from "./pages/Favorites";
+import ClientProfile from "./pages/ClientProfile";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,12 +29,10 @@ export const router = createBrowserRouter(
         <Route path="demo" element={<Demo />} />
       </Route>
 
-      {/* ESTA RUTA DEBE IR ANTES */}
       <Route path="empresa/:id/servicios" element={<LayoutSinNav />}>
         <Route index element={<ServiciosEmpresa />} />
       </Route>
 
-      {/* ESTA VA DESPUÉS */}
       <Route path="empresa/:id" element={<EmpresaDetalles />} />
 
       <Route path="/login" element={<Login />} />
@@ -45,6 +44,7 @@ export const router = createBrowserRouter(
       <Route path="/home-client" element={<HomeClient />} />
       <Route path="/favorites" element={<Favorites />} />
       <Route path="/client/reservations" element={<ClientReservations />} />
+      <Route path="/client-profile" element={<ClientProfile />} />
     </>
   )
 );
