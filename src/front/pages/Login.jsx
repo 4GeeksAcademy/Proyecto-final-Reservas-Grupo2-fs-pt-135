@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { RegisterRoleModal } from "../components/RegisterRoleModal";
+import "../styles/Login.css";
 
 export const Login = () => {
 
@@ -57,13 +58,15 @@ export const Login = () => {
   };
 
   return (
-    <div className="login-bg min-vh-100 d-flex justify-content-center align-items-center">
+    <div className="login-page">
 
       <div className="login-card">
 
-        <div className="login-icon">
-          📅
-        </div>
+        <img
+          src="/src/front/assets/img/img/bookify-logo.png"
+          alt="Bookify"
+          className="login-logo-img"
+        />
 
         <h2 className="login-title">Iniciar sesión</h2>
 
