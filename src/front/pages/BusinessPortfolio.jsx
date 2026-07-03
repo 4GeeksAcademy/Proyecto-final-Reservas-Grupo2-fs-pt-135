@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/BusinessPortfolio.css";
 
 export const BusinessPortfolio = () => {
@@ -14,6 +15,8 @@ export const BusinessPortfolio = () => {
 
     const [portfolioExists, setPortfolioExists] = useState(false);
     const [savedGallery, setSavedGallery] = useState([]);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const getPortfolioData = async () => {
@@ -322,6 +325,13 @@ export const BusinessPortfolio = () => {
 
                         <button type="submit" className="portfolio-submit-button" disabled={loading}>
                             {loading ? "Guardando..." : "Guardar cambios"}
+                        </button>
+
+                        <button
+                            type="button"
+                            className="portfolio-submit-button mt-3"
+                            onClick={() => navigate("/services/create")}>
+                            Continuar a servicios
                         </button>
 
                         <p className="portfolio-secure-text">

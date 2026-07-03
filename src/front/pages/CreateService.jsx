@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../styles/CreateService.css";
 
 export const CreateService = () => {
     const [name, setName] = useState("");
@@ -53,72 +54,73 @@ export const CreateService = () => {
     };
 
     return (
-        <div className="container d-flex justify-content-center align-items-center min-vh-100">
-            <div className="card shadow p-4" style={{ maxWidth: "600px", width: "100%" }}>
-                <h2 className="text-center mb-4">Crear servicio</h2>
+    <main className="create-service-page">
+        <section className="create-service-card">
+            <div className="create-service-header">
+                <span className="create-service-eyebrow">BOOKIFY</span>
+                <h1>Crear servicio</h1>
+                <p>Agrega los servicios que tus clientes podrán reservar.</p>
+            </div>
 
-                {successMessage && (
-                    <div className="alert alert-success" role="alert">
-                        {successMessage}
-                    </div>
-                )}
+            {successMessage && (
+                <div className="create-service-alert success">
+                    {successMessage}
+                </div>
+            )}
 
-                {errorMessage && (
-                    <div className="alert alert-danger" role="alert">
-                        {errorMessage}
-                    </div>
-                )}
+            {errorMessage && (
+                <div className="create-service-alert error">
+                    {errorMessage}
+                </div>
+            )}
 
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-3">
-                        <label className="form-label">Nombre del servicio</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            value={name}
-                            onChange={(event) => setName(event.target.value)}
-                            placeholder="Ej: Corte de pelo"
-                        />
-                    </div>
+            <form onSubmit={handleSubmit} className="create-service-form">
+                <div className="create-service-field">
+                    <label>Nombre del servicio</label>
+                    <input
+                        type="text"
+                        value={name}
+                        onChange={(event) => setName(event.target.value)}
+                        placeholder="Ej: Corte de pelo"
+                    />
+                </div>
 
-                    <div className="mb-3">
-                        <label className="form-label">Descripción</label>
-                        <textarea
-                            className="form-control"
-                            value={description}
-                            onChange={(event) => setDescription(event.target.value)}
-                            placeholder="Ej: Corte clásico con lavado y peinado"
-                            rows="3"
-                        />
-                    </div>
+                <div className="create-service-field">
+                    <label>Descripción</label>
+                    <textarea
+                        value={description}
+                        onChange={(event) => setDescription(event.target.value)}
+                        placeholder="Ej: Corte clásico con lavado y peinado"
+                        rows="4"
+                    />
+                </div>
 
-                    <div className="mb-3">
-                        <label className="form-label">Precio</label>
+                <div className="create-service-grid">
+                    <div className="create-service-field">
+                        <label>Precio</label>
                         <input
                             type="number"
-                            className="form-control"
                             value={price}
                             onChange={(event) => setPrice(event.target.value)}
                             placeholder="Ej: 20"
                         />
                     </div>
 
-                    <div className="mb-3">
-                        <label className="form-label">Duración en minutos</label>
+                    <div className="create-service-field">
+                        <label>Duración en minutos</label>
                         <input
                             type="number"
-                            className="form-control"
                             value={durationMinutes}
                             onChange={(event) => setDurationMinutes(event.target.value)}
                             placeholder="Ej: 30"
                         />
                     </div>
+                </div>
 
-                    <button type="submit" className="btn btn-primary w-100">
-                        Crear servicio
-                    </button>
-                </form>
-            </div>
-        </div>
-    );
-};
+                <button type="submit" className="create-service-button">
+                    Crear servicio
+                </button>
+            </form>
+        </section>
+    </main>
+);}

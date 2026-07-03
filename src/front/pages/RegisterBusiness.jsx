@@ -47,7 +47,7 @@ export const RegisterBusiness = () => {
         return;
       }
 
-      alert("Empresa registrada correctamente");
+      alert("Empresa registrada correctamente. Ahora inicia sesión para configurar tu negocio.");
       navigate("/login");
     } catch (error) {
       alert("Error al conectar con el servidor");

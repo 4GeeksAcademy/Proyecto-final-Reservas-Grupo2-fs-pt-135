@@ -37,9 +37,11 @@ const CategoriesSection = ({ selectedCategoryId, setSelectedCategoryId }) => {
       <div className="home-categories-grid">
         {visibleCategories.map((category) => (
           <button
+            type="button"
             key={category.id}
-            className={`home-category-card ${selectedCategoryId === category.id ? "active" : ""
-              }`}
+            className={`home-category-card ${
+              Number(selectedCategoryId) === category.id ? "active" : ""
+            }`}
             onClick={() => setSelectedCategoryId(category.id)}
           >
             <i className={`bi ${categoryIcons[category.name] || "bi-tag-fill"}`}></i>
@@ -48,8 +50,10 @@ const CategoriesSection = ({ selectedCategoryId, setSelectedCategoryId }) => {
         ))}
 
         <button
-          className={`home-category-card home-category-card-small ${selectedCategoryId === "" ? "active" : ""
-            }`}
+          type="button"
+          className={`home-category-card home-category-card-small ${
+            selectedCategoryId === "" ? "active" : ""
+          }`}
           onClick={() => {
             setSelectedCategoryId("");
             setShowAllCategories(!showAllCategories);
