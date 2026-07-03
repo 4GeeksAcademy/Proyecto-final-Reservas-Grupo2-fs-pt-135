@@ -2,8 +2,8 @@
 /* VARIABLES DE COLORES      */
 /* ========================= */
 :root {
-  --primary: #01b7a1;       
-  --primary-hover: #34c5b4; 
+  --primary: #01b7a1;
+  --primary-hover: #34c5b4;
   --secondary: #67d4c7;
   --light: #ccf1ec;
 }
@@ -40,8 +40,8 @@ body {
 }
 
 .logo-img {
-    height: 60px;
-    width: auto;
+  height: 60px;
+  width: auto;
 }
 
 .nav-links {
@@ -67,7 +67,7 @@ body {
     var(--turq-5)
   );
   -webkit-background-clip: text;
-  color: transparent;
+  -webkit-text-fill-color: rgba(120, 233, 224, 0.923);
 }
 
 .btn-nav {
@@ -268,7 +268,7 @@ body {
 
   margin-bottom: 20px;
 
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 }
 
 .elite-card:hover .professional-image {
@@ -339,10 +339,10 @@ body {
 
 .info-image img {
   width: 100%;
-  max-width: 550px;     
+  max-width: 550px;
   height: auto;
   object-fit: contain;
-  transition: transform .35s ease;
+  transition: transform 0.35s ease;
 }
 
 .info-image img:hover {
@@ -500,7 +500,12 @@ body {
 }
 
 .cobre-metalizado {
-  background: linear-gradient(90deg, var(--turq-1), var(--turq-3), var(--turq-1));
+  background: linear-gradient(
+    90deg,
+    var(--turq-1),
+    var(--turq-3),
+    var(--turq-1)
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
