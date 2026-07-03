@@ -74,6 +74,18 @@ def update_business_profile():
     }), 200
 
 
+@business_profile.route("/<int:business_profile_id>", methods=["GET"])
+def get_public_business_profile(business_profile_id):
+    profile = BusinessProfile.query.get(business_profile_id)
+
+    if not profile:
+        return jsonify({"msg": "Business profile not found"}), 404
+
+    return jsonify({
+        "business_profile": profile.serialize_search()
+    }), 200
+
+
 @business_profile.route("/search", methods=["GET"])
 def search_business_profiles():
     city = request.args.get("city", "").strip()
