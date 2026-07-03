@@ -3,14 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { RegisterRoleModal } from "../components/RegisterRoleModal";
 import "../styles/Login.css";
 
-export const Login = () => {
+import bookifyLogo from "../assets/img/img/bookify-logo.png";
+import loginImage from "../assets/img/img/IMG-LOGIN.png";
 
+export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showModal, setShowModal] = useState(false);
 
   const navigate = useNavigate();
-
   const API_URL = import.meta.env.VITE_BACKEND_URL;
 
   const handleSubmit = async (event) => {
@@ -22,10 +23,7 @@ export const Login = () => {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-          email,
-          password
-        })
+        body: JSON.stringify({ email, password })
       });
 
       const data = await response.json();
@@ -43,7 +41,6 @@ export const Login = () => {
       }
 
       const roleName = data.user.role === "client" ? "Cliente" : "Empresa";
-
       alert(`Login exitoso como ${roleName}`);
 
       if (data.user.role === "business") {
@@ -60,60 +57,71 @@ export const Login = () => {
   return (
     <div className="login-page">
 
-      <div className="login-card">
+      <div className="login-layout">
 
-        <img
-          src="/src/front/assets/img/img/bookify-logo.png"
-          alt="Bookify"
-          className="login-logo-img"
-        />
+        <div className="login-image-section">
+          <img
+            src={loginImage}
+            alt="Reservas Bookify"
+            className="login-hero-img"
+          />
+        </div>
 
-        <h2 className="login-title">Iniciar sesión</h2>
+        <div className="login-form-section">
+          <div className="login-card">
 
-        <p className="login-subtitle">
-          Accede a tu cuenta para continuar
-        </p>
-
-        <form onSubmit={handleSubmit}>
-
-          <div className="login-input-group">
-            <input
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              placeholder="Correo electrónico"
-              required
+            <img
+              src={bookifyLogo}
+              alt="Bookify"
+              className="login-logo-img"
             />
+
+            <h2 className="login-title">Iniciar sesión</h2>
+
+            <p className="login-subtitle">
+              Accede a tu cuenta para continuar
+            </p>
+
+            <form onSubmit={handleSubmit}>
+
+              <div className="login-input-group">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  placeholder="Correo electrónico"
+                  required
+                />
+              </div>
+
+              <div className="login-input-group">
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  placeholder="Contraseña"
+                  required
+                />
+              </div>
+
+              <button type="submit" className="login-button">
+                Entrar
+              </button>
+
+            </form>
+
+            <p className="register-text">
+              ¿No tienes cuenta?{" "}
+              <button
+                type="button"
+                onClick={() => setShowModal(true)}
+              >
+                Regístrate
+              </button>
+            </p>
+
           </div>
-
-          <div className="login-input-group">
-            <input
-              type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              placeholder="Contraseña"
-              required
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="login-button"
-          >
-            Entrar
-          </button>
-
-        </form>
-
-        <p className="register-text">
-          ¿No tienes cuenta?{" "}
-          <button
-            type="button"
-            onClick={() => setShowModal(true)}
-          >
-            Regístrate
-          </button>
-        </p>
+        </div>
 
       </div>
 
