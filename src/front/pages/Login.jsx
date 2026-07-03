@@ -49,7 +49,7 @@ export const Login = () => {
       if (data.user.role === "business") {
         navigate("/business/portfolio");
       } else {
-        navigate("/");
+        navigate("/home-client");
       }
 
     } catch (error) {
