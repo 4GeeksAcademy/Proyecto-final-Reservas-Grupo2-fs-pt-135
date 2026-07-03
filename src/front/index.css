@@ -645,7 +645,8 @@ body {
 .home-eyebrow {
   color: #01b7a1;
   font-weight: 700;
-  margin-bottom: 12px;
+  font-size: 1.7rem;
+  margin-bottom: 16px;
 }
 
 .home-title {
@@ -659,7 +660,10 @@ body {
 .home-search-box {
   display: flex;
   gap: 14px;
-  max-width: 760px;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  backdrop-filter: blur(10px);
   background: #121212;
   border: 1px solid rgba(1, 183, 161, 0.25);
   border-radius: 18px;
@@ -706,7 +710,7 @@ body {
 }
 
 .home-header-logo img {
-  height: 44px;
+  height: 64px;
   display: block;
 }
 
@@ -1285,4 +1289,574 @@ body {
 .reservation-modal-confirm {
   background: #01b7a1;
   color: #ffffff;
+}
+
+/* =========================
+   RESPONSIVE HOME CLIENT
+========================= */
+
+@media (max-width: 1024px) {
+  .home-section-container {
+    padding: 0 2rem;
+  }
+
+  .home-categories-grid,
+  .nearby-businesses-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .business-detail-container {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .home-header {
+    padding: 1rem 1.5rem;
+  }
+
+  .home-header-logo img {
+    max-width: 130px;
+  }
+
+  .home-section-container {
+    padding: 0 1rem;
+  }
+
+  .home-section-title {
+    font-size: 1.4rem;
+  }
+
+  .home-search-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .home-search-title {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+
+  .home-search-form {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .home-search-form input,
+  .home-search-form button {
+    width: 100%;
+  }
+
+  .home-categories-grid,
+  .nearby-businesses-grid,
+  .favorites-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-category-card {
+    min-height: 90px;
+  }
+
+  .business-card,
+  .favorite-card,
+  .reservation-card {
+    width: 100%;
+  }
+
+  .business-detail-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .business-detail-container {
+    padding: 1rem;
+  }
+
+  .business-detail-actions {
+    width: 100%;
+  }
+
+  .business-detail-actions button {
+    width: 100%;
+  }
+
+  .service-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .service-card button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-header {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .home-header-favorites {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .home-search-title {
+    font-size: 1.5rem;
+  }
+
+  .home-search-subtitle {
+    font-size: 0.95rem;
+    text-align: center;
+  }
+
+  .home-category-card i {
+    font-size: 1.5rem;
+  }
+
+  .home-category-card span {
+    font-size: 0.9rem;
+  }
+
+  .reservation-modal-content {
+    width: 90%;
+    padding: 1.5rem;
+  }
+
+  .reservation-modal-actions {
+    flex-direction: column;
+  }
+
+  .reservation-modal-actions button {
+    width: 100%;
+  }
+}
+
+/* FIX MOBILE OVERFLOW HOME CLIENT */
+@media (max-width: 768px) {
+  .home-client-page {
+    overflow-x: hidden;
+  }
+
+  .home-search-section,
+  .home-section-container,
+  .nearby-businesses-section {
+    width: 100%;
+    max-width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    box-sizing: border-box;
+  }
+
+  .home-search-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .home-search-form input,
+  .home-search-form button {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .home-categories-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-category-card {
+    width: 100%;
+  }
+}
+
+/* ================= HOME CLIENT - USER MENU ================= */
+
+.home-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.home-user-menu {
+  position: relative;
+}
+
+.home-user-button {
+  border: 1px solid rgba(1, 183, 161, 0.35);
+  background: rgba(18, 18, 18, 0.9);
+  color: #ffffff;
+  border-radius: 14px;
+  padding: 8px 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.home-user-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #01b7a1;
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+}
+
+.home-user-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  min-width: 190px;
+  background: #121212;
+  border: 1px solid rgba(1, 183, 161, 0.25);
+  border-radius: 14px;
+  padding: 8px;
+  z-index: 20;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+}
+
+.home-user-dropdown button {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  padding: 10px 12px;
+  border-radius: 10px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.home-user-dropdown button:hover {
+  background: rgba(1, 183, 161, 0.12);
+}
+
+@media (max-width: 768px) {
+  .home-header {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .home-header-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .home-header-favorites,
+  .home-user-menu,
+  .home-user-button {
+    width: 100%;
+  }
+
+  .home-user-button,
+  .home-header-favorites {
+    justify-content: center;
+  }
+
+  .home-user-dropdown {
+    width: 100%;
+  }
+}
+
+/* ================= CLIENT PROFILE PAGE ================= */
+
+.client-profile-page {
+  min-height: 70vh;
+  padding: 4rem 1rem;
+  display: flex;
+  justify-content: center;
+  background: #f7f9fb;
+}
+
+.client-profile-card {
+  width: 100%;
+  max-width: 520px;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 2.5rem;
+  text-align: center;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.08);
+}
+
+.client-profile-avatar {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  background: #01b7a1;
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+  font-weight: 900;
+  margin: 0 auto 1rem;
+}
+
+.client-profile-card h1 {
+  font-weight: 900;
+  margin-bottom: 0.5rem;
+}
+
+.client-profile-subtitle {
+  color: #6c757d;
+  margin-bottom: 2rem;
+}
+
+.client-profile-info {
+  display: grid;
+  gap: 1rem;
+  text-align: left;
+  margin-bottom: 2rem;
+}
+
+.client-profile-info div {
+  background: #f3f6f8;
+  border-radius: 16px;
+  padding: 1rem;
+}
+
+.client-profile-info span {
+  display: block;
+  color: #6c757d;
+  font-size: 0.85rem;
+  margin-bottom: 0.25rem;
+}
+
+.client-profile-info strong {
+  color: #121212;
+}
+
+.client-profile-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.client-profile-btn {
+  flex: 1;
+  border: none;
+  border-radius: 14px;
+  padding: 0.9rem;
+  font-weight: 800;
+  text-decoration: none;
+  text-align: center;
+}
+
+.client-profile-btn.secondary {
+  background: #e9ecef;
+  color: #121212;
+}
+
+.client-profile-btn.danger {
+  background: #dc3545;
+  color: #ffffff;
+}
+
+@media (max-width: 576px) {
+  .client-profile-card {
+    padding: 1.5rem;
+  }
+
+  .client-profile-actions {
+    flex-direction: column;
+  }
+}
+
+/* ================= CLIENT PROFILE DARK THEME ================= */
+
+.client-profile-page {
+  min-height: 75vh;
+  padding: 5rem 1rem;
+  display: flex;
+  justify-content: center;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(1, 183, 161, 0.16),
+      transparent 34%
+    ),
+    #050505;
+}
+
+.client-profile-card {
+  width: 100%;
+  max-width: 540px;
+  background: #121212;
+  border: 1px solid rgba(1, 183, 161, 0.25);
+  border-radius: 28px;
+  padding: 2.7rem;
+  text-align: center;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+.client-profile-card h1 {
+  color: #ffffff;
+  font-weight: 900;
+}
+
+.client-profile-avatar {
+  background: #01b7a1;
+  color: #ffffff;
+}
+
+.client-profile-subtitle {
+  color: #b8c3c1;
+}
+
+.client-profile-info div {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(1, 183, 161, 0.16);
+}
+
+.client-profile-info span {
+  color: #8fa6a2;
+}
+
+.client-profile-info strong {
+  color: #ffffff;
+}
+
+.client-profile-btn.secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.client-profile-btn.secondary:hover {
+  background: rgba(1, 183, 161, 0.16);
+}
+
+.client-profile-btn.danger {
+  background: #dc3545;
+  color: #ffffff;
+}
+
+.client-profile-btn.danger:hover {
+  background: #bb2d3b;
+}
+
+/* ================= HOME CLIENT HERO IMAGE ================= */
+
+.home-search-section {
+  min-height: 72vh;
+  padding: 110px 24px 70px;
+  display: flex;
+  align-items: center;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.58) 0%,
+      rgba(0, 0, 0, 0.35) 45%,
+      rgba(0, 0, 0, 0.12) 100%
+    ),
+    url("/src/front/assets/img/img/HeroHomeClient.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.home-search-content {
+  max-width: 1180px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.home-title {
+  max-width: 760px;
+  text-align: center;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+.home-search-box {
+  backdrop-filter: blur(10px);
+  background: rgba(18, 18, 18, 0.72);
+}
+
+@media (max-width: 768px) {
+  .home-search-section {
+    min-height: 70vh;
+    padding: 80px 1rem 55px;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.7) 0%,
+        rgba(0, 0, 0, 0.45) 50%,
+        rgba(0, 0, 0, 0.65) 100%
+      ),
+      url("/src/front/assets/img/img/HeroHomeClient.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+}
+
+/* ================= HOME CLIENT - RESERVATIONS SECTION ================= */
+
+.home-reservations-card {
+  background: #111;
+  border: 1px solid rgba(19, 201, 189, 0.18);
+  border-radius: 18px;
+  padding: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+}
+
+.home-reservations-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.home-reservations-info i {
+  font-size: 2rem;
+  color: #13c9bd;
+}
+
+.home-reservations-info h4 {
+  color: #fff;
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.home-reservations-info p {
+  color: #9f9f9f;
+  margin: 0;
+  max-width: 520px;
+}
+
+.home-reservations-btn {
+  background: #13c9bd;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 28px;
+  font-weight: 600;
+  transition: 0.25s;
+  white-space: nowrap;
+  text-decoration: none;
+  text-align: center;
+}
+
+.home-reservations-btn:hover {
+  background: #0fb3a8;
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .home-reservations-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .home-reservations-btn {
+    width: 100%;
+  }
 }
