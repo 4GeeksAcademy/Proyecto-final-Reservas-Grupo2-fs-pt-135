@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import "../styles/RegisterBusiness.css";
 
 export const RegisterBusiness = () => {
     const API_URL = import.meta.env.VITE_BACKEND_URL;
@@ -58,26 +59,57 @@ export const RegisterBusiness = () => {
     };
 
     return (
-        <div className="container d-flex justify-content-center align-items-center min-vh-100">
-            <div className="card shadow p-4" style={{ maxWidth: "600px", width: "100%" }}>
+        <div className="register-business-page">
 
-                <h2 className="text-center mb-4">Registrar empresa</h2>
+            <div className="register-business-card">
 
-                <form onSubmit={handleSubmit}>
+                <span className="register-business-eyebrow">
+                    BOOKIFY
+                </span>
 
-                    <div className="mb-3">
-                        <label className="form-label">Nombre del negocio</label>
-                        <input type="text" className="form-control" value={businessName} onChange={(event) => setBusinessName(event.target.value)} placeholder="Ej: Barbería Premium" />
+                <h2>Registrar empresa</h2>
+
+                <p>
+                    Crea el perfil de tu negocio y comienza a recibir reservas desde hoy.
+                </p>
+
+                <form
+                    onSubmit={handleSubmit}
+                    className="register-business-form"
+                >
+
+                    <div className="register-business-input-group">
+                        <label>Nombre del negocio</label>
+                        <input
+                            type="text"
+                            className="register-business-input"
+                            value={businessName}
+                            onChange={(event) => setBusinessName(event.target.value)}
+                            placeholder="Ej: Barbería Premium"
+                            required
+                        />
                     </div>
 
-                    <div className="mb-3">
-                        <label className="form-label">Teléfono</label>
-                        <input type="text" className="form-control" value={phone} onChange={(event) => setPhone(event.target.value)} placeholder="Teléfono del negocio" />
+                    <div className="register-business-input-group">
+                        <label>Teléfono</label>
+                        <input
+                            type="text"
+                            className="register-business-input"
+                            value={phone}
+                            onChange={(event) => setPhone(event.target.value)}
+                            placeholder="Teléfono del negocio"
+                            required
+                        />
                     </div>
 
-                    <div className="mb-3">
-                        <label className="form-label">Categoría</label>
-                        <select className="form-select" value={category} onChange={(event) => setCategory(event.target.value)}>
+                    <div className="register-business-input-group">
+                        <label>Categoría</label>
+                        <select
+                            className="register-business-input"
+                            value={category}
+                            onChange={(event) => setCategory(event.target.value)}
+                            required
+                        >
                             <option value="">Selecciona una categoría</option>
                             <option value="barberia">Barbería</option>
                             <option value="peluqueria">Peluquería</option>
@@ -93,56 +125,121 @@ export const RegisterBusiness = () => {
                     </div>
 
                     {category === "otros" && (
-                        <div className="mb-3">
-                            <label className="form-label">Especifica la categoría</label>
-                            <input type="text" className="form-control" value={otherCategory} onChange={(event) => setOtherCategory(event.target.value)} placeholder="Escribe la categoría" />
+                        <div className="register-business-input-group">
+                            <label>Especifica la categoría</label>
+                            <input
+                                type="text"
+                                className="register-business-input"
+                                value={otherCategory}
+                                onChange={(event) => setOtherCategory(event.target.value)}
+                                placeholder="Escribe la categoría"
+                                required
+                            />
                         </div>
                     )}
 
-                    <div className="mb-3">
-                        <label className="form-label">País</label>
-                        <input type="text" className="form-control" value={country} onChange={(event) => setCountry(event.target.value)} placeholder="País" />
+                    <div className="register-business-input-group">
+                        <label>País</label>
+                        <input
+                            type="text"
+                            className="register-business-input"
+                            value={country}
+                            onChange={(event) => setCountry(event.target.value)}
+                            placeholder="País"
+                            required
+                        />
                     </div>
 
-                    <div className="mb-3">
-                        <label className="form-label">Provincia</label>
-                        <input type="text" className="form-control" value={province} onChange={(event) => setProvince(event.target.value)} placeholder="Provincia" />
+                    <div className="register-business-input-group">
+                        <label>Provincia</label>
+                        <input
+                            type="text"
+                            className="register-business-input"
+                            value={province}
+                            onChange={(event) => setProvince(event.target.value)}
+                            placeholder="Provincia"
+                            required
+                        />
                     </div>
 
-                    <div className="mb-3">
-                        <label className="form-label">Ciudad</label>
-                        <input type="text" className="form-control" value={city} onChange={(event) => setCity(event.target.value)} placeholder="Ciudad" />
+                    <div className="register-business-input-group">
+                        <label>Ciudad</label>
+                        <input
+                            type="text"
+                            className="register-business-input"
+                            value={city}
+                            onChange={(event) => setCity(event.target.value)}
+                            placeholder="Ciudad"
+                            required
+                        />
                     </div>
 
-                    <div className="mb-3">
-                        <label className="form-label">Código postal</label>
-                        <input type="text" className="form-control" value={postalCode} onChange={(event) => setPostalCode(event.target.value)} placeholder="Código postal" />
+                    <div className="register-business-input-group">
+                        <label>Código postal</label>
+                        <input
+                            type="text"
+                            className="register-business-input"
+                            value={postalCode}
+                            onChange={(event) => setPostalCode(event.target.value)}
+                            placeholder="Código postal"
+                            required
+                        />
                     </div>
 
-                    <div className="mb-3">
-                        <label className="form-label">Dirección</label>
-                        <input type="text" className="form-control" value={address} onChange={(event) => setAddress(event.target.value)} placeholder="Dirección del negocio" />
+                    <div className="register-business-input-group">
+                        <label>Dirección</label>
+                        <input
+                            type="text"
+                            className="register-business-input"
+                            value={address}
+                            onChange={(event) => setAddress(event.target.value)}
+                            placeholder="Dirección del negocio"
+                            required
+                        />
                     </div>
 
-                    <div className="mb-3">
-                        <label className="form-label">Correo electrónico</label>
-                        <input type="email" className="form-control" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="empresa@email.com" />
+                    <div className="register-business-input-group">
+                        <label>Correo electrónico</label>
+                        <input
+                            type="email"
+                            className="register-business-input"
+                            value={email}
+                            onChange={(event) => setEmail(event.target.value)}
+                            placeholder="empresa@email.com"
+                            required
+                        />
                     </div>
 
-                    <div className="mb-3">
-                        <label className="form-label">Contraseña</label>
-                        <input type="password" className="form-control" value={password} onChange={(event) => setPassword(event.target.value)} placeholder="Mínimo 8 caracteres" />
+                    <div className="register-business-input-group">
+                        <label>Contraseña</label>
+                        <input
+                            type="password"
+                            className="register-business-input"
+                            value={password}
+                            onChange={(event) => setPassword(event.target.value)}
+                            placeholder="Mínimo 8 caracteres"
+                            required
+                        />
                     </div>
 
-                    <button type="submit" className="btn btn-success w-100">Registrar empresa</button>
+                    <button
+                        type="submit"
+                        className="register-business-button"
+                    >
+                        Registrar empresa
+                    </button>
 
                 </form>
 
-                <p className="text-center mt-3 mb-0">
-                    ¿Ya tienes cuenta? <Link to="/login">Inicia sesión</Link>
+                <p className="register-business-login-text">
+                    ¿Ya tienes cuenta?{" "}
+                    <Link to="/login">
+                        Inicia sesión
+                    </Link>
                 </p>
 
             </div>
+
         </div>
     );
 };
