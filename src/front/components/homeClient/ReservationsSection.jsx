@@ -34,7 +34,7 @@ const ReservationsSection = () => {
       <div className="home-section-header">
         <h2 className="home-section-title">Reservas activas</h2>
 
-        <Link to="/reservations" className="home-section-link">
+        <Link to="/client/reservations" className="home-section-link">
           Gestionar reservas
         </Link>
       </div>
