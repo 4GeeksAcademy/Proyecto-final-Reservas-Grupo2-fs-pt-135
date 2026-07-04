@@ -39,7 +39,9 @@ const SearchBar = ({ setCitySearch }) => {
         </p>
 
         <h1 className="home-title">
-          Encuentra y reserva servicios cerca de ti
+          Encuentra y reserva
+          <br />
+          <span>servicios cerca de ti</span>
         </h1>
 
         <form className="home-search-box" onSubmit={handleSearch}>
