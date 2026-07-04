@@ -17,6 +17,7 @@ import Empresas from "./components/Empresas";
 import { EmpresaDetalles } from "./pages/EmpresaDetalles";
 import { ServiciosEmpresa } from "./pages/ServiciosEmpresa.jsx";
 import HomeClient from "./pages/HomeClient";
+import HomeEmpresa from "./pages/HomeEmpresa";
 import Favorites from "./pages/Favorites";
 import ClientProfile from "./pages/ClientProfile";
 
@@ -42,6 +43,7 @@ export const router = createBrowserRouter(
       <Route path="/business/portfolio" element={<BusinessPortfolio />} />
 
       <Route path="/home-client" element={<HomeClient />} />
+      <Route path="/home-business" element={<HomeEmpresa />} />
       <Route path="/favorites" element={<Favorites />} />
       <Route path="/client/reservations" element={<ClientReservations />} />
       <Route path="/client-profile" element={<ClientProfile />} />

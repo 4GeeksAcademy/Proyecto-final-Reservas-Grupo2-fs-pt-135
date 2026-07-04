@@ -207,6 +207,7 @@ export const BusinessPortfolio = () => {
             setImagesPreview([]);
 
             alert("Portafolio guardado correctamente");
+            navigate("/services/create");
 
         } catch (error) {
             console.error(error);
@@ -325,13 +326,6 @@ export const BusinessPortfolio = () => {
 
                         <button type="submit" className="portfolio-submit-button" disabled={loading}>
                             {loading ? "Guardando..." : "Guardar cambios"}
-                        </button>
-
-                        <button
-                            type="button"
-                            className="portfolio-submit-button mt-3"
-                            onClick={() => navigate("/services/create")}>
-                            Continuar a servicios
                         </button>
 
                         <p className="portfolio-secure-text">
