@@ -14,6 +14,33 @@ export const Login = () => {
   const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_BACKEND_URL;
 
+  const checkBusinessSetup = async (token) => {
+    const response = await fetch(`${API_URL}/api/business-profile/setup-status`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      navigate("/business/portfolio");
+      return;
+    }
+
+    if (!data.has_portfolio) {
+      navigate("/business/portfolio");
+      return;
+    }
+
+    if (!data.has_working_schedule || !data.has_services) {
+      navigate("/services/create");
+      return;
+    }
+
+    navigate("/home-business");
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -44,10 +71,11 @@ export const Login = () => {
       alert(`Login exitoso como ${roleName}`);
 
       if (data.user.role === "business") {
-        navigate("/business/portfolio");
-      } else {
-        navigate("/home-client");
+        await checkBusinessSetup(data.token);
+        return;
       }
+
+      navigate("/home-client");
 
     } catch (error) {
       alert("Error al conectar con el servidor");
@@ -56,9 +84,7 @@ export const Login = () => {
 
   return (
     <div className="login-page">
-
       <div className="login-layout">
-
         <div className="login-image-section">
           <img
             src={loginImage}
@@ -69,7 +95,6 @@ export const Login = () => {
 
         <div className="login-form-section">
           <div className="login-card">
-
             <img
               src={bookifyLogo}
               alt="Bookify"
@@ -83,7 +108,6 @@ export const Login = () => {
             </p>
 
             <form onSubmit={handleSubmit}>
-
               <div className="login-input-group">
                 <input
                   type="email"
@@ -107,7 +131,6 @@ export const Login = () => {
               <button type="submit" className="login-button">
                 Entrar
               </button>
-
             </form>
 
             <p className="register-text">
@@ -119,17 +142,14 @@ export const Login = () => {
                 Regístrate
               </button>
             </p>
-
           </div>
         </div>
-
       </div>
 
       <RegisterRoleModal
         showModal={showModal}
         setShowModal={setShowModal}
       />
-
     </div>
   );
 };
