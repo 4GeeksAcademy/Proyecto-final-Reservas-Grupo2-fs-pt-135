@@ -1,10 +1,38 @@
 from flask import request, jsonify
 from datetime import datetime
 
-from api.models import db, Service, Reservas, ClientProfile
+from api.models import db, Service, Reservas, ClientProfile, BusinessProfile
 from . import reservations
 
 from flask_jwt_extended import jwt_required, get_jwt_identity
+
+
+@reservations.route('/business/me', methods=['GET'])
+@jwt_required()
+def get_my_business_reservations():
+    user_id = int(get_jwt_identity())
+
+    business = BusinessProfile.query.filter_by(user_id=user_id).first()
+
+    if not business:
+        return jsonify({"msg": "Business profile not found"}), 404
+
+    services = Service.query.filter_by(business_id=business.id).all()
+    service_ids = [service.id for service in services]
+
+    if not service_ids:
+        return jsonify({
+            "reservations": []
+        }), 200
+
+    reservas = Reservas.query.filter(
+        Reservas.service_id.in_(service_ids),
+        Reservas.status != "Cancelada"
+    ).all()
+
+    return jsonify({
+        "reservations": [reserva.serialize() for reserva in reservas]
+    }), 200
 
 
 @reservations.route('/<int:id>', methods=['GET'])
@@ -102,6 +130,7 @@ def get_my_reservations():
 
 
 @reservations.route('/<int:reserva_id>/cancel', methods=['PATCH'])
+@jwt_required()
 def cancel_reserva(reserva_id):
     reserva = db.session.get(Reservas, reserva_id)
 
