@@ -31,15 +31,11 @@ const HomeClient = () => {
           HOME CLIENT - HEADER
           Logo + acceso a Favoritos.
       =========================================================== */}
-      <HomeHeader />
+      <section className="home-hero-wrapper">
+        <HomeHeader />
 
-      {/* ===========================================================
-          HOME CLIENT - SEARCH
-          Permite buscar empresas por ciudad.
-          Actualiza el estado "citySearch".
-      =========================================================== */}
-      <SearchBar setCitySearch={setCitySearch} />
-
+        <SearchBar setCitySearch={setCitySearch} />
+      </section>
       {/* ===========================================================
           HOME CLIENT - CATEGORIES
           Muestra las categorías disponibles desde el backend.

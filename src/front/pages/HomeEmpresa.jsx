@@ -9,9 +9,10 @@ import Footer from "../components/Footer";
 export default function HomeEmpresa() {
   return (
     <main className="business-home-page">
-  <BusinessHeader />
-
-  <BusinessHero />
+  <section className="home-hero-wrapper">
+    <BusinessHeader />
+    <BusinessHero />
+  </section>
 
   <section className="business-home-container">
     <BusinessQuickActions />

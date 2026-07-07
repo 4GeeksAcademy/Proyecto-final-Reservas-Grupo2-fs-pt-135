@@ -34,9 +34,6 @@ const SearchBar = ({ setCitySearch }) => {
   return (
     <section className="home-search-section">
       <div className="home-search-content">
-        <p className="home-eyebrow">
-          {clientName ? `Hola, ${clientName} 👋` : "Hola 👋"}
-        </p>
 
         <h1 className="home-title">
           Encuentra y reserva
