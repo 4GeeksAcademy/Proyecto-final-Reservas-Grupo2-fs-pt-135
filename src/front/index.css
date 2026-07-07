@@ -1783,7 +1783,7 @@ body {
       rgba(0, 0, 0, 0.35) 45%,
       rgba(0, 0, 0, 0.12) 100%
     ),
-    url("/src/front/assets/img/img/HeroHomeClient.png");
+    url("/src/front/assets/img/img/hero.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -1820,7 +1820,7 @@ body {
         rgba(0, 0, 0, 0.45) 50%,
         rgba(0, 0, 0, 0.65) 100%
       ),
-      url("/src/front/assets/img/img/HeroHomeClient.png");
+      url("/src/front/assets/img/img/hero.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -1892,6 +1892,7 @@ body {
   }
 }
 
+
 /* ===========================================================
    BUSINESS HOME PAGE
 =========================================================== */
@@ -1918,7 +1919,7 @@ body {
       rgba(0, 0, 0, 0.42) 48%,
       rgba(0, 0, 0, 0.15) 100%
     ),
-    url("/src/front/assets/img/img/HeroHomeClient.png");
+    url("/src/front/assets/img/img/hero.png");
 
   background-size: cover;
   background-position: center;
@@ -1962,9 +1963,9 @@ body {
 
   margin-top: 30px;
 
-  background: rgba(18,18,18,.75);
+  background: rgba(18, 18, 18, 0.75);
 
-  border: 1px solid rgba(1,183,161,.25);
+  border: 1px solid rgba(1, 183, 161, 0.25);
 
   padding: 14px 22px;
 
@@ -1973,354 +1974,348 @@ body {
   font-weight: 700;
 }
 
-.business-home-hero-badge i{
-    color:#01b7a1;
+.business-home-hero-badge i {
+  color: #01b7a1;
 }
 
 /* ================= CONTAINER ================= */
 
-.business-home-container{
+.business-home-container {
+  max-width: 1180px;
 
-    max-width:1180px;
+  margin: auto;
 
-    margin:auto;
-
-    padding:60px 24px 90px;
-
+  padding: 60px 24px 90px;
 }
 
 /* ================= QUICK ACTIONS ================= */
 
-.business-quick-actions{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:22px;
-    margin-bottom:45px;
+.business-quick-actions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+  margin-bottom: 45px;
 }
 
-.business-action-card{
+.business-action-card {
+  background: #121212;
 
-    background:#121212;
+  border: 1px solid rgba(1, 183, 161, 0.2);
 
-    border:1px solid rgba(1,183,161,.20);
+  border-radius: 22px;
 
-    border-radius:22px;
+  padding: 28px;
 
-    padding:28px;
+  text-decoration: none;
 
-    text-decoration:none;
+  color: white;
 
-    color:white;
-
-    transition:.25s;
-
+  transition: 0.25s;
 }
 
-.business-action-card:hover{
+.business-action-card:hover {
+  color: white;
 
-    color:white;
+  transform: translateY(-5px);
 
-    transform:translateY(-5px);
-
-    border-color:#01b7a1;
-
+  border-color: #01b7a1;
 }
 
-.business-action-card i{
+.business-action-card i {
+  font-size: 34px;
 
-    font-size:34px;
+  color: #01b7a1;
 
-    color:#01b7a1;
+  display: block;
 
-    display:block;
-
-    margin-bottom:20px;
-
+  margin-bottom: 20px;
 }
 
-.business-action-card h3{
+.business-action-card h3 {
+  font-size: 22px;
 
-    font-size:22px;
+  font-weight: 800;
 
-    font-weight:800;
-
-    margin-bottom:10px;
-
+  margin-bottom: 10px;
 }
 
-.business-action-card p{
+.business-action-card p {
+  color: #a5a5a5;
 
-    color:#a5a5a5;
-
-    line-height:1.5;
-
+  line-height: 1.5;
 }
 
 /* ================= CALENDAR ================= */
 
-.business-calendar-section{
+.business-calendar-section {
+  background: #121212;
 
-    background:#121212;
+  border: 1px solid rgba(1, 183, 161, 0.2);
 
-    border:1px solid rgba(1,183,161,.20);
+  border-radius: 28px;
 
-    border-radius:28px;
+  padding: 35px;
 
-    padding:35px;
-
-    margin-bottom:35px;
-
+  margin-bottom: 35px;
 }
 
-.business-calendar-header{
+.business-calendar-header {
+  display: flex;
 
-    display:flex;
+  justify-content: space-between;
 
-    justify-content:space-between;
+  align-items: center;
 
-    align-items:center;
-
-    margin-bottom:30px;
-
+  margin-bottom: 30px;
 }
 
-.business-calendar-header h2{
+.business-calendar-header h2 {
+  font-size: 34px;
 
-    font-size:34px;
-
-    font-weight:900;
-
+  font-weight: 900;
 }
 
-.business-calendar-button{
+.business-calendar-button {
+  border: none;
 
-    border:none;
+  background: #01b7a1;
 
-    background:#01b7a1;
+  color: white;
 
-    color:white;
+  padding: 12px 22px;
 
-    padding:12px 22px;
+  border-radius: 14px;
 
-    border-radius:14px;
-
-    font-weight:700;
-
+  font-weight: 700;
 }
 
-.business-calendar-card{
+.business-calendar-card {
+  background: #0d0d0d;
 
-    background:#0d0d0d;
+  border-radius: 20px;
 
-    border-radius:20px;
-
-    padding:25px;
-
+  padding: 25px;
 }
 
-.business-calendar-weekdays{
+.business-calendar-weekdays {
+  display: grid;
 
-    display:grid;
+  grid-template-columns: repeat(7, 1fr);
 
-    grid-template-columns:repeat(7,1fr);
-
-    margin-bottom:15px;
-
+  margin-bottom: 15px;
 }
 
-.business-calendar-weekdays span{
+.business-calendar-weekdays span {
+  text-align: center;
 
-    text-align:center;
+  color: #01b7a1;
 
-    color:#01b7a1;
-
-    font-weight:800;
-
+  font-weight: 800;
 }
 
-.business-calendar-grid{
+.business-calendar-grid {
+  display: grid;
 
-    display:grid;
+  grid-template-columns: repeat(7, 1fr);
 
-    grid-template-columns:repeat(7,1fr);
-
-    gap:10px;
-
+  gap: 10px;
 }
 
-.business-calendar-day{
+.business-calendar-day {
+  background: #171717;
 
-    background:#171717;
+  border: none;
 
-    border:none;
+  border-radius: 16px;
 
-    border-radius:16px;
+  color: white;
 
-    color:white;
+  min-height: 65px;
 
-    min-height:65px;
-
-    transition:.25s;
-
+  transition: 0.25s;
 }
 
-.business-calendar-day:hover{
-
-    background:#01b7a1;
-
+.business-calendar-day:hover {
+  background: #01b7a1;
 }
 
-.business-calendar-day.active{
-
-    background:#01b7a1;
-
+.business-calendar-day.active {
+  background: #01b7a1;
 }
 
 /* ================= RESERVAS ================= */
 
-.business-today-section{
+.business-today-section {
+  background: #121212;
 
-    background:#121212;
+  border: 1px solid rgba(1, 183, 161, 0.2);
 
-    border:1px solid rgba(1,183,161,.20);
+  border-radius: 28px;
 
-    border-radius:28px;
-
-    padding:35px;
-
+  padding: 35px;
 }
 
-.business-today-header{
+.business-today-header {
+  display: flex;
 
-    display:flex;
+  justify-content: space-between;
 
-    justify-content:space-between;
+  align-items: center;
 
-    align-items:center;
-
-    margin-bottom:30px;
-
+  margin-bottom: 30px;
 }
 
-.business-today-header h2{
+.business-today-header h2 {
+  font-size: 34px;
 
-    font-size:34px;
-
-    font-weight:900;
-
+  font-weight: 900;
 }
 
-.business-today-count{
+.business-today-count {
+  background: #01b7a1;
 
-    background:#01b7a1;
+  padding: 10px 18px;
 
-    padding:10px 18px;
+  border-radius: 999px;
 
-    border-radius:999px;
-
-    font-weight:700;
-
+  font-weight: 700;
 }
 
-.business-today-grid{
+.business-today-grid {
+  display: grid;
 
-    display:grid;
-
-    gap:18px;
-
+  gap: 18px;
 }
 
-.business-reservation-item{
+.business-reservation-item {
+  display: grid;
 
-    display:grid;
+  grid-template-columns: 70px 1fr;
 
-    grid-template-columns:70px 1fr;
+  gap: 18px;
 
-    gap:18px;
+  background: #0d0d0d;
 
-    background:#0d0d0d;
+  border-radius: 18px;
 
-    border-radius:18px;
-
-    padding:18px;
-
+  padding: 18px;
 }
 
-.business-reservation-item span{
+.business-reservation-item span {
+  color: #01b7a1;
 
-    color:#01b7a1;
-
-    font-weight:900;
-
+  font-weight: 900;
 }
 
-.business-reservation-item strong{
-
-    font-size:18px;
-
+.business-reservation-item strong {
+  font-size: 18px;
 }
 
-.business-reservation-item p{
+.business-reservation-item p {
+  margin-top: 5px;
 
-    margin-top:5px;
-
-    color:#9f9f9f;
-
+  color: #9f9f9f;
 }
+
 
 /* ================= RESPONSIVE ================= */
 
-@media(max-width:1000px){
-
-.business-quick-actions{
-
-grid-template-columns:repeat(2,1fr);
-
+@media (max-width: 1000px) {
+  .business-quick-actions {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
+@media (max-width: 768px) {
+  .business-home-hero {
+    padding: 90px 20px;
+  }
+
+  .business-home-hero h1 {
+    font-size: 38px;
+  }
+
+  .business-quick-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .business-calendar-header,
+  .business-today-header {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 20px;
+  }
+
+  .business-calendar-grid {
+    gap: 6px;
+  }
+
+  .business-calendar-day {
+    min-height: 48px;
+  }
 }
 
-@media(max-width:768px){
+/* FIX HERO HOME CLIENT / BUSINESS */
 
-.business-home-hero{
-
-padding:90px 20px;
-
+.home-hero-wrapper {
+  min-height: 82vh;
+  width: 100%;
+  background:
+    linear-gradient(
+      rgba(0, 0, 0, 0.40),
+      rgba(0, 0, 0, 0.60)
+    ),
+    url("/src/front/assets/img/img/hero.png");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
-.business-home-hero h1{
-
-font-size:38px;
-
+/* Header ancho completo */
+.home-hero-wrapper .home-header {
+  max-width: none;
+  width: 100%;
+  padding: 25px 110px;
+  background: rgba(0, 0, 0, 0.50);
+  backdrop-filter: blur(4px);
 }
 
-.business-quick-actions{
-
-grid-template-columns:1fr;
-
+/* Contenido centrado, pero no el header */
+.home-hero-wrapper .home-search-section {
+  background: transparent;
+  min-height: calc(82vh - 120px);
+  padding: 70px 24px 90px;
 }
 
-.business-calendar-header,
-.business-today-header{
-
-flex-direction:column;
-
-align-items:flex-start;
-
-gap:20px;
-
+/* Hero empresa */
+.home-hero-wrapper .business-home-hero {
+  background: transparent;
+  min-height: calc(82vh - 120px);
+  padding: 70px 24px 90px;
 }
 
-.business-calendar-grid{
+/* ==========================================================
+   SHARED BACK BUTTON
+   Reutilizado en Favoritos, Reservas, Perfil y páginas internas
+========================================================== */
 
-gap:6px;
-
+.page-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #10cfc9;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-decoration: none;
+  margin-bottom: 2rem;
+  transition: 0.2s ease;
 }
 
-.business-calendar-day{
-
-min-height:48px;
-
+.page-back-link:hover {
+  color: #4de3de;
 }
 
+.page-back-link i {
+  font-size: 1.4rem;
 }

@@ -3,6 +3,7 @@ import "../styles/ClientReservations.css";
 import { ReservationCard } from "../components/ReservationCard";
 import { ReservationDetailModal } from "../components/ReservationDetailModal";
 import { ConfirmModal } from "../components/ConfirmModal";
+import { Link } from "react-router-dom";
 
 export const ClientReservations = () => {
     const [reservations, setReservations] = useState([]);
@@ -111,6 +112,12 @@ export const ClientReservations = () => {
         <main className="client-reservations-page">
             <div className="container py-5">
                 <div className="mb-5">
+                   
+                    <Link to="/home-client" className="page-back-link">
+                    <i className="bi bi-arrow-left"></i>
+                    Volver
+                    </Link>
+                   
                     <h1 className="reservations-title">Mis reservas</h1>
                     <p className="reservations-subtitle">
                         Gestiona todas tus citas desde un solo lugar.

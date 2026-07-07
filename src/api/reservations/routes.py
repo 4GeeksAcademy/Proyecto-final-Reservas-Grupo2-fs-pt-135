@@ -147,3 +147,35 @@ def cancel_reserva(reserva_id):
         "message": "Reserva cancelada",
         "reserva": reserva.serialize()
     }), 200
+
+@reservations.route('/business/today', methods=['GET'])
+@jwt_required()
+def get_today_business_reservations():
+    user_id = int(get_jwt_identity())
+
+    business = BusinessProfile.query.filter_by(user_id=user_id).first()
+
+    if not business:
+        return jsonify({"msg": "Business profile not found"}), 404
+
+    services = Service.query.filter_by(business_id=business.id).all()
+    service_ids = [service.id for service in services]
+
+    if not service_ids:
+        return jsonify({
+            "count": 0,
+            "reservations": []
+        }), 200
+
+    today = datetime.now().date()
+
+    reservas = Reservas.query.filter(
+        Reservas.service_id.in_(service_ids),
+        Reservas.status != "Cancelada",
+        db.func.date(Reservas.appointment_datetime) == today
+    ).all()
+
+    return jsonify({
+        "count": len(reservas),
+        "reservations": [reserva.serialize() for reserva in reservas]
+    }), 200
