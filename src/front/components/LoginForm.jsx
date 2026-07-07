@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
     const [email, setEmail] = useState("");
@@ -9,7 +10,7 @@ export default function LoginForm() {
         e.preventDefault()
         // Aquí podemos agregar la lógica para manejar el inicio de sesión
         try {
-            const response = await fetch(process.env.BACKEND_URL + "/api/login", {
+            const response = await fetch(import.meta.env.VITE_BACKEND_URL + "/api/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password }),
@@ -18,13 +19,14 @@ export default function LoginForm() {
             const data = await response.json();
             console.log(data);
 
-            if (response.ok) {
+            if (!response.ok) {
                 alert(data.msg || "Error al iniciar sesión");
                 return;
             }
 
             // Guardar token
             localStorage.setItem("token", data.token);
+            localStorage.setItem("user", JSON.stringify(data.user));
 
             // Redirección segun rol
             if (data.user.role === "client") {

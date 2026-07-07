@@ -14,6 +14,7 @@ const Navbar = ({ setShowModal }) => {
                 <li><a href="#">Explorar</a></li>
                 <li><a href="#">Profesionales</a></li>
                 <li><a href="#">Sobre Nosotros</a></li>
+                <li><a href="/profile">Perfil</a></li>
                 <li>
                     <a
                         className="registro-usuario"
@@ -25,7 +26,7 @@ const Navbar = ({ setShowModal }) => {
                 </li>
             </ul>
 
-            <button className="btn-nav">
+            <button className="btn-nav" onClick={() => setShowModal(true)}>
                 Reservar
             </button>
 

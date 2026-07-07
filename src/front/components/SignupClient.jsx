@@ -10,7 +10,7 @@ export default function SignupForm() {
         e.preventDefault();
 
         try {
-            const response = await fetch(process.env.BACKEND_URL + "/register/client", {
+            const response = await fetch(import.meta.env.VITE_BACKEND_URL + "/register/client", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ name, phone, email, password }),
@@ -19,7 +19,7 @@ export default function SignupForm() {
             const data = await response.json();
             console.log(data);
 
-            if (response.ok) {
+            if (!response.ok) {
                 alert(data.msg || "Error al registrar usuario");
                 return;
             }

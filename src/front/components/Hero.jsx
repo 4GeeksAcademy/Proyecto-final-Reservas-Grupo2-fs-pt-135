@@ -1,6 +1,9 @@
 import React from "react";
+import { useOutletContext } from "react-router-dom";
 
 const Hero = () => {
+  const { setShowModal } = useOutletContext();
+
   return (
     <section className="hero-section">
 
@@ -15,8 +18,8 @@ const Hero = () => {
           <input type="text" placeholder="Buscar servicios..." />
           <input type="date" />
           <input type="text" placeholder="Ubicación..." />
-
-          <button>BUSCAR</button>
+          {/* BOTÓN QUE REDIRIGE */}
+          <button onClick={() => setShowModal(true)}>BUSCAR</button>
 
         </div>
 

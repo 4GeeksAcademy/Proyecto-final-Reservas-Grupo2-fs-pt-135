@@ -13,7 +13,7 @@ const Layout = () => {
             <Navbar setShowModal={setShowModal} />
 
             <main className="main-content">
-                <Outlet />
+                <Outlet context={{ setShowModal }} />
             </main>
 
             <Footer />
