@@ -11,7 +11,7 @@ import {
   FaPlus
 } from "react-icons/fa";
 
-export const CategorySection = () => {
+export const CategorySection = ({ setShowModal }) => {
 
   const categorias = [
     {
@@ -61,6 +61,8 @@ export const CategorySection = () => {
           <div
             key={index}
             className="category-card"
+            onClick={() => setShowModal(true)}
+            style={{ cursor: "pointer" }}
           >
 
             <div className="category-icon">

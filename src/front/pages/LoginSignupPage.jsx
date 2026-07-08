@@ -3,34 +3,44 @@ import LoginForm from "../components/LoginForm";
 import SignupClient from "../components/SignupClient";
 import SignupBusiness from "../components/SignupBusiness";
 
-export const LoginSignupPage = () => {
+export const LoginSignupPage = ({ onClose }) => {
     return (
-        <div className="container mt-5">
+        <div
+            className="modal-overlay"
+            onClick={onClose} // si clicas fuera,se cierra
+        >
 
-            <Tab.Container defaultActiveKey="login">
-                <Nav variant="tabs" className="mb-3">
-                    <Nav.Item>
-                        <Nav.Link eventKey="login">Iniciar Sesión</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Nav.Link eventKey="signup">Registrarse</Nav.Link>
-                    </Nav.Item>
-                </Nav>
+            <div
+                className="modal-content"
+                onClick={(e) => e.stopPropagation()} // evita que el clic se propague al overlay
+            >
+                <h2 className="text-center mb-4">Bienvenido</h2>
 
-                <Tab.Content>
-                    <Tab.Pane eventKey="login">
-                        <LoginForm />
-                    </Tab.Pane>
+                <Tab.Container defaultActiveKey="login">
+                    <Nav variant="tabs" className="mb-3">
+                        <Nav.Item>
+                            <Nav.Link eventKey="login">Iniciar Sesión</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <Nav.Link eventKey="signup">Registrarse</Nav.Link>
+                        </Nav.Item>
+                    </Nav>
 
-                    <Tab.Pane eventKey="signup-client">
-                        <SignupClient />
-                    </Tab.Pane>
+                    <Tab.Content>
+                        <Tab.Pane eventKey="login">
+                            <LoginForm />
+                        </Tab.Pane>
 
-                    <Tab.Pane eventKey="signup-business">
-                        <SignupBusiness />
-                    </Tab.Pane>
-                </Tab.Content>
-            </Tab.Container>
+                        <Tab.Pane eventKey="signup-client">
+                            <SignupClient />
+                        </Tab.Pane>
+
+                        <Tab.Pane eventKey="signup-business">
+                            <SignupBusiness />
+                        </Tab.Pane>
+                    </Tab.Content>
+                </Tab.Container>
+            </div>
         </div>
     );
 };

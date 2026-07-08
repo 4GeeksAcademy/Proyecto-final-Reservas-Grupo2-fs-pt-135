@@ -16,6 +16,7 @@ const Navbar = ({ setShowModal }) => {
                 <li><a href="#">Explorar</a></li>
                 <li><a href="#">Profesionales</a></li>
                 <li><a href="#">Sobre Nosotros</a></li>
+                <li><a href="/profile">Perfil</a></li>
                 <li>
                     <a
                         className="registro-usuario"
@@ -26,6 +27,13 @@ const Navbar = ({ setShowModal }) => {
                     </a>
                 </li>
             </ul>
+
+            <button
+                className="btn-nav"
+                onClick={() => setShowModal(true)}
+            >
+                Cambiar contraseña
+            </button>
 
             <button
                 className="btn-nav"
