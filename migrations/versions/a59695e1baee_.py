@@ -1,8 +1,8 @@
-"""Create business working schedule table
+"""empty message
 
-Revision ID: 96bae65aff89
-Revises: e97243058685
-Create Date: 2026-07-04 00:09:00.225037
+Revision ID: a59695e1baee
+Revises: 
+Create Date: 2026-07-06 19:03:19.982363
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '96bae65aff89'
-down_revision = 'e97243058685'
+revision = 'a59695e1baee'
+down_revision = None
 branch_labels = None
 depends_on = None
 
