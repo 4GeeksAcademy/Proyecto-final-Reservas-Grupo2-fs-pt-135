@@ -11,6 +11,8 @@ export const EmpresaDetalles = () => {
   const [message, setMessage] = useState("");
   const [isFavorite, setIsFavorite] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedTime, setSelectedTime] = useState("");
 
   const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -130,12 +132,25 @@ export const EmpresaDetalles = () => {
     }
   };
 
-  const handleReservation = async (serviceId) => {
+  const closeReservationModal = () => {
+    setSelectedService(null);
+    setSelectedDate("");
+    setSelectedTime("");
+  };
+
+  const handleReservation = async (serviceId, appointmentDate, appointmentTime) => {
     try {
       if (!clientProfile?.id) {
         alert("No se encontró el perfil del cliente. Inicia sesión nuevamente.");
-        return;
+        return false;
       }
+
+      if (!appointmentDate || !appointmentTime) {
+        alert("Selecciona una fecha y una hora para confirmar la reserva.");
+        return false;
+      }
+
+      const appointment_datetime = new Date(`${appointmentDate}T${appointmentTime}`).toISOString();
 
       const response = await fetch(`${API_URL}/api/reservations`, {
         method: "POST",
@@ -145,7 +160,8 @@ export const EmpresaDetalles = () => {
         body: JSON.stringify({
           client_id: clientProfile.id,
           service_id: serviceId,
-          status: "pendiente",
+          appointment_datetime,
+          status: "Activa",
           notes: "",
         }),
       });
@@ -154,13 +170,15 @@ export const EmpresaDetalles = () => {
 
       if (!response.ok) {
         alert(data.error || "No se pudo crear la reserva.");
-        return;
+        return false;
       }
 
       alert("Reserva creada correctamente.");
+      return true;
     } catch (error) {
       console.error("Error creating reservation:", error);
       alert("Error de conexión al crear la reserva.");
+      return false;
     }
   };
 
@@ -224,9 +242,8 @@ export const EmpresaDetalles = () => {
 
               <div className="business-detail-actions">
                 <button
-                  className={`business-detail-secondary-button ${
-                    isFavorite ? "active" : ""
-                  }`}
+                  className={`business-detail-secondary-button ${isFavorite ? "active" : ""
+                    }`}
                   type="button"
                   onClick={handleFavorite}
                 >
@@ -257,7 +274,11 @@ export const EmpresaDetalles = () => {
                     <button
                       className="business-detail-primary-button"
                       type="button"
-                      onClick={() => setSelectedService(service)}
+                      onClick={() => {
+                        setSelectedService(service);
+                        setSelectedDate("");
+                        setSelectedTime("");
+                      }}
                     >
                       Reservar
                     </button>
@@ -287,11 +308,35 @@ export const EmpresaDetalles = () => {
               <span>{selectedService.price} €</span>
             </div>
 
+            <div className="reservation-form-fields">
+              <label className="form-label">
+                Fecha:
+                <input
+                  type="date"
+                  className="form-control"
+                  value={selectedDate}
+                  onChange={(e) => setSelectedDate(e.target.value)}
+                  required
+                />
+              </label>
+
+              <label className="form-label">
+                Hora:
+                <input
+                  type="time"
+                  className="form-control"
+                  value={selectedTime}
+                  onChange={(e) => setSelectedTime(e.target.value)}
+                  required
+                />
+              </label>
+            </div>
+
             <div className="reservation-modal-actions">
               <button
                 type="button"
                 className="reservation-modal-cancel"
-                onClick={() => setSelectedService(null)}
+                onClick={closeReservationModal}
               >
                 Cancelar
               </button>
@@ -299,9 +344,11 @@ export const EmpresaDetalles = () => {
               <button
                 type="button"
                 className="reservation-modal-confirm"
-                onClick={() => {
-                  handleReservation(selectedService.id);
-                  setSelectedService(null);
+                onClick={async () => {
+                  const success = await handleReservation(selectedService.id, selectedDate, selectedTime);
+                  if (success) {
+                    closeReservationModal();
+                  }
                 }}
               >
                 Confirmar reserva
