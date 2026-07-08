@@ -1,9 +1,5 @@
-from flask import Blueprint, request, jsonify
-from datetime import datetime
-from api.models import db, Service, Reservas, ClientProfile
 from flask import request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
-
 from api.models import db, BusinessProfile, Service
 from . import services
 
@@ -27,9 +23,13 @@ def get_services():
         return jsonify({"error": "Business profile not found"}), 404
 
     services_list = Service.query.filter_by(
-        business_id=business.id).all()
+        business_id=business.id,
+        status=True
+    ).all()
 
-    return jsonify({"services": [service.serialize() for service in services_list]}), 200
+    return jsonify({
+        "services": [service.serialize() for service in services_list]
+    }), 200
 
 
 @services.route("/", methods=["POST"])
@@ -55,31 +55,21 @@ def create_service():
     try:
         price = float(price)
     except (TypeError, ValueError):
-        return jsonify({
-            "error": "price must be a number"
-        }), 400
+        return jsonify({"error": "price must be a number"}), 400
 
     if price <= 0:
-        return jsonify({
-            "error": "price must be greater than 0"
-        }), 400
+        return jsonify({"error": "price must be greater than 0"}), 400
 
     try:
         duration_minutes = int(duration_minutes)
     except (TypeError, ValueError):
-        return jsonify({
-            "error": "duration_minutes must be a number"
-        }), 400
+        return jsonify({"error": "duration_minutes must be a number"}), 400
 
     if duration_minutes <= 0:
-        return jsonify({
-            "error": "duration_minutes must be greater than 0"
-        }), 400
+        return jsonify({"error": "duration_minutes must be greater than 0"}), 400
 
     if duration_minutes > 480:
-        return jsonify({
-            "error": "duration_minutes cannot be greater than 480"
-        }), 400
+        return jsonify({"error": "duration_minutes cannot be greater than 480"}), 400
 
     new_service = Service(
         business_id=business.id,
@@ -124,13 +114,19 @@ def update_service(service_id):
         service.description = data.get("description", "").strip()
 
     if "price" in data:
-        service.price = data.get("price")
+        try:
+            service.price = float(data.get("price"))
+        except (TypeError, ValueError):
+            return jsonify({"error": "price must be a number"}), 400
 
     if "duration_minutes" in data:
-        service.duration_minutes = data.get("duration_minutes")
+        try:
+            service.duration_minutes = int(data.get("duration_minutes"))
+        except (TypeError, ValueError):
+            return jsonify({"error": "duration_minutes must be a number"}), 400
 
     if "status" in data:
-        service.status = data.get("status")
+        service.status = bool(data.get("status"))
 
     db.session.commit()
 
@@ -139,21 +135,43 @@ def update_service(service_id):
         "service": service.serialize()
     }), 200
 
+
+@services.route("/<int:service_id>", methods=["DELETE"])
+@jwt_required()
+def delete_service(service_id):
+    business = get_current_business()
+
+    if not business:
+        return jsonify({"error": "Business profile not found"}), 404
+
+    service = Service.query.filter_by(
+        id=service_id,
+        business_id=business.id
+    ).first()
+
+    if not service:
+        return jsonify({"error": "Service not found"}), 404
+
+    service.status = False
+    db.session.commit()
+
+    return jsonify({
+        "message": "Service disabled successfully"
+    }), 200
+
+
 @services.route("/business/<int:business_id>", methods=["GET"])
 def get_business_services(business_id):
-
     business = BusinessProfile.query.get(business_id)
 
     if not business:
         return jsonify({"msg": "Business not found"}), 404
 
-    services = Service.query.filter_by(
+    services_list = Service.query.filter_by(
         business_id=business_id,
         status=True
     ).all()
 
     return jsonify({
-        "services": [service.serialize() for service in services]
+        "services": [service.serialize() for service in services_list]
     }), 200
-
-

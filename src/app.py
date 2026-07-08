@@ -21,6 +21,7 @@ from api.client_profile import client_profile
 from api.business_profile import business_profile
 from api.business_portfolio import business_portfolio
 from api.business_gallery import business_gallery
+from api.business_schedule import business_schedule
 from api.categories import categories
 from api.favorites import favorites
 from api.reservations import reservations
@@ -31,9 +32,7 @@ static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../dist/')
 app = Flask(__name__)
 
-# ---------------------------
-# 🔥 CORS CORREGIDO PARA CODESPACES
-# ---------------------------
+
 CORS(app)
 app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
 app.url_map.strict_slashes = False
@@ -74,6 +73,7 @@ app.register_blueprint(client_profile, url_prefix='/api/client-profile')
 app.register_blueprint(business_profile, url_prefix='/api/business-profile')
 app.register_blueprint(business_portfolio, url_prefix='/api/business-portfolio')
 app.register_blueprint(business_gallery, url_prefix='/api/business-gallery')
+app.register_blueprint(business_schedule, url_prefix='/api/business-schedule')
 app.register_blueprint(categories, url_prefix="/api/categories")
 app.register_blueprint(favorites, url_prefix="/api/favorites")
 app.register_blueprint(reservations, url_prefix="/api/reservations")

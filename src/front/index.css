@@ -646,6 +646,18 @@ body {
   color: #ffffff;
 }
 
+.favorites-page {
+  min-height: 100vh;
+  color: #ffffff;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(1, 183, 161, 0.18),
+      transparent 35%
+    ),
+    #050505;
+}
+
 /* ================= HOME CLIENT - SEARCH ================= */
 
 .home-search-section {
@@ -667,7 +679,8 @@ body {
 .home-eyebrow {
   color: #01b7a1;
   font-weight: 700;
-  margin-bottom: 12px;
+  font-size: 1.7rem;
+  margin-bottom: 16px;
 }
 
 .home-title {
@@ -678,10 +691,17 @@ body {
   margin-bottom: 28px;
 }
 
+.home-title span {
+  color: #01b7a1;
+}
+
 .home-search-box {
   display: flex;
   gap: 14px;
-  max-width: 760px;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  backdrop-filter: blur(10px);
   background: #121212;
   border: 1px solid rgba(1, 183, 161, 0.25);
   border-radius: 18px;
@@ -728,7 +748,7 @@ body {
 }
 
 .home-header-logo img {
-  height: 44px;
+  height: 64px;
   display: block;
 }
 
@@ -1176,6 +1196,21 @@ body {
   color: #01b7a1;
 }
 
+.favorites-back-button {
+  background: transparent;
+  border: none;
+  color: #12cbbf;
+  font-weight: 800;
+  font-size: 18px;
+  margin-bottom: 28px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.favorites-back-button:hover {
+  color: #ffffff;
+}
+
 /* ================= BUSINESS DETAIL - SERVICES ================= */
 
 .business-services-section {
@@ -1381,4 +1416,1002 @@ body {
 
 .profile-box .btn-primary:active {
   transform: scale(0.98);
+}
+
+/* =========================
+   RESPONSIVE HOME CLIENT
+========================= */
+
+@media (max-width: 1024px) {
+  .home-section-container {
+    padding: 0 2rem;
+  }
+
+  .home-categories-grid,
+  .nearby-businesses-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .business-detail-container {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .home-header {
+    padding: 1rem 1.5rem;
+  }
+
+  .home-header-logo img {
+    max-width: 130px;
+  }
+
+  .home-section-container {
+    padding: 0 1rem;
+  }
+
+  .home-section-title {
+    font-size: 1.4rem;
+  }
+
+  .home-search-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .home-search-title {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+
+  .home-search-form {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .home-search-form input,
+  .home-search-form button {
+    width: 100%;
+  }
+
+  .home-categories-grid,
+  .nearby-businesses-grid,
+  .favorites-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-category-card {
+    min-height: 90px;
+  }
+
+  .business-card,
+  .favorite-card,
+  .reservation-card {
+    width: 100%;
+  }
+
+  .business-detail-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .business-detail-container {
+    padding: 1rem;
+  }
+
+  .business-detail-actions {
+    width: 100%;
+  }
+
+  .business-detail-actions button {
+    width: 100%;
+  }
+
+  .service-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .service-card button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-header {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .home-header-favorites {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .home-search-title {
+    font-size: 1.5rem;
+  }
+
+  .home-search-subtitle {
+    font-size: 0.95rem;
+    text-align: center;
+  }
+
+  .home-category-card i {
+    font-size: 1.5rem;
+  }
+
+  .home-category-card span {
+    font-size: 0.9rem;
+  }
+
+  .reservation-modal-content {
+    width: 90%;
+    padding: 1.5rem;
+  }
+
+  .reservation-modal-actions {
+    flex-direction: column;
+  }
+
+  .reservation-modal-actions button {
+    width: 100%;
+  }
+}
+
+/* FIX MOBILE OVERFLOW HOME CLIENT */
+@media (max-width: 768px) {
+  .home-client-page {
+    overflow-x: hidden;
+  }
+
+  .home-search-section,
+  .home-section-container,
+  .nearby-businesses-section {
+    width: 100%;
+    max-width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    box-sizing: border-box;
+  }
+
+  .home-search-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .home-search-form input,
+  .home-search-form button {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .home-categories-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-category-card {
+    width: 100%;
+  }
+}
+
+/* ================= HOME CLIENT - USER MENU ================= */
+
+.home-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.home-user-menu {
+  position: relative;
+}
+
+.home-user-button {
+  border: 1px solid rgba(1, 183, 161, 0.35);
+  background: rgba(18, 18, 18, 0.9);
+  color: #ffffff;
+  border-radius: 14px;
+  padding: 8px 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.home-user-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #01b7a1;
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+}
+
+.home-user-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  min-width: 190px;
+  background: #121212;
+  border: 1px solid rgba(1, 183, 161, 0.25);
+  border-radius: 14px;
+  padding: 8px;
+  z-index: 20;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+}
+
+.home-user-dropdown button {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  padding: 10px 12px;
+  border-radius: 10px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.home-user-dropdown button:hover {
+  background: rgba(1, 183, 161, 0.12);
+}
+
+@media (max-width: 768px) {
+  .home-header {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .home-header-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .home-header-favorites,
+  .home-user-menu,
+  .home-user-button {
+    width: 100%;
+  }
+
+  .home-user-button,
+  .home-header-favorites {
+    justify-content: center;
+  }
+
+  .home-user-dropdown {
+    width: 100%;
+  }
+}
+
+/* ================= CLIENT PROFILE PAGE ================= */
+
+.client-profile-page {
+  min-height: 70vh;
+  padding: 4rem 1rem;
+  display: flex;
+  justify-content: center;
+  background: #f7f9fb;
+}
+
+.client-profile-card {
+  width: 100%;
+  max-width: 520px;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 2.5rem;
+  text-align: center;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.08);
+}
+
+.client-profile-avatar {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  background: #01b7a1;
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+  font-weight: 900;
+  margin: 0 auto 1rem;
+}
+
+.client-profile-card h1 {
+  font-weight: 900;
+  margin-bottom: 0.5rem;
+}
+
+.client-profile-subtitle {
+  color: #6c757d;
+  margin-bottom: 2rem;
+}
+
+.client-profile-info {
+  display: grid;
+  gap: 1rem;
+  text-align: left;
+  margin-bottom: 2rem;
+}
+
+.client-profile-info div {
+  background: #f3f6f8;
+  border-radius: 16px;
+  padding: 1rem;
+}
+
+.client-profile-info span {
+  display: block;
+  color: #6c757d;
+  font-size: 0.85rem;
+  margin-bottom: 0.25rem;
+}
+
+.client-profile-info strong {
+  color: #121212;
+}
+
+.client-profile-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.client-profile-btn {
+  flex: 1;
+  border: none;
+  border-radius: 14px;
+  padding: 0.9rem;
+  font-weight: 800;
+  text-decoration: none;
+  text-align: center;
+}
+
+.client-profile-btn.secondary {
+  background: #e9ecef;
+  color: #121212;
+}
+
+.client-profile-btn.danger {
+  background: #dc3545;
+  color: #ffffff;
+}
+
+@media (max-width: 576px) {
+  .client-profile-card {
+    padding: 1.5rem;
+  }
+
+  .client-profile-actions {
+    flex-direction: column;
+  }
+}
+
+/* ================= CLIENT PROFILE DARK THEME ================= */
+
+.client-profile-page {
+  min-height: 75vh;
+  padding: 5rem 1rem;
+  display: flex;
+  justify-content: center;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(1, 183, 161, 0.16),
+      transparent 34%
+    ),
+    #050505;
+}
+
+.client-profile-card {
+  width: 100%;
+  max-width: 540px;
+  background: #121212;
+  border: 1px solid rgba(1, 183, 161, 0.25);
+  border-radius: 28px;
+  padding: 2.7rem;
+  text-align: center;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+.client-profile-card h1 {
+  color: #ffffff;
+  font-weight: 900;
+}
+
+.client-profile-avatar {
+  background: #01b7a1;
+  color: #ffffff;
+}
+
+.client-profile-subtitle {
+  color: #b8c3c1;
+}
+
+.client-profile-info div {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(1, 183, 161, 0.16);
+}
+
+.client-profile-info span {
+  color: #8fa6a2;
+}
+
+.client-profile-info strong {
+  color: #ffffff;
+}
+
+.client-profile-btn.secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.client-profile-btn.secondary:hover {
+  background: rgba(1, 183, 161, 0.16);
+}
+
+.client-profile-btn.danger {
+  background: #dc3545;
+  color: #ffffff;
+}
+
+.client-profile-btn.danger:hover {
+  background: #bb2d3b;
+}
+
+/* ================= HOME CLIENT HERO IMAGE ================= */
+
+.home-search-section {
+  min-height: 72vh;
+  padding: 110px 24px 70px;
+  display: flex;
+  align-items: center;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.58) 0%,
+      rgba(0, 0, 0, 0.35) 45%,
+      rgba(0, 0, 0, 0.12) 100%
+    ),
+    url("/src/front/assets/img/img/hero.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.home-search-content {
+  max-width: 1180px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.home-title {
+  max-width: 760px;
+  text-align: center;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+.home-search-box {
+  backdrop-filter: blur(10px);
+  background: rgba(18, 18, 18, 0.72);
+}
+
+@media (max-width: 768px) {
+  .home-search-section {
+    min-height: 70vh;
+    padding: 80px 1rem 55px;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.7) 0%,
+        rgba(0, 0, 0, 0.45) 50%,
+        rgba(0, 0, 0, 0.65) 100%
+      ),
+      url("/src/front/assets/img/img/hero.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+}
+
+/* ================= HOME CLIENT - RESERVATIONS SECTION ================= */
+
+.home-reservations-card {
+  background: #111;
+  border: 1px solid rgba(19, 201, 189, 0.18);
+  border-radius: 18px;
+  padding: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+}
+
+.home-reservations-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.home-reservations-info i {
+  font-size: 2rem;
+  color: #13c9bd;
+}
+
+.home-reservations-info h4 {
+  color: #fff;
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.home-reservations-info p {
+  color: #9f9f9f;
+  margin: 0;
+  max-width: 520px;
+}
+
+.home-reservations-btn {
+  background: #13c9bd;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 28px;
+  font-weight: 600;
+  transition: 0.25s;
+  white-space: nowrap;
+  text-decoration: none;
+  text-align: center;
+}
+
+.home-reservations-btn:hover {
+  background: #0fb3a8;
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .home-reservations-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .home-reservations-btn {
+    width: 100%;
+  }
+}
+
+
+/* ===========================================================
+   BUSINESS HOME PAGE
+=========================================================== */
+
+.business-home-page {
+  min-height: 100vh;
+  background: #050505;
+  color: #ffffff;
+}
+
+/* ================= HERO ================= */
+
+.business-home-hero {
+  min-height: 62vh;
+  padding: 110px 24px 70px;
+
+  display: flex;
+  align-items: center;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.68) 0%,
+      rgba(0, 0, 0, 0.42) 48%,
+      rgba(0, 0, 0, 0.15) 100%
+    ),
+    url("/src/front/assets/img/img/hero.png");
+
+  background-size: cover;
+  background-position: center;
+}
+
+.business-home-hero-content {
+  max-width: 1180px;
+  width: 100%;
+  margin: auto;
+}
+
+.business-home-eyebrow {
+  color: #01b7a1;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+.business-home-hero h1 {
+  font-size: 54px;
+  font-weight: 900;
+  max-width: 760px;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+.business-home-hero h1 span {
+  color: #01b7a1;
+}
+
+.business-home-hero p {
+  max-width: 620px;
+  color: #d0d0d0;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.business-home-hero-badge {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+
+  margin-top: 30px;
+
+  background: rgba(18, 18, 18, 0.75);
+
+  border: 1px solid rgba(1, 183, 161, 0.25);
+
+  padding: 14px 22px;
+
+  border-radius: 999px;
+
+  font-weight: 700;
+}
+
+.business-home-hero-badge i {
+  color: #01b7a1;
+}
+
+/* ================= CONTAINER ================= */
+
+.business-home-container {
+  max-width: 1180px;
+
+  margin: auto;
+
+  padding: 60px 24px 90px;
+}
+
+/* ================= QUICK ACTIONS ================= */
+
+.business-quick-actions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+  margin-bottom: 45px;
+}
+
+.business-action-card {
+  background: #121212;
+
+  border: 1px solid rgba(1, 183, 161, 0.2);
+
+  border-radius: 22px;
+
+  padding: 28px;
+
+  text-decoration: none;
+
+  color: white;
+
+  transition: 0.25s;
+}
+
+.business-action-card:hover {
+  color: white;
+
+  transform: translateY(-5px);
+
+  border-color: #01b7a1;
+}
+
+.business-action-card i {
+  font-size: 34px;
+
+  color: #01b7a1;
+
+  display: block;
+
+  margin-bottom: 20px;
+}
+
+.business-action-card h3 {
+  font-size: 22px;
+
+  font-weight: 800;
+
+  margin-bottom: 10px;
+}
+
+.business-action-card p {
+  color: #a5a5a5;
+
+  line-height: 1.5;
+}
+
+/* ================= CALENDAR ================= */
+
+.business-calendar-section {
+  background: #121212;
+
+  border: 1px solid rgba(1, 183, 161, 0.2);
+
+  border-radius: 28px;
+
+  padding: 35px;
+
+  margin-bottom: 35px;
+}
+
+.business-calendar-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 30px;
+}
+
+.business-calendar-header h2 {
+  font-size: 34px;
+
+  font-weight: 900;
+}
+
+.business-calendar-button {
+  border: none;
+
+  background: #01b7a1;
+
+  color: white;
+
+  padding: 12px 22px;
+
+  border-radius: 14px;
+
+  font-weight: 700;
+}
+
+.business-calendar-card {
+  background: #0d0d0d;
+
+  border-radius: 20px;
+
+  padding: 25px;
+}
+
+.business-calendar-weekdays {
+  display: grid;
+
+  grid-template-columns: repeat(7, 1fr);
+
+  margin-bottom: 15px;
+}
+
+.business-calendar-weekdays span {
+  text-align: center;
+
+  color: #01b7a1;
+
+  font-weight: 800;
+}
+
+.business-calendar-grid {
+  display: grid;
+
+  grid-template-columns: repeat(7, 1fr);
+
+  gap: 10px;
+}
+
+.business-calendar-day {
+  background: #171717;
+
+  border: none;
+
+  border-radius: 16px;
+
+  color: white;
+
+  min-height: 65px;
+
+  transition: 0.25s;
+}
+
+.business-calendar-day:hover {
+  background: #01b7a1;
+}
+
+.business-calendar-day.active {
+  background: #01b7a1;
+}
+
+/* ================= RESERVAS ================= */
+
+.business-today-section {
+  background: #121212;
+
+  border: 1px solid rgba(1, 183, 161, 0.2);
+
+  border-radius: 28px;
+
+  padding: 35px;
+}
+
+.business-today-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 30px;
+}
+
+.business-today-header h2 {
+  font-size: 34px;
+
+  font-weight: 900;
+}
+
+.business-today-count {
+  background: #01b7a1;
+
+  padding: 10px 18px;
+
+  border-radius: 999px;
+
+  font-weight: 700;
+}
+
+.business-today-grid {
+  display: grid;
+
+  gap: 18px;
+}
+
+.business-reservation-item {
+  display: grid;
+
+  grid-template-columns: 70px 1fr;
+
+  gap: 18px;
+
+  background: #0d0d0d;
+
+  border-radius: 18px;
+
+  padding: 18px;
+}
+
+.business-reservation-item span {
+  color: #01b7a1;
+
+  font-weight: 900;
+}
+
+.business-reservation-item strong {
+  font-size: 18px;
+}
+
+.business-reservation-item p {
+  margin-top: 5px;
+
+  color: #9f9f9f;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1000px) {
+  .business-quick-actions {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .business-home-hero {
+    padding: 90px 20px;
+  }
+
+  .business-home-hero h1 {
+    font-size: 38px;
+  }
+
+  .business-quick-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .business-calendar-header,
+  .business-today-header {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 20px;
+  }
+
+  .business-calendar-grid {
+    gap: 6px;
+  }
+
+  .business-calendar-day {
+    min-height: 48px;
+  }
+}
+
+/* FIX HERO HOME CLIENT / BUSINESS */
+
+.home-hero-wrapper {
+  min-height: 82vh;
+  width: 100%;
+  background:
+    linear-gradient(
+      rgba(0, 0, 0, 0.40),
+      rgba(0, 0, 0, 0.60)
+    ),
+    url("/src/front/assets/img/img/hero.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* Header ancho completo */
+.home-hero-wrapper .home-header {
+  max-width: none;
+  width: 100%;
+  padding: 25px 110px;
+  background: rgba(0, 0, 0, 0.50);
+  backdrop-filter: blur(4px);
+}
+
+/* Contenido centrado, pero no el header */
+.home-hero-wrapper .home-search-section {
+  background: transparent;
+  min-height: calc(82vh - 120px);
+  padding: 70px 24px 90px;
+}
+
+/* Hero empresa */
+.home-hero-wrapper .business-home-hero {
+  background: transparent;
+  min-height: calc(82vh - 120px);
+  padding: 70px 24px 90px;
+}
+
+/* ==========================================================
+   SHARED BACK BUTTON
+   Reutilizado en Favoritos, Reservas, Perfil y páginas internas
+========================================================== */
+
+.page-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #10cfc9;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-decoration: none;
+  margin-bottom: 2rem;
+  transition: 0.2s ease;
+}
+
+.page-back-link:hover {
+  color: #4de3de;
+}
+
+.page-back-link i {
+  font-size: 1.4rem;
 }

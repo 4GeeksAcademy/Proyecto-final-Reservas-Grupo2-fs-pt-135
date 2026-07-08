@@ -12,6 +12,7 @@ const categoryIcons = {
 
 const CategoriesSection = ({ selectedCategoryId, setSelectedCategoryId }) => {
   const [categories, setCategories] = useState([]);
+  const [showAllCategories, setShowAllCategories] = useState(false);
 
   const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -20,21 +21,26 @@ const CategoriesSection = ({ selectedCategoryId, setSelectedCategoryId }) => {
       .then((response) => response.json())
       .then((data) => {
         const categoriesList = Array.isArray(data) ? data : data.categories || [];
-        setCategories(categoriesList.slice(0, 3));
+        setCategories(categoriesList);
       })
       .catch((error) => console.error("Error loading categories:", error));
   }, [API_URL]);
+
+  const visibleCategories = showAllCategories
+    ? categories
+    : categories.slice(0, 3);
 
   return (
     <section className="home-section-container">
       <h2 className="home-section-title">Categorías populares</h2>
 
       <div className="home-categories-grid">
-        {categories.map((category) => (
+        {visibleCategories.map((category) => (
           <button
+            type="button"
             key={category.id}
             className={`home-category-card ${
-              selectedCategoryId === category.id ? "active" : ""
+              Number(selectedCategoryId) === category.id ? "active" : ""
             }`}
             onClick={() => setSelectedCategoryId(category.id)}
           >
@@ -44,13 +50,17 @@ const CategoriesSection = ({ selectedCategoryId, setSelectedCategoryId }) => {
         ))}
 
         <button
+          type="button"
           className={`home-category-card home-category-card-small ${
             selectedCategoryId === "" ? "active" : ""
           }`}
-          onClick={() => setSelectedCategoryId("")}
+          onClick={() => {
+            setSelectedCategoryId("");
+            setShowAllCategories(!showAllCategories);
+          }}
         >
           <i className="bi bi-grid-fill"></i>
-          <span>Todas</span>
+          <span>{showAllCategories ? "Menos" : "Todas"}</span>
         </button>
       </div>
     </section>

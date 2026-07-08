@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/img/img/bookify-logo.png";
 
-const HomeHeader = () => {
-  const [clientName, setClientName] = useState("Cliente");
+const BusinessHeader = () => {
+  const [businessName, setBusinessName] = useState("Empresa");
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -14,18 +14,18 @@ const HomeHeader = () => {
 
     if (!token) return;
 
-    fetch(`${API_URL}/api/client-profile/me`, {
+    fetch(`${API_URL}/api/business-profile/me`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.client_profile?.name) {
-          setClientName(data.client_profile.name);
+        if (data.business_profile?.business_name) {
+          setBusinessName(data.business_profile.business_name);
         }
       })
-      .catch((error) => console.error("Error loading client profile:", error));
+      .catch((error) => console.error("Error loading business profile:", error));
   }, [API_URL]);
 
   const handleLogout = () => {
@@ -37,16 +37,11 @@ const HomeHeader = () => {
 
   return (
     <header className="home-header">
-      <Link to="/home-client" className="home-header-logo">
+      <Link to="/home-business" className="home-header-logo">
         <img src={logo} alt="Bookify logo" />
       </Link>
 
       <div className="home-header-actions">
-        <Link to="/favorites" className="home-header-favorites">
-          <i className="bi bi-heart-fill"></i>
-          Favoritos
-        </Link>
-
         <div className="home-user-menu">
           <button
             type="button"
@@ -54,9 +49,11 @@ const HomeHeader = () => {
             onClick={() => setMenuOpen(!menuOpen)}
           >
             <span className="home-user-avatar">
-              {clientName.charAt(0).toUpperCase()}
+              {businessName.charAt(0).toUpperCase()}
             </span>
-            <span className="home-user-name">{clientName}</span>
+
+            <span className="home-user-name">{businessName}</span>
+
             <i className="bi bi-chevron-down"></i>
           </button>
 
@@ -66,7 +63,7 @@ const HomeHeader = () => {
                 type="button"
                 onClick={() => {
                   setMenuOpen(false);
-                  navigate("/client-profile");
+                  navigate("/business/portfolio");
                 }}
               >
                 <i className="bi bi-person-fill"></i>
@@ -85,4 +82,4 @@ const HomeHeader = () => {
   );
 };
 
-export default HomeHeader;
+export default BusinessHeader;

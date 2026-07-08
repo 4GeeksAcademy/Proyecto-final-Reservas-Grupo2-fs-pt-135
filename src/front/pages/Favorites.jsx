@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import HomeHeader from "../components/homeClient/HomeHeader";
 
 const Favorites = () => {
@@ -7,6 +7,7 @@ const Favorites = () => {
   const [message, setMessage] = useState("Cargando favoritos...");
 
   const API_URL = import.meta.env.VITE_BACKEND_URL;
+  const navigate = useNavigate();
 
   const loadFavorites = async () => {
     try {
@@ -75,10 +76,17 @@ const Favorites = () => {
   }, [API_URL]);
 
   return (
-    <main className="home-client-page">
+    <main className="favorites-page">
       <HomeHeader />
 
       <section className="home-section-container">
+        <button
+          type="button"
+          className="favorites-back-button"
+          onClick={() => navigate("/home-client")}>
+          ← Volver
+        </button>
+
         <h1 className="home-section-title">
           Mis favoritos <span>guardados</span>
         </h1>

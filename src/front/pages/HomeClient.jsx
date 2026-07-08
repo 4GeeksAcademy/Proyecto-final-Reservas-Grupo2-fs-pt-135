@@ -5,6 +5,7 @@ import SearchBar from "../components/homeClient/SearchBar";
 import CategoriesSection from "../components/homeClient/CategoriesSection";
 import ReservationsSection from "../components/homeClient/ReservationsSection";
 import NearbyBusinessesSection from "../components/homeClient/NearbyBusinessesSection";
+import Footer from "../components/Footer";
 
 const HomeClient = () => {
 
@@ -30,15 +31,11 @@ const HomeClient = () => {
           HOME CLIENT - HEADER
           Logo + acceso a Favoritos.
       =========================================================== */}
-      <HomeHeader />
+      <section className="home-hero-wrapper">
+        <HomeHeader />
 
-      {/* ===========================================================
-          HOME CLIENT - SEARCH
-          Permite buscar empresas por ciudad.
-          Actualiza el estado "citySearch".
-      =========================================================== */}
-      <SearchBar setCitySearch={setCitySearch} />
-
+        <SearchBar setCitySearch={setCitySearch} />
+      </section>
       {/* ===========================================================
           HOME CLIENT - CATEGORIES
           Muestra las categorías disponibles desde el backend.
@@ -70,6 +67,8 @@ const HomeClient = () => {
         citySearch={citySearch}
         selectedCategoryId={selectedCategoryId}
       />
+
+      <Footer />
 
     </main>
   );

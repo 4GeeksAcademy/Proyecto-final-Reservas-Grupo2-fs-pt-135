@@ -15,11 +15,13 @@ import { BusinessPortfolio } from "./pages/BusinessPortfolio";
 import { ClientReservations } from "./pages/ClientReservations";
 import Empresas from "./components/Empresas";
 import { EmpresaDetalles } from "./pages/EmpresaDetalles";
-import { ServiciosEmpresa } from "./pages/ServiciosEmpresa.jsx";
+import { ServiciosEmpresa } from "./pages/ServiciosEmpresa";
 import HomeClient from "./pages/HomeClient";
+import HomeEmpresa from "./pages/HomeEmpresa";
 import Favorites from "./pages/Favorites";
 import { UserProfileView } from "./pages/UserProfileView.jsx";
 import { LoginSignupPage } from "./pages/LoginSignupPage.jsx";
+import ClientProfile from "./pages/ClientProfile";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -30,25 +32,25 @@ export const router = createBrowserRouter(
         <Route path="demo" element={<Demo />} />
       </Route>
 
-      {/* ESTA RUTA DEBE IR ANTES */}
       <Route path="empresa/:id/servicios" element={<LayoutSinNav />}>
         <Route index element={<ServiciosEmpresa />} />
       </Route>
 
-      {/* ESTA VA DESPUÉS */}
       <Route path="empresa/:id" element={<EmpresaDetalles />} />
 
       <Route path="/login" element={<Login />} />
       <Route path="/register/client" element={<RegisterClient />} />
       <Route path="/register/business" element={<RegisterBusiness />} />
-      <Route path="/login-signup" element={<LoginSignupPage />} />
       <Route path="/services/create" element={<CreateService />} />
       <Route path="/business/portfolio" element={<BusinessPortfolio />} />
 
       <Route path="/home-client" element={<HomeClient />} />
+      <Route path="/home-business" element={<HomeEmpresa />} />
+
       <Route path="/favorites" element={<Favorites />} />
       <Route path="/client/reservations" element={<ClientReservations />} />
       <Route path="/profile" element={<UserProfileView />} />
+      <Route path="/client-profile" element={<ClientProfile />} />
     </>
   )
 );

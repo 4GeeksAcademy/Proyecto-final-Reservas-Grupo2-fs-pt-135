@@ -1,13 +1,15 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import logo from "../assets/img/img/bookify-logo.png";
 
 const Navbar = ({ setShowModal }) => {
+    const navigate = useNavigate();
+
     return (
         <nav className="navbar">
 
             <div className="logo">
                 <img src={logo} alt="Bookify" className="logo-img" />
-            
             </div>
 
             <ul className="nav-links">
@@ -26,7 +28,17 @@ const Navbar = ({ setShowModal }) => {
                 </li>
             </ul>
 
-            <button className="btn-nav" onClick={() => setShowModal(true)}>
+            <button
+                className="btn-nav"
+                onClick={() => setShowModal(true)}
+            >
+                Cambiar contraseña
+            </button>
+
+            <button
+                className="btn-nav"
+                onClick={() => navigate("/login")}
+            >
                 Reservar
             </button>
 

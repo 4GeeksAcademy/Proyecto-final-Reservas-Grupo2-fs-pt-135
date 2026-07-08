@@ -110,6 +110,8 @@ class BusinessProfile(db.Model):
         "BusinessPortfolio", back_populates="business_profile", uselist=False)
     gallery_images: Mapped[list["BusinessGallery"]] = relationship(
         "BusinessGallery", back_populates="business_profile")
+    working_schedule: Mapped["BusinessWorkingSchedule"] = relationship(
+        "BusinessWorkingSchedule", back_populates="business", uselist=False)
 
     def serialize(self):
         return {
@@ -135,6 +137,31 @@ class BusinessProfile(db.Model):
             "province": self.province,
             "address": self.address,
             "categories": [category.serialize() for category in self.categories],
+        }
+
+
+class BusinessWorkingSchedule(db.Model):
+    __tablename__ = "business_working_schedule"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+
+    business_profile_id: Mapped[int] = mapped_column(
+        ForeignKey("business_profile.id"),
+        unique=True,
+        nullable=False
+    )
+
+    opening_time: Mapped[str] = mapped_column(String(5), nullable=False)
+    closing_time: Mapped[str] = mapped_column(String(5), nullable=False)
+
+    business: Mapped["BusinessProfile"] = relationship("BusinessProfile",back_populates="working_schedule")
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "business_profile_id": self.business_profile_id,
+            "opening_time": self.opening_time,
+            "closing_time": self.closing_time
         }
 
 
