@@ -6,6 +6,8 @@ export const RegisterClient = () => {
     const API_URL = import.meta.env.VITE_BACKEND_URL;
     const navigate = useNavigate();
 
+    console.log("API_URL REAL:", API_URL);
+
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
@@ -14,8 +16,11 @@ export const RegisterClient = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+        const url = `${API_URL}/api/auth/register/client`;
+        console.log("Voy a hacer fetch a:", url);
+
         try {
-            const response = await fetch(`${API_URL}/api/auth/register/client`, {
+            const response = await fetch(url, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -28,9 +33,12 @@ export const RegisterClient = () => {
                 })
             });
 
+            console.log("Status:", response.status);
+
             const data = await response.json();
 
             if (!response.ok) {
+                console.log("Respuesta del backend:", data);
                 alert(data.msg);
                 return;
             }
@@ -39,6 +47,7 @@ export const RegisterClient = () => {
             navigate("/login");
 
         } catch (error) {
+            console.error("Error completo:", error);
             alert("Error al conectar con el servidor");
         }
     };
