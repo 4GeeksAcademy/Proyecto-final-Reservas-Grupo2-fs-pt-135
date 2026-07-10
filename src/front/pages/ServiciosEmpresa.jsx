@@ -11,6 +11,41 @@ export const ServiciosEmpresa = () => {
   return (
     <div className="servicios-solo-container">
 
+      {/* HEADER IZQUIERDA / DERECHA */}
+      <div className="empresa-servicios-header">
+
+        {/* IMAGEN IZQUIERDA */}
+        <div className="empresa-header">
+          <img
+            src={empresa.logo}
+            alt={empresa.nombre}
+            className="empresa-logo"
+          />
+
+          <div className="empresa-titulo">
+            <h1>{empresa.nombre}</h1>
+            <p>{empresa.subtitulo}</p>
+          </div>
+        </div>
+
+        {/* IMAGEN PRINCIPAL */}
+        <div className="empresa-servicios-img">
+          <img
+            src={empresa.imagen}
+            alt={empresa.nombre}
+            className="empresa-imagen"
+          />
+        </div>
+      </div>
+
+      {/* QUIENES SOMOS */}
+      <div className="empresa-descripcion">
+        <h2>Quiénes somos</h2>
+        <p>{empresa.descripcion}</p>
+      </div>
+
+      {/* SERVICIOS */}
+      <h2>Servicios disponibles</h2>
       <div className="servicios-grid">
         {empresa.servicios.map((servicio, index) => (
           <div key={index} className="servicio-card">
@@ -20,6 +55,15 @@ export const ServiciosEmpresa = () => {
         ))}
       </div>
 
+      {/* CONTACTO FINAL */}
+      <div className="empresa-contacto">
+        <h2>Contáctanos</h2>
+        <p><strong>Ubicación:</strong> {empresa.ubicacion}</p>
+        <p><strong>Correo:</strong> {empresa.correo}</p>
+        <p><strong>Teléfono:</strong> {empresa.telefono}</p>
+      </div>
     </div>
   );
 };
+
+
