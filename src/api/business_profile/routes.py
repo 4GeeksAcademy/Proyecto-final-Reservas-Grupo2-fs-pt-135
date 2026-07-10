@@ -1,6 +1,13 @@
 from flask import jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from api.models import db, BusinessProfile, Category
+from api.models import (
+    db,
+    BusinessProfile,
+    Category,
+    BusinessPortfolio,
+    BusinessWorkingSchedule,
+    Service
+)
 from . import business_profile
 
 
@@ -71,6 +78,48 @@ def update_business_profile():
     return jsonify({
         "msg": "Business profile updated successfully",
         "business_profile": profile.serialize()
+    }), 200
+
+
+@business_profile.route("/setup-status", methods=["GET"])
+@jwt_required()
+def get_business_setup_status():
+    user_id = get_jwt_identity()
+
+    profile = BusinessProfile.query.filter_by(user_id=user_id).first()
+
+    if not profile:
+        return jsonify({"msg": "Business profile not found"}), 404
+
+    portfolio = BusinessPortfolio.query.filter_by(
+        business_profile_id=profile.id
+    ).first()
+
+    working_schedule = BusinessWorkingSchedule.query.filter_by(
+        business_profile_id=profile.id
+    ).first()
+
+    services_count = Service.query.filter_by(
+        business_id=profile.id
+    ).count()
+
+    return jsonify({
+        "business_profile_id": profile.id,
+        "has_portfolio": portfolio is not None,
+        "has_working_schedule": working_schedule is not None,
+        "has_services": services_count > 0
+    }), 200
+
+
+@business_profile.route("/<int:business_profile_id>", methods=["GET"])
+def get_public_business_profile(business_profile_id):
+    profile = BusinessProfile.query.get(business_profile_id)
+
+    if not profile:
+        return jsonify({"msg": "Business profile not found"}), 404
+
+    return jsonify({
+        "business_profile": profile.serialize_search()
     }), 200
 
 

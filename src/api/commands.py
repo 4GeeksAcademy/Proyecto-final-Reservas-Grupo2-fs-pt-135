@@ -43,6 +43,7 @@ def setup_commands(app):
             "Naturaleza",
             "Eventos",
             "Legal",
+            "Finanzas",
         ]
 
         created = 0

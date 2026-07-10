@@ -1,23 +1,26 @@
 import React from "react";
+import barberiaImage from "../assets/img/logosdeempresa/barberia -el -barrio.jpg";
+import fluxImage from "../assets/img/logosdeempresa/fluxcapital.png";
+import bionaturaImage from "../assets/img/logosdeempresa/bionaturaspa.png";
 
 const professionals = [
     {
-        name: "Miguel Barber",
-        specialty: "Barberia Premium",
+        name: "Barberia El Barrio",
+        specialty: "Barberia Tradicional",
         rating: "4.9",
-        image: "src/front/assets/img/img/barberia.jpeg"
+        image: barberiaImage
     },
     {
-        name: "Finanzas Style",
+        name: "Flux Capital",
         specialty: "Finanzas de Elite",
         rating: "5.0",
-        image: "src/front/assets/img/img/financiera.webp"
+        image: fluxImage
     },
     {
-        name: "Laura Spa",
+        name: "Bionatura Spa",
         specialty: "Spa & Wellness",
         rating: "4.8",
-        image: "src/front/assets/img/img/Spa.jpg"
+        image: bionaturaImage
     }
 ];
 
