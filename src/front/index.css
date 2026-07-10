@@ -190,7 +190,7 @@ html {
 
 .category-card {
   background: #111111;
-  border: 1px solid #2a2a2a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 18px;
   padding: 35px 20px;
   text-align: center;
@@ -409,7 +409,6 @@ html {
   padding: 70px 10% 60px;
 }
 
-
 .empresas-grid {
   display: flex;
   flex-direction: row;
@@ -419,36 +418,34 @@ html {
   align-items: stretch;
 }
 
-.carrusel-slide{
+.carrusel-slide {
   transition: transform 2s ease-in-out;
 }
 
-.btn-carrusel-anterior{
-  margin-right:20vh;
+.btn-carrusel-anterior {
+  margin-right: 20vh;
 }
 
 .btn-carrusel-siguiente {
-  margin-left:30vh;
+  margin-left: 30vh;
 }
-
 
 .empresa-card {
   background: #111;
+  outline: 1px solid rgba(13, 232, 203, 0.956);
+  outline-offset: 0px;
   border-radius: 18px;
-  border: 1px solid #262626;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   transition: 0.3s;
   width: 300px;
   flex-shrink: 0;
-
 }
 
 .empresa-card:hover {
   transform: translateY(-6px);
-  border-color: var(--turq-2);
-  box-shadow: 0 10px 30px rgba(1, 183, 161, 0.18);
+  outline: 2px solid var(--turq-2);
+  box-shadow: 0 5px 15px rgba(85, 234, 217, 0.972);
 }
 
 .empresa-card-img-wrapper {
@@ -456,20 +453,35 @@ html {
   width: 100%;
   height: 180px;
   overflow: hidden;
+  box-shadow: 0 4px 12px rgba(24, 166, 166, 0.947);
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
 }
 
+.empresa-card-wrapper {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 18px;
+  padding: 4px;
+  transition: 0.3s;
+}
+.empresa-card-wrapper:hover {
+  border-color: var(--turq-2);
+  box-shadow: 0 4px 12px rgba(16, 230, 205, 0.954);
+}
 .empresa-card-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
 }
 
 .empresa-card-logo {
   position: absolute;
-  top: 12px;
-  left: 12px;
-  width: 100px;
-  height: 100px;
+  top: 5px;
+  left: 5px;
+  width: 80px;
+  height: 80px;
   object-fit: contain;
   border-radius: 15px;
   padding: 6px;
@@ -1991,7 +2003,6 @@ html {
   }
 }
 
-
 /* ===========================================================
    BUSINESS HOME PAGE
 =========================================================== */
@@ -2316,7 +2327,6 @@ html {
   color: #9f9f9f;
 }
 
-
 /* ================= RESPONSIVE ================= */
 
 @media (max-width: 1000px) {
@@ -2362,10 +2372,7 @@ html {
   min-height: 82vh;
   width: 100%;
   background:
-    linear-gradient(
-      rgba(0, 0, 0, 0.40),
-      rgba(0, 0, 0, 0.60)
-    ),
+    linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)),
     url("/src/front/assets/img/img/hero.png");
   background-size: cover;
   background-repeat: no-repeat;
@@ -2376,7 +2383,7 @@ html {
   max-width: none;
   width: 100%;
   padding: 25px 110px;
-  background: rgba(0, 0, 0, 0.50);
+  background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
 }
 
@@ -2450,3 +2457,159 @@ html {
   cursor: not-allowed;
 }
 
+/* ============================
+   CONTENEDOR GENERAL
+============================ */
+
+.servicios-solo-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 50px 20px;
+  background: #0d0d0d;
+  color: #5de4e2;
+  font-family: 'Inter', sans-serif;
+}
+
+/* HEADER COMPLETO (LOGO + imagen) */
+
+.empresa-servicios-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  margin-bottom: 50px;
+  background: linear-gradient(
+    90deg,
+    rgba(208, 214, 217, 0.97),
+    rgba(235, 205, 154, 0)
+  );
+  padding: 30px;
+  border-radius: 20px;
+}
+
+/* LOGO + TÍTULO */
+
+.empresa-header {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.empresa-logo {
+  width: 140px;
+  border-radius: 0px;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.empresa-titulo h1 {
+  background: linear-gradient(90deg, #b77101, #a2a366);
+  -webkit-background-clip: text;
+  font-family: 'Playfair Display', serif;
+  font-size: 2.8rem;
+  color: transparent;
+  margin: 0;
+}
+
+.empresa-titulo p {
+  font-size: 1.2rem;
+  color: #00080ffa;
+  margin-top: 5px;
+}
+
+/* IMAGEN PRINCIPAL */
+
+.empresa-servicios-imagen {
+  max-width: 480px;
+  flex-shrink: 0;
+}
+
+.empresa-imagen {
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  border-radius: 16px;
+  object-fit: cover;
+  box-shadow: 0 10px 30px rgba(202, 164, 24, 0.45);
+  border: 1px solid rgba(242, 231, 16, 0.25);
+}
+
+/* QUIENES SOMOS */
+
+.empresa-descripcion {
+  margin: 40px 0 50px 0;
+  text-align: left;
+}
+
+.empresa-descripcion h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  color: #5de4e2;
+  margin-bottom: 15px;
+}
+
+.empresa-descripcion p {
+  font-size: 1.1rem;
+  color: #e2eeed;
+  line-height: 1.7;
+}
+
+/* SERVICIOS */
+
+.servicios-grid {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.servicio-card {
+  background: #141414;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(205, 194, 194, 0.6);
+  backdrop-filter: blur(6px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transform: translateY(10px);
+  animation: fadeInUp 0.6s forwards;
+}
+
+.servicio-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgb(133, 204, 227);
+}
+
+.servicio-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: #65efea;
+  margin-bottom: 10px;
+}
+
+.servicio-card p {
+  font-size: 1.05rem;
+  color: #b4b0b0;
+  line-height: 1.6;
+}
+
+/* CONTACTO FINAL */
+
+.empresa-contacto {
+  margin-top: 60px;
+  padding-top: 40px;
+  border-top: 1px solid rgb(192, 237, 227);
+}
+
+.empresa-contacto h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  color: #29b1d3;
+  margin-bottom: 15px;
+}
+
+.empresa-contacto p {
+  font-size: 1.1rem;
+  color: #b78a36;
+  line-height: 1.7;
+}

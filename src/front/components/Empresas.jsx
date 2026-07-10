@@ -68,6 +68,7 @@ const Empresas = () => {
             {empresasMock.map((empresa) => (
               <div 
                 key={empresa.id}
+                className="empresa-card-wrapper"
                 style={{ width: `${CARD_WIDTH}px`, flexShrink: 0 }}
               >
                 <div className="empresa-card-img-wrapper">
@@ -79,7 +80,7 @@ const Empresas = () => {
                   <h3 className="empresa-card-title">{empresa.nombre}</h3>
                   <p className="empresa-card-location">{empresa.ubicacion} · {empresa.rating} ⭐</p>
                   <p className="empresa-card-description">{empresa.descripcion}</p>
-                  <Link to={`/empresa/${empresa.id}`} className="btn-ver-detalles">
+                  <Link to={`/empresa/${empresa.id}/servicios`} className="btn-ver-detalles">
                     Ver detalles
                   </Link>
                 </div>

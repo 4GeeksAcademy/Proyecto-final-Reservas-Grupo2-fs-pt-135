@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { empresasMock } from "./mockdata";
 
 export default function EmpresaCard({
   id,
@@ -14,7 +15,7 @@ export default function EmpresaCard({
   subtitulo
 }) {
   return (
-    <Link to={`/empresa/${id}`} className="empresa-card">
+    <Link to={`/empresa/${id}/servicios`} className="empresa-card">
 
       {/* Imagen principal */}
       <img src={imagen} alt={nombre} className="empresa-img" />

@@ -1,7 +1,7 @@
 from flask import request, jsonify
-from datetime import datetime
+from datetime import datetime, timedelta
 
-from api.models import db, Service, Reservas, ClientProfile, BusinessProfile
+from api.models import db, Service, Reservas, ClientProfile, BusinessProfile,  BusinessWorkingSchedule
 from . import reservations
 
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -55,6 +55,137 @@ def get_reservas_by_client(client_id):
     reservas_cliente = Reservas.query.filter_by(client_id=client_id).all()
 
     return jsonify([reserva.serialize() for reserva in reservas_cliente]), 200
+
+
+@reservations.route("/availability", methods=["GET"])
+def get_service_availability():
+    service_id = request.args.get("service_id", "").strip()
+    selected_date = request.args.get("date", "").strip()
+
+    if not service_id or not selected_date:
+        return jsonify({
+            "msg": "service_id and date are required"
+        }), 400
+
+    if not service_id.isdigit():
+        return jsonify({
+            "msg": "service_id must be a number"
+        }), 400
+
+    try:
+        selected_day = datetime.strptime(
+            selected_date,
+            "%Y-%m-%d"
+        ).date()
+    except ValueError:
+        return jsonify({
+            "msg": "date must use YYYY-MM-DD format"
+        }), 400
+
+    today = datetime.now().date()
+
+    if selected_day < today:
+        return jsonify({
+            "msg": "Past dates are not allowed"
+        }), 400
+
+    service = db.session.get(Service, int(service_id))
+
+    if not service or not service.status:
+        return jsonify({
+            "msg": "Service not found"
+        }), 404
+
+    schedule = BusinessWorkingSchedule.query.filter_by(
+        business_profile_id=service.business_id
+    ).first()
+
+    if not schedule:
+        return jsonify({
+            "msg": "Business working schedule not found"
+        }), 404
+
+    opening_time = datetime.strptime(
+        schedule.opening_time,
+        "%H:%M"
+    ).time()
+
+    closing_time = datetime.strptime(
+        schedule.closing_time,
+        "%H:%M"
+    ).time()
+
+    opening_datetime = datetime.combine(
+        selected_day,
+        opening_time
+    )
+
+    closing_datetime = datetime.combine(
+        selected_day,
+        closing_time
+    )
+
+    existing_reservations = Reservas.query.filter(
+        Reservas.service_id == service.id,
+        Reservas.status != "Cancelada",
+        db.func.date(Reservas.appointment_datetime) == selected_day
+    ).all()
+
+    occupied_ranges = []
+
+    for reservation in existing_reservations:
+        reservation_start = reservation.appointment_datetime
+
+        reservation_end = reservation_start + timedelta(
+            minutes=service.duration_minutes
+        )
+
+        occupied_ranges.append({
+            "start": reservation_start,
+            "end": reservation_end
+        })
+
+    available_times = []
+    current_slot = opening_datetime
+    now = datetime.now()
+
+    while (
+        current_slot + timedelta(
+            minutes=service.duration_minutes
+        )
+        <= closing_datetime
+    ):
+        slot_end = current_slot + timedelta(
+            minutes=service.duration_minutes
+        )
+
+        is_past = (
+            selected_day == now.date()
+            and current_slot <= now
+        )
+
+        overlaps = any(
+            current_slot < occupied["end"]
+            and slot_end > occupied["start"]
+            for occupied in occupied_ranges
+        )
+
+        if not overlaps and not is_past:
+            available_times.append(
+                current_slot.strftime("%H:%M")
+            )
+
+        current_slot += timedelta(minutes=30)
+
+    return jsonify({
+        "service_id": service.id,
+        "service_name": service.name,
+        "duration_minutes": service.duration_minutes,
+        "date": selected_date,
+        "opening_time": schedule.opening_time,
+        "closing_time": schedule.closing_time,
+        "available_times": available_times
+    }), 200
 
 
 @reservations.route('', methods=['POST'])
@@ -147,6 +278,7 @@ def cancel_reserva(reserva_id):
         "message": "Reserva cancelada",
         "reserva": reserva.serialize()
     }), 200
+
 
 @reservations.route('/business/today', methods=['GET'])
 @jwt_required()

@@ -45,7 +45,7 @@ cloudinary.config(
 )
 
 # database configuration
-db_url = os.getenv("DATABASEASE_URL")
+db_url = os.getenv("DATABASE_URL")
 if db_url is not None:
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace(
         "postgres://", "postgresql://")
@@ -71,22 +71,26 @@ app.register_blueprint(auth, url_prefix='/api/auth')
 app.register_blueprint(services, url_prefix='/api/services')
 app.register_blueprint(client_profile, url_prefix='/api/client-profile')
 app.register_blueprint(business_profile, url_prefix='/api/business-profile')
-app.register_blueprint(business_portfolio, url_prefix='/api/business-portfolio')
+app.register_blueprint(
+    business_portfolio, url_prefix='/api/business-portfolio')
 app.register_blueprint(business_gallery, url_prefix='/api/business-gallery')
 app.register_blueprint(business_schedule, url_prefix='/api/business-schedule')
 app.register_blueprint(categories, url_prefix="/api/categories")
 app.register_blueprint(favorites, url_prefix="/api/favorites")
 app.register_blueprint(reservations, url_prefix="/api/reservations")
 
+
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
     return jsonify(error.to_dict()), error.status_code
+
 
 @app.route('/')
 def sitemap():
     if ENV == "development":
         return generate_sitemap(app)
     return send_from_directory(static_file_dir, 'index.html')
+
 
 @app.route('/<path:path>', methods=['GET'])
 def serve_any_other_file(path):
@@ -96,7 +100,8 @@ def serve_any_other_file(path):
     response.cache_control.max_age = 0  # avoid cache memory
     return response
 
-# ejecutar reloj para actualizar estado 
+
+# ejecutar reloj para actualizar estado
 start_scheduler(app)
 
 # this only runs if `$ python src/app.py` is executed
