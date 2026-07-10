@@ -63,7 +63,7 @@ const BusinessHeader = () => {
                 type="button"
                 onClick={() => {
                   setMenuOpen(false);
-                  navigate("/business/portfolio");
+                  navigate("/business/profile");
                 }}
               >
                 <i className="bi bi-person-fill"></i>
