@@ -49,7 +49,7 @@ export const CategorySection = ({ setShowModal }) => {
   ];
 
   return (
-    <section className="category-section">
+    <section id="categorias" className="category-section">
 
       <h2 className="section-title">
         Categorías Populares

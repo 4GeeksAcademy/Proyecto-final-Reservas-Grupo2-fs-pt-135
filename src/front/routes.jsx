@@ -51,8 +51,8 @@ export const router = createBrowserRouter(
       <Route path="/favorites" element={<Favorites />} />
       <Route path="/Reservas" element={<Reserva />} />
       <Route path="/client/reservations" element={<ClientReservations />} />
-      <Route path="/profile" element={<UserProfileView />} />
       <Route path="/client-profile" element={<ClientProfile />} />
+      <Route path="/change-password" element={<UserProfileView />} />
     </>
   )
 );

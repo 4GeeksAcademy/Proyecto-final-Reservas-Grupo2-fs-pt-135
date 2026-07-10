@@ -23,6 +23,16 @@ body {
   color: white;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+#categorias,
+#profesionales,
+#sobre-nosotros {
+  scroll-margin-top: 120px;
+}
+
 /* ========================= */
 /* NAVBAR                    */
 /* ========================= */
@@ -54,20 +64,11 @@ body {
   color: white;
   text-decoration: none;
   font-weight: 500;
+  transition: color 0.3s ease;
 }
 
-.nav-links a:hover,
-.registro-usuario:hover {
-  background: linear-gradient(
-    135deg,
-    var(--turq-1),
-    var(--turq-2),
-    var(--turq-3),
-    var(--turq-4),
-    var(--turq-5)
-  );
-  -webkit-background-clip: text;
-  color: transparent;
+.nav-links a:hover {
+  color: var(--primary);
 }
 
 .btn-nav {
@@ -116,7 +117,7 @@ body {
   font-size: 22px;
   color: #d5d5d5;
   margin-bottom: 15px;
-  margin-top: 80vh;
+  margin-top: 70vh;
 }
 
 .hero-title {
@@ -138,6 +139,8 @@ body {
   backdrop-filter: blur(10px);
 
   border: 1px solid rgba(255, 255, 255, 0.08);
+
+   transform: translateY(-150px);
 }
 
 .search-box input {
@@ -169,7 +172,7 @@ body {
 /* CATEGORÍAS                */
 /* ========================= */
 .category-section {
-  padding: 100px 10%;
+  padding: 70px 10% 60px;
 }
 
 .section-title {
@@ -234,7 +237,7 @@ body {
 /* PROFESIONALES */
 
 .elite-section {
-  padding: 100px 10%;
+  padding: 70px 10% 60px;
 }
 
 .elite-grid {
@@ -299,7 +302,7 @@ body {
 /* SECCIÓN DE INFORMACIÓN    */
 /* ========================= */
 .info-section {
-  padding: 100px 10%;
+  padding: 70px 10%;
 }
 
 .info-row {
@@ -307,7 +310,7 @@ body {
   justify-content: space-between;
   align-items: center;
   gap: 100px;
-  margin-bottom: 140px;
+  margin-bottom: 70px;
 }
 
 .info-row.reverse {
@@ -403,7 +406,7 @@ body {
 /* EMPRESAS (GRID PREMIUM)   */
 /* ========================= */
 .empresas-container {
-  padding: 160px 10% 80px 10%;
+  padding: 70px 10% 60px;
 }
 
 
@@ -2415,3 +2418,35 @@ body {
 .page-back-link i {
   font-size: 1.4rem;
 }
+
+/* ========================= */
+/* CARRUSEL LANDING          */
+/* ========================= */
+
+.btn-carrusel {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  background: var(--primary);
+  color: white;
+  font-size: 22px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+  transition: all .25s ease;
+}
+
+.btn-carrusel:hover:not(:disabled) {
+  background: var(--primary-hover);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.btn-carrusel:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+}
+
