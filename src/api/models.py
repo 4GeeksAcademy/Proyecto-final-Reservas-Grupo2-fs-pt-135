@@ -86,7 +86,30 @@ class ClientProfile(db.Model):
             "name": self.name,
             "phone": self.phone
         }
+    
+class BusinessWorkingSchedule(db.Model):
+    __tablename__ = "business_working_schedule"
 
+    id: Mapped[int] = mapped_column(primary_key=True)
+
+    business_profile_id: Mapped[int] = mapped_column(
+        ForeignKey("business_profile.id"),
+        unique=True,
+        nullable=False
+    )
+
+    opening_time: Mapped[str] = mapped_column(String(5), nullable=False)
+    closing_time: Mapped[str] = mapped_column(String(5), nullable=False)
+
+    business: Mapped["BusinessProfile"] = relationship("BusinessProfile",back_populates="working_schedule")
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "business_profile_id": self.business_profile_id,
+            "opening_time": self.opening_time,
+            "closing_time": self.closing_time
+        }
 
 class BusinessProfile(db.Model):
     __tablename__ = "business_profile"
@@ -140,30 +163,6 @@ class BusinessProfile(db.Model):
             "categories": [category.serialize() for category in self.categories],
         }
 
-
-class BusinessWorkingSchedule(db.Model):
-    __tablename__ = "business_working_schedule"
-
-    id: Mapped[int] = mapped_column(primary_key=True)
-
-    business_profile_id: Mapped[int] = mapped_column(
-        ForeignKey("business_profile.id"),
-        unique=True,
-        nullable=False
-    )
-
-    opening_time: Mapped[str] = mapped_column(String(5), nullable=False)
-    closing_time: Mapped[str] = mapped_column(String(5), nullable=False)
-
-    business: Mapped["BusinessProfile"] = relationship("BusinessProfile",back_populates="working_schedule")
-
-    def serialize(self):
-        return {
-            "id": self.id,
-            "business_profile_id": self.business_profile_id,
-            "opening_time": self.opening_time,
-            "closing_time": self.closing_time
-        }
 
 
 class BusinessPortfolio(db.Model):
