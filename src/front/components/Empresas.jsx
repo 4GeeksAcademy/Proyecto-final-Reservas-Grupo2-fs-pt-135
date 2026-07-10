@@ -31,7 +31,7 @@ const Empresas = () => {
   const translateX = -(index * STEP);
 
   return (
-    <section className="empresas-container" style={{ padding: "40px 0" }}>
+    <section id="profesionales" className="empresas-container" style={{ padding: "40px 0" }}>
       
 
       <div style={{ position: "relative", width: `${WINDOW_WIDTH}px`, margin: "0 auto" }}>
@@ -41,17 +41,17 @@ const Empresas = () => {
         {/* Botón Anterior */}
         <button
           onClick={prev}
-          className="btn btn-secondary btn-carrusel-anterior"
+          className="btn-carrusel btn-carrusel-anterior"
           disabled={index === 0}
           style={{
             position: "absolute",
-            left: "-120px",
+            left: "-70px",
             top: "50%",
             transform: "translateY(-50%)",
             zIndex: 10,
           }}
         >
-          Anterior
+          <i className="bi bi-chevron-left"></i>
         </button>
 
         {/* Ventana de visualización (Lo que corta las tarjetas) */}
@@ -92,17 +92,17 @@ const Empresas = () => {
         {/* Botón Siguiente */}
         <button
           onClick={next}
-          className="btn btn-primary btn-carrusel-siguiente"
+          className="btn-carrusel btn-carrusel-siguiente"
           disabled={index >= empresasMock.length - ITEMS_VISIBLE}
           style={{
             position: "absolute",
-            right: "-120px",
+            right: "-70px",
             top: "50%",
             transform: "translateY(-50%)",
             zIndex: 10,
           }}
         >
-          Siguiente
+          <i className="bi bi-chevron-right"></i>
         </button>
       </div>
     </section>

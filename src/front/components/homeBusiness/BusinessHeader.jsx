@@ -70,6 +70,17 @@ const BusinessHeader = () => {
                 Mi perfil
               </button>
 
+              <button
+                type="button"
+                onClick={() => {
+                  setMenuOpen(false);
+                  navigate("/change-password");
+                }}
+              >
+                <i className="bi bi-shield-lock-fill"></i>
+                Cambiar contraseña
+              </button>
+
               <button type="button" onClick={handleLogout}>
                 <i className="bi bi-box-arrow-right"></i>
                 Cerrar sesión

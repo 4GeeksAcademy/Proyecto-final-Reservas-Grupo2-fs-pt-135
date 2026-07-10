@@ -105,6 +105,7 @@ export const RegisterBusiness = () => {
               <option value="4">Naturaleza</option>
               <option value="5">Eventos</option>
               <option value="6">Legal</option>
+              <option value="7">Finanzas</option>
             </select>
           </div>
 

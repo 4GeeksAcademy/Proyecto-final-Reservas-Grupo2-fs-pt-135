@@ -206,3 +206,28 @@ def get_current_user():
     return jsonify({
         "user": user.serialize()
     }), 200
+
+@auth.route("/change-password", methods=["PATCH"])
+@jwt_required()
+def change_password():
+    user_id = int(get_jwt_identity())
+    data = request.get_json() or {}
+
+    new_password = data.get("password", "").strip()
+
+    if not new_password:
+        return jsonify({"msg": "La nueva contraseña es obligatoria"}), 400
+
+    if len(new_password) < 8:
+        return jsonify({"msg": "La contraseña debe tener al menos 8 caracteres"}), 400
+
+    user = User.query.get(user_id)
+
+    if not user:
+        return jsonify({"msg": "Usuario no encontrado"}), 404
+
+    user.password = bcrypt.generate_password_hash(new_password).decode("utf-8")
+
+    db.session.commit()
+
+    return jsonify({"msg": "Contraseña actualizada correctamente"}), 200

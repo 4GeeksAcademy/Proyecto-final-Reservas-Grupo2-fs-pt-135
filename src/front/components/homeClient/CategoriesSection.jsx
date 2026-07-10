@@ -4,10 +4,10 @@ const categoryIcons = {
   "Peluquería": "bi-scissors",
   "Spa": "bi-flower1",
   "Salud y bienestar": "bi-heart-pulse-fill",
-  "Legal": "bi-bank",
-  "Eventos": "bi-calendar-event",
-  "Finanzas": "bi-cash-coin",
   "Naturaleza": "bi-tree-fill",
+  "Eventos": "bi-calendar-event",
+  "Legal": "bi-bank",
+  "Finanzas": "bi-cash-coin",
 };
 
 const CategoriesSection = ({ selectedCategoryId, setSelectedCategoryId }) => {
