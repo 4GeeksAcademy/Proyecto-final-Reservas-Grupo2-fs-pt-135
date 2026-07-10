@@ -5,11 +5,12 @@
   border-radius: 15px;
   overflow: hidden;
   height: 100%;
+  
 }
 
+.card.facility-card .card-img,
 .card.facility-card .card-img-top {
-  height: 200px;
-  object-fit: cover;
+ pointer-events: none; /* Evita que la imagen sea clickeable */
 }
 
 .card.facility-card .card-title {
@@ -25,16 +26,14 @@
 }
 
 .card.facility-card .btn-custom {
-  background-color: transparent;
-  border: 1px solid #e0ac81;
-  color: #e0ac81;
-  border-radius: 20px;
-  padding: 8px 20px;
-  width: 100%;
-  transition: all 0.3s ease;
+  pointer-events: auto; /* Permite que el botón sea clickeable */
+  position: relative;
+  z-index: 10; /* Asegura que el botón esté por encima de la imagen */
 }
 
 .card.facility-card .btn-custom:hover {
   background-color: #e0ac81;
   color: #2c343a;
 }
+
+

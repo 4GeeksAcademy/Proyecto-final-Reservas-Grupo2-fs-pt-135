@@ -1,80 +1,177 @@
-from flask import Blueprint, request, jsonify
+from flask import request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from api.models import db, Service, Reservas, ClientProfile
+from api.models import db, BusinessProfile, Service
+from . import services
 
 
-reservas = Blueprint("reservas_api", __name__)
+def get_current_business():
+    current_user_id = get_jwt_identity()
 
-# --- RUTA PARA OBTENER TODAS LAS RESERVAS --- [rehacer] traer ID de la empresa + usuario (condicional si no existe)
+    business = BusinessProfile.query.filter_by(
+        user_id=current_user_id
+    ).first()
 
-
-@reservas.route('/<int:id>', methods=['GET'])
-def get_reserva(id):
-
-    reserva = db.session.get(Reservas, id)
-
-    if reserva is None:
-        return jsonify({"msg": "Reserva no encontrada"}), 404
-
-    return jsonify(reserva.serialize()), 200
+    return business
 
 
-# --- RUTA PARA CREAR UNA RESERVA ---
-@reservas.route('', methods=['POST'])
-def create_reserva():
+@services.route("/", methods=["GET"])
+@jwt_required()
+def get_services():
+    business = get_current_business()
 
-    data = request.get_json()
+    if not business:
+        return jsonify({"error": "Business profile not found"}), 404
 
-    if not data:
+    services_list = Service.query.filter_by(
+        business_id=business.id,
+        status=True
+    ).all()
+
+    return jsonify({
+        "services": [service.serialize() for service in services_list]
+    }), 200
+
+
+@services.route("/", methods=["POST"])
+@jwt_required()
+def create_service():
+    business = get_current_business()
+
+    if not business:
+        return jsonify({"error": "Business profile not found"}), 404
+
+    data = request.get_json() or {}
+
+    name = data.get("name", "").strip()
+    description = data.get("description", "").strip()
+    price = data.get("price")
+    duration_minutes = data.get("duration_minutes")
+
+    if not name or price is None or duration_minutes is None:
         return jsonify({
-            "error": "No se enviaron datos"
+            "error": "name, price and duration_minutes are required"
         }), 400
 
-    client_id = data.get("client_id")
-    service_id = data.get("service_id")
+    try:
+        price = float(price)
+    except (TypeError, ValueError):
+        return jsonify({"error": "price must be a number"}), 400
 
-    if not client_id or not service_id:
-        return jsonify({
-            "error": "client_id y service_id son obligatorios"
-        }), 400
+    if price <= 0:
+        return jsonify({"error": "price must be greater than 0"}), 400
 
-    if not db.session.get(ClientProfile, client_id):
-        return jsonify({
-            "error": "Cliente no encontrado"
-        }), 404
+    try:
+        duration_minutes = int(duration_minutes)
+    except (TypeError, ValueError):
+        return jsonify({"error": "duration_minutes must be a number"}), 400
 
-    if not db.session.get(Service, service_id):
-        return jsonify({
-            "error": "Servicio no encontrado"
-        }), 404
+    if duration_minutes <= 0:
+        return jsonify({"error": "duration_minutes must be greater than 0"}), 400
 
-    nueva_reserva = Reservas(
-        client_id=client_id,
-        service_id=service_id,
-        status=data.get("status", "pendiente"),
-        notes=data.get("notes", "")
+    if duration_minutes > 480:
+        return jsonify({"error": "duration_minutes cannot be greater than 480"}), 400
+
+    new_service = Service(
+        business_id=business.id,
+        name=name,
+        description=description,
+        price=price,
+        duration_minutes=duration_minutes,
+        status=True
     )
 
-    db.session.add(nueva_reserva)
-    db.session.commit()
-
-    return jsonify(nueva_reserva.serialize()), 201
-
-
-# --- RUTA PARA CANCELAR UNA RESERVA ---
-@reservas.route('/<int:reserva_id>', methods=['DELETE'])
-def delete_reserva(reserva_id):
-
-    reserva = db.session.get(Reservas, reserva_id)
-
-    if not reserva:
-        return jsonify({
-            "error": "Reserva no encontrada"
-        }), 404
-
-    reserva.status = "cancelada"
+    db.session.add(new_service)
     db.session.commit()
 
     return jsonify({
-        "message": "Reserva cancelada"
+        "message": "Service created successfully",
+        "service": new_service.serialize()
+    }), 201
+
+
+@services.route("/<int:service_id>", methods=["PUT"])
+@jwt_required()
+def update_service(service_id):
+    business = get_current_business()
+
+    if not business:
+        return jsonify({"error": "Business profile not found"}), 404
+
+    service = Service.query.filter_by(
+        id=service_id,
+        business_id=business.id
+    ).first()
+
+    if not service:
+        return jsonify({"error": "Service not found"}), 404
+
+    data = request.get_json() or {}
+
+    if "name" in data:
+        service.name = data.get("name", "").strip()
+
+    if "description" in data:
+        service.description = data.get("description", "").strip()
+
+    if "price" in data:
+        try:
+            service.price = float(data.get("price"))
+        except (TypeError, ValueError):
+            return jsonify({"error": "price must be a number"}), 400
+
+    if "duration_minutes" in data:
+        try:
+            service.duration_minutes = int(data.get("duration_minutes"))
+        except (TypeError, ValueError):
+            return jsonify({"error": "duration_minutes must be a number"}), 400
+
+    if "status" in data:
+        service.status = bool(data.get("status"))
+
+    db.session.commit()
+
+    return jsonify({
+        "message": "Service updated successfully",
+        "service": service.serialize()
+    }), 200
+
+
+@services.route("/<int:service_id>", methods=["DELETE"])
+@jwt_required()
+def delete_service(service_id):
+    business = get_current_business()
+
+    if not business:
+        return jsonify({"error": "Business profile not found"}), 404
+
+    service = Service.query.filter_by(
+        id=service_id,
+        business_id=business.id
+    ).first()
+
+    if not service:
+        return jsonify({"error": "Service not found"}), 404
+
+    service.status = False
+    db.session.commit()
+
+    return jsonify({
+        "message": "Service disabled successfully"
+    }), 200
+
+
+@services.route("/business/<int:business_id>", methods=["GET"])
+def get_business_services(business_id):
+    business = BusinessProfile.query.get(business_id)
+
+    if not business:
+        return jsonify({"msg": "Business not found"}), 404
+
+    services_list = Service.query.filter_by(
+        business_id=business_id,
+        status=True
+    ).all()
+
+    return jsonify({
+        "services": [service.serialize() for service in services_list]
     }), 200

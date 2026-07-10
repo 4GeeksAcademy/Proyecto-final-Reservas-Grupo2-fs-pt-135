@@ -1,0 +1,63 @@
+.modal-content {
+  background: #17191c;
+
+  color: white;
+
+  border: 1px solid rgba(1, 183, 161, 0.18);
+
+  border-radius: 20px;
+}
+
+.reservation-modal-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+  background: #17191c;
+}
+
+.reservation-modal-body {
+  padding: 35px;
+}
+
+.reservation-modal-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+  background: #17191c;
+}
+
+.reservation-modal-business {
+  font-weight: 700;
+
+  margin-bottom: 30px;
+}
+
+.reservation-modal-image {
+  width: 220px;
+
+  height: 220px;
+
+  object-fit: cover;
+
+  border-radius: 18px;
+}
+
+.reservation-detail-item {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 14px 0;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.reservation-detail-item span:first-child {
+  color: #9aa4a8;
+}
+
+.confirm-modal-message {
+    color: #d7d7d7;
+    font-size: 1rem;
+    margin: 0;
+}

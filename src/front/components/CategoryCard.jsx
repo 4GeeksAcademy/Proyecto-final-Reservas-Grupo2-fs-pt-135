@@ -11,11 +11,11 @@ import {
   FaPlus
 } from "react-icons/fa";
 
-export const CategorySection = () => {
+export const CategorySection = ({ setShowModal }) => {
 
   const categorias = [
     {
-      nombre: "Salones",
+      nombre: "Eventos",
       icono: <FaStore />
     },
     {
@@ -23,7 +23,7 @@ export const CategorySection = () => {
       icono: <FaSpa />
     },
     {
-      nombre: "Salud",
+      nombre: "Salud y Bienestar",
       icono: <FaHeartbeat />
     },
     {
@@ -35,11 +35,11 @@ export const CategorySection = () => {
       icono: <FaMoneyBillWave />
     },
     {
-      nombre: "Bienestar",
+      nombre: "Naturaleza",
       icono: <FaLeaf />
     },
     {
-      nombre: "Corte",
+      nombre: "Peluquerías",
       icono: <FaCut />
     },
     {
@@ -49,7 +49,7 @@ export const CategorySection = () => {
   ];
 
   return (
-    <section className="category-section">
+    <section id="categorias" className="category-section">
 
       <h2 className="section-title">
         Categorías Populares
@@ -61,6 +61,8 @@ export const CategorySection = () => {
           <div
             key={index}
             className="category-card"
+            onClick={() => setShowModal(true)}
+            style={{ cursor: "pointer" }}
           >
 
             <div className="category-icon">

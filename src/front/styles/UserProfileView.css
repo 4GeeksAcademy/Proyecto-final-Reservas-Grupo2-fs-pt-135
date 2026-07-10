@@ -1,0 +1,105 @@
+/* ================= CHANGE PASSWORD PAGE ================= */
+
+.change-password-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(1,183,161,.06), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(1,183,161,.04), transparent 30%),
+    #030506;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.change-password-card {
+  width: 100%;
+  max-width: 500px;
+  background: #15191c;
+  border: 1px solid rgba(1, 183, 161, 0.18);
+  border-radius: 26px;
+  padding: 42px 38px;
+  color: #ffffff;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);
+}
+
+.change-password-eyebrow {
+  display: block;
+  text-align: center;
+  color: #01b7a1;
+  font-weight: 900;
+  letter-spacing: 3px;
+  margin-bottom: 18px;
+}
+
+.change-password-card h2 {
+  text-align: center;
+  font-size: 2.1rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.change-password-card p {
+  text-align: center;
+  color: #9fa5ab;
+  margin-bottom: 30px;
+}
+
+.change-password-input-group {
+  margin-bottom: 18px;
+}
+
+.change-password-input-group label {
+  display: block;
+  color: #d7eeee;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.change-password-input-group input {
+  width: 100%;
+  background: #0f1315;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 15px 18px;
+  color: #ffffff;
+  outline: none;
+}
+
+.change-password-button,
+.change-password-back-button {
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  padding: 15px;
+  margin-top: 8px;
+  font-weight: 900;
+}
+
+.change-password-button {
+  background: linear-gradient(135deg, #01b7a1, #00d6bd);
+  color: #071111;
+}
+
+.change-password-back-button {
+  background: transparent;
+  color: #01b7a1;
+  border: 1px solid rgba(1, 183, 161, 0.35);
+}
+
+.change-password-message {
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  background: rgba(1, 183, 161, 0.12);
+  border: 1px solid rgba(1, 183, 161, 0.3);
+  color: #7ff7ec;
+  font-weight: 700;
+}
+
+@media (max-width: 576px) {
+  .change-password-card {
+    padding: 34px 24px;
+  }
+}
