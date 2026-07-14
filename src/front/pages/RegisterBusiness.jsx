@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/RegisterBusiness.css";
 
@@ -9,6 +9,10 @@ export const RegisterBusiness = () => {
   const [businessName, setBusinessName] = useState("");
   const [phone, setPhone] = useState("");
   const [category, setCategory] = useState("");
+
+  const [categories, setCategories] = useState([]);
+  const [loadingCategories, setLoadingCategories] = useState(true);
+
   const [country, setCountry] = useState("");
   const [province, setProvince] = useState("");
   const [city, setCity] = useState("");
@@ -17,8 +21,41 @@ export const RegisterBusiness = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const response = await fetch(`${API_URL}/api/categories/`);
+        const data = await response.json();
+
+        if (!response.ok) {
+          console.error(
+            data.msg || "No fue posible cargar las categorías."
+          );
+          return;
+        }
+
+        const categoriesList = Array.isArray(data)
+          ? data
+          : data.categories || [];
+
+        setCategories(categoriesList);
+      } catch (error) {
+        console.error("Error loading categories:", error);
+      } finally {
+        setLoadingCategories(false);
+      }
+    };
+
+    loadCategories();
+  }, [API_URL]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (!category) {
+      alert("Selecciona una categoría.");
+      return;
+    }
 
     try {
       const response = await fetch(`${API_URL}/api/auth/register/business`, {
@@ -47,7 +84,9 @@ export const RegisterBusiness = () => {
         return;
       }
 
-      alert("Empresa registrada correctamente. Ahora inicia sesión para configurar tu negocio.");
+      alert(
+        "Empresa registrada correctamente. Ahora inicia sesión para configurar tu negocio."
+      );
       navigate("/login");
     } catch (error) {
       alert("Error al conectar con el servidor");
@@ -96,16 +135,23 @@ export const RegisterBusiness = () => {
               className="register-business-input"
               value={category}
               onChange={(event) => setCategory(event.target.value)}
+              disabled={loadingCategories}
               required
             >
-              <option value="">Selecciona una categoría</option>
-              <option value="1">Peluquería</option>
-              <option value="2">Spa</option>
-              <option value="3">Salud y bienestar</option>
-              <option value="4">Naturaleza</option>
-              <option value="5">Eventos</option>
-              <option value="6">Legal</option>
-              <option value="7">Finanzas</option>
+              <option value="">
+                {loadingCategories
+                  ? "Cargando categorías..."
+                  : "Selecciona una categoría"}
+              </option>
+
+              {categories.map((categoryItem) => (
+                <option
+                  key={categoryItem.id}
+                  value={categoryItem.id}
+                >
+                  {categoryItem.name}
+                </option>
+              ))}
             </select>
           </div>
 
