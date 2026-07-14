@@ -9,6 +9,10 @@ export const BusinessProfile = () => {
   const [businessName, setBusinessName] = useState("");
   const [phone, setPhone] = useState("");
   const [category, setCategory] = useState("");
+
+  const [categories, setCategories] = useState([]);
+  const [loadingCategories, setLoadingCategories] = useState(true);
+
   const [country, setCountry] = useState("");
   const [province, setProvince] = useState("");
   const [city, setCity] = useState("");
@@ -17,6 +21,30 @@ export const BusinessProfile = () => {
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+
+  const loadCategories = async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/categories/`);
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error(
+          data.msg || "No fue posible cargar las categorías."
+        );
+        return;
+      }
+
+      const categoriesList = Array.isArray(data)
+        ? data
+        : data.categories || [];
+
+      setCategories(categoriesList);
+    } catch (error) {
+      console.error("Error loading categories:", error);
+    } finally {
+      setLoadingCategories(false);
+    }
+  };
 
   const loadBusinessProfile = async () => {
     try {
@@ -59,6 +87,7 @@ export const BusinessProfile = () => {
   };
 
   useEffect(() => {
+    loadCategories();
     loadBusinessProfile();
   }, []);
 
@@ -173,14 +202,21 @@ export const BusinessProfile = () => {
               onChange={(event) => setCategory(event.target.value)}
               required
             >
-              <option value="">Selecciona una categoría</option>
-              <option value="1">Peluquería</option>
-              <option value="2">Spa</option>
-              <option value="3">Salud y bienestar</option>
-              <option value="4">Naturaleza</option>
-              <option value="5">Eventos</option>
-              <option value="6">Legal</option>
-            </select>
+              <option value="">
+                {loadingCategories
+                  ? "Cargando categorías..."
+                  : "Selecciona una categoría"}
+              </option>
+
+              {categories.map((categoryItem) => (
+                <option
+                  key={categoryItem.id}
+                  value={categoryItem.id}
+                >
+                  {categoryItem.name}
+                </option>
+              ))}
+           </select>
           </div>
 
           <div className="register-business-input-group">
