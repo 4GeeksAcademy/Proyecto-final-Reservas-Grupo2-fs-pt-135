@@ -1,5 +1,9 @@
 import React from "react";
 
+import reservaImg from "../assets/img/img/Reserva2.png";
+import campanaImg from "../assets/img/img/Campana2.png";
+import profesionalImg from "../assets/img/img/Profesional2.png";
+
 const InfoSection = () => {
     return (
         <section id="sobre-nosotros" className="info-section">
@@ -23,7 +27,7 @@ const InfoSection = () => {
 
                 <div className="info-image">
                     <img
-                        src="src/front/assets/img/img/Reserva2.png"
+                        src={reservaImg}
                         alt="Reserva"
                     />
                 </div>
@@ -34,7 +38,7 @@ const InfoSection = () => {
 
                 <div className="info-image">
                     <img
-                        src="src/front/assets/img/img/Campana2.png"
+                        src={campanaImg}
                         alt="Recordatorios"
                     />
                 </div>
@@ -72,7 +76,7 @@ const InfoSection = () => {
 
                 <div className="info-image">
                     <img
-                        src="src/front/assets/img/img/Profesional2.png"
+                        src={profesionalImg}
                         alt="Profesionales"
                     />
                 </div>
