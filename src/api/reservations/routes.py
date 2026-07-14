@@ -213,7 +213,7 @@ def create_reserva():
     nueva_reserva = Reservas(
         client_id=client_id,
         service_id=service_id,
-        appointment_datetime=datetime.fromisoformat(appointment_datetime),
+        appointment_datetime=datetime.fromisoformat(appointment_datetime.replace("Z", "+00:00")),
         status=data.get("status", "Activa"),
         notes=data.get("notes", "")
     )
