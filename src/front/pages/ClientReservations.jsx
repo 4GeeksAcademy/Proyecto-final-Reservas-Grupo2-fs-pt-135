@@ -13,10 +13,10 @@ export const ClientReservations = () => {
     const [cancelLoading, setCancelLoading] = useState(false);
 
     const API_URL = import.meta.env.VITE_BACKEND_URL;
-    const clientId = 1; 
 
     const formatDate = (datetime) => {
         const date = new Date(datetime);
+
         return date.toLocaleDateString("es-ES", {
             day: "numeric",
             month: "long",
@@ -26,6 +26,7 @@ export const ClientReservations = () => {
 
     const formatTime = (datetime) => {
         const date = new Date(datetime);
+
         return date.toLocaleTimeString("es-ES", {
             hour: "2-digit",
             minute: "2-digit"
@@ -34,13 +35,16 @@ export const ClientReservations = () => {
 
     const mapReservationData = (reservation) => ({
         id: reservation.id,
-        businessName: reservation.service_detail?.business_name || "Negocio",
-        service: reservation.service_detail?.name || "Servicio",
+        businessName:
+            reservation.service_detail?.business_name || "Negocio",
+        service:
+            reservation.service_detail?.name || "Servicio",
         date: formatDate(reservation.appointment_datetime),
         time: formatTime(reservation.appointment_datetime),
         price: `${reservation.service_detail?.price || "0.00"} €`,
         status: reservation.status,
         notes: reservation.notes || "",
+        appointmentDatetime: reservation.appointment_datetime,
         image:
             reservation.service_detail?.business_logo ||
             reservation.service_detail?.business_image ||
@@ -49,16 +53,39 @@ export const ClientReservations = () => {
 
     const getClientReservations = async () => {
         try {
-            const response = await fetch(`${API_URL}/api/reservations/client/${clientId}`);
+            setLoading(true);
 
-            if (!response.ok) {
-                throw new Error("Error al obtener las reservas");
+            const token = sessionStorage.getItem("token");
+
+            if (!token) {
+                throw new Error("No se encontró una sesión activa");
             }
 
+            const response = await fetch(
+                `${API_URL}/api/reservations/me`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+
             const data = await response.json();
-            setReservations(data.map(mapReservationData));
+
+            if (!response.ok) {
+                throw new Error(
+                    data.msg ||
+                    data.error ||
+                    "Error al obtener las reservas"
+                );
+            }
+
+            setReservations(
+                (data.reservations || []).map(mapReservationData)
+            );
         } catch (error) {
             console.error("Error cargando reservas:", error);
+            setReservations([]);
         } finally {
             setLoading(false);
         }
@@ -74,15 +101,30 @@ export const ClientReservations = () => {
         try {
             setCancelLoading(true);
 
+            const token = sessionStorage.getItem("token");
+
+            if (!token) {
+                throw new Error("No se encontró una sesión activa");
+            }
+
             const response = await fetch(
                 `${API_URL}/api/reservations/${selectedReservation.id}/cancel`,
                 {
-                    method: "PATCH"
+                    method: "PATCH",
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
                 }
             );
 
+            const data = await response.json();
+
             if (!response.ok) {
-                throw new Error("Error al cancelar la reserva");
+                throw new Error(
+                    data.msg ||
+                    data.error ||
+                    "Error al cancelar la reserva"
+                );
             }
 
             setShowConfirmModal(false);
@@ -112,13 +154,18 @@ export const ClientReservations = () => {
         <main className="client-reservations-page">
             <div className="container py-5">
                 <div className="mb-5">
-                   
-                    <Link to="/home-client" className="page-back-link">
-                    <i className="bi bi-arrow-left"></i>
-                    Volver
+                    <Link
+                        to="/home-client"
+                        className="page-back-link"
+                    >
+                        <i className="bi bi-arrow-left"></i>
+                        Volver
                     </Link>
-                   
-                    <h1 className="reservations-title">Mis reservas</h1>
+
+                    <h1 className="reservations-title">
+                        Mis reservas
+                    </h1>
+
                     <p className="reservations-subtitle">
                         Gestiona todas tus citas desde un solo lugar.
                     </p>
@@ -130,10 +177,13 @@ export const ClientReservations = () => {
                             <div className="summary-icon">
                                 <i className="fa-regular fa-calendar"></i>
                             </div>
+
                             <div>
                                 <h2>{activeReservations.length}</h2>
                                 <h5>Reservas activas</h5>
-                                <p>Tienes {activeReservations.length} citas próximas</p>
+                                <p>
+                                    Tienes {activeReservations.length} citas próximas
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -143,6 +193,7 @@ export const ClientReservations = () => {
                             <div className="summary-icon">
                                 <i className="fa-regular fa-clock"></i>
                             </div>
+
                             <div>
                                 <h2>{pastReservations.length}</h2>
                                 <h5>Historial</h5>
@@ -153,7 +204,9 @@ export const ClientReservations = () => {
                 </div>
 
                 {loading ? (
-                    <p className="reservations-subtitle">Cargando reservas...</p>
+                    <p className="reservations-subtitle">
+                        Cargando reservas...
+                    </p>
                 ) : (
                     <>
                         <section className="mb-5">
@@ -163,20 +216,28 @@ export const ClientReservations = () => {
                             </div>
 
                             <div className="reservations-container">
-                                {activeReservations.map((reservation) => (
-                                    <ReservationCard
-                                        key={reservation.id}
-                                        reservationId={reservation.id}
-                                        businessName={reservation.businessName}
-                                        service={reservation.service}
-                                        date={reservation.date}
-                                        time={reservation.time}
-                                        price={reservation.price}
-                                        status={reservation.status}
-                                        image={reservation.image}
-                                        onClick={() => setSelectedReservation(reservation)}
-                                    />
-                                ))}
+                                {activeReservations.length === 0 ? (
+                                    <p className="reservations-subtitle">
+                                        No tienes reservas activas.
+                                    </p>
+                                ) : (
+                                    activeReservations.map((reservation) => (
+                                        <ReservationCard
+                                            key={reservation.id}
+                                            reservationId={reservation.id}
+                                            businessName={reservation.businessName}
+                                            service={reservation.service}
+                                            date={reservation.date}
+                                            time={reservation.time}
+                                            price={reservation.price}
+                                            status={reservation.status}
+                                            image={reservation.image}
+                                            onClick={() =>
+                                                setSelectedReservation(reservation)
+                                            }
+                                        />
+                                    ))
+                                )}
                             </div>
                         </section>
 
@@ -187,27 +248,38 @@ export const ClientReservations = () => {
                             </div>
 
                             <div className="reservations-container">
-                                {pastReservations.map((reservation) => (
-                                    <ReservationCard
-                                        key={reservation.id}
-                                        reservationId={reservation.id}
-                                        businessName={reservation.businessName}
-                                        service={reservation.service}
-                                        date={reservation.date}
-                                        time={reservation.time}
-                                        price={reservation.price}
-                                        status={reservation.status}
-                                        image={reservation.image}
-                                        onClick={() => setSelectedReservation(reservation)}
-                                    />
-                                ))}
+                                {pastReservations.length === 0 ? (
+                                    <p className="reservations-subtitle">
+                                        Todavía no tienes reservas anteriores.
+                                    </p>
+                                ) : (
+                                    pastReservations.map((reservation) => (
+                                        <ReservationCard
+                                            key={reservation.id}
+                                            reservationId={reservation.id}
+                                            businessName={reservation.businessName}
+                                            service={reservation.service}
+                                            date={reservation.date}
+                                            time={reservation.time}
+                                            price={reservation.price}
+                                            status={reservation.status}
+                                            image={reservation.image}
+                                            onClick={() =>
+                                                setSelectedReservation(reservation)
+                                            }
+                                        />
+                                    ))
+                                )}
                             </div>
                         </section>
                     </>
                 )}
 
                 <ReservationDetailModal
-                    show={selectedReservation !== null && !showConfirmModal}
+                    show={
+                        selectedReservation !== null &&
+                        !showConfirmModal
+                    }
                     onClose={() => setSelectedReservation(null)}
                     reservation={selectedReservation}
                     onCancel={handleAskCancelReservation}
