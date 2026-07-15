@@ -243,20 +243,28 @@ def delete_reserva(reserva_id):
 @reservations.route('/me', methods=['GET'])
 @jwt_required()
 def get_my_reservations():
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
 
-    client = ClientProfile.query.filter_by(user_id=user_id).first()
+    client = ClientProfile.query.filter_by(
+        user_id=user_id
+    ).first()
 
     if not client:
-        return jsonify({"msg": "Client profile not found"}), 404
+        return jsonify({
+            "msg": "Client profile not found"
+        }), 404
 
     reservas = Reservas.query.filter(
-        Reservas.client_id == client.id,
-        Reservas.status != "Cancelada"
-    ).limit(3).all()
+        Reservas.client_id == client.id
+    ).order_by(
+        Reservas.appointment_datetime.desc()
+    ).all()
 
     return jsonify({
-        "reservations": [reserva.serialize() for reserva in reservas]
+        "reservations": [
+            reserva.serialize()
+            for reserva in reservas
+        ]
     }), 200
 
 
